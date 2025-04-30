@@ -1,8 +1,8 @@
 package com.tup.ps.erpevents.configs;
 
-import com.tup.ps.erpevents.entities.User;
+import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.services.JWTService;
-import com.tup.ps.erpevents.services.UserService;
+import com.tup.ps.erpevents.services.impl.UserServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JWTService jwtService;
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 var decodedJWT = jwtService.verifyToken(token);
                 String username = decodedJWT.getClaim("userId").asString();
 
-                var user = (User) userService.loadUserByUsername(username);
+                var user = (UserEntity) userService.loadUserByUsername(username);
                 String role = "ROLE_" + user.getRole().getName().name();
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         user, null, Collections.singleton(new SimpleGrantedAuthority(role))

@@ -1,6 +1,6 @@
 package com.tup.ps.erpevents.configs;
 
-import com.tup.ps.erpevents.services.UserService;
+import com.tup.ps.erpevents.services.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ public class AuthenticationConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {

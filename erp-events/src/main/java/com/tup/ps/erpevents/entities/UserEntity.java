@@ -1,7 +1,6 @@
 package com.tup.ps.erpevents.entities;
 
 import com.tup.ps.erpevents.enums.DocumentType;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -33,7 +31,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +62,7 @@ public class User implements UserDetails {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idRole")
-    private Role role;
+    private RoleEntity role;
 
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
@@ -73,13 +71,7 @@ public class User implements UserDetails {
     private LocalDateTime creationDate;
 
     @Column(name = "softDelete")
-    private Integer softDelete;
-
-    /*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Account> accounts;*/
-
-    /*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ThirdAccount> thirdAccounts;*/
+    private Boolean softDelete;
 
     @PrePersist
     public void onCreate() {

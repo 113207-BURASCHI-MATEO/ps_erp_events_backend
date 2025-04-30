@@ -1,10 +1,8 @@
-package com.tup.ps.erpevents.services;
+package com.tup.ps.erpevents.services.impl;
 
-import com.tup.ps.erpevents.configs.MappersConfig;
 import com.tup.ps.erpevents.dtos.users.UserDTO;
-import com.tup.ps.erpevents.dtos.users.UserPageDTO;
 import com.tup.ps.erpevents.dtos.users.UserUpdateDTO;
-import com.tup.ps.erpevents.entities.User;
+import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.enums.RoleName;
 import com.tup.ps.erpevents.exceptions.ApiException;
 import com.tup.ps.erpevents.repositories.UserRepository;
@@ -25,7 +23,7 @@ import java.util.Objects;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -39,7 +37,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<UserDTO> getUsers(Integer softDelete, Integer page, Integer size){
-        Page<User> users = userRepository.findAllBySoftDelete(softDelete, PageRequest.of(page, size));
+        Page<UserEntity> users = userRepository.findAllBySoftDelete(softDelete, PageRequest.of(page, size));
         var totalPages = users.getTotalPages();
 
         if (totalPages <= page) {
@@ -67,25 +65,25 @@ public class UserService implements UserDetailsService {
      * @param id
      */
     public void softDeleteUser(Long id, String userEmail) {
-        User userLogged = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Usuario autenticado no encontrado"));
+        /*UserEntity userLogged = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Usuario autenticado no encontrado"));*/
 
-        User userToDelete = userRepository.findById(id)
+        UserEntity userToDelete = userRepository.findById(id)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Usuario a eliminar no encontrado"));
 
-        boolean isAdmin = userLogged.getRole().getName() == RoleName.ADMIN;
+        /*boolean isAdmin = userLogged.getRole().getName() == RoleName.ADMIN;
         boolean isSameUser = Objects.equals(userLogged, userToDelete);
 
         if (!isAdmin && !isSameUser) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "No se puede eliminar el usuario porque no tiene permiso de administrador");
-        }
+        }*/
 
-        userToDelete.setSoftDelete(1);
+        userToDelete.setSoftDelete(true);
         userRepository.save(userToDelete);
     }
 
     public UserDTO update(Long id, String userEmail, UserUpdateDTO userUpdateDTO) {
-        User user = userRepository.findByEmail(userEmail)
+        UserEntity user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 
         boolean isSameUser = Objects.equals(user.getIdUser(), id);
@@ -121,7 +119,7 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDTO userDetails(Long id, String email){
-        User user = userRepository.findByEmail(email)
+        UserEntity user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 
         if(!user.getIdUser().equals(id)) {

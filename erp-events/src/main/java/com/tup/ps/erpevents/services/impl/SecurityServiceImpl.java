@@ -3,8 +3,8 @@ package com.tup.ps.erpevents.services.impl;
 import com.tup.ps.erpevents.dtos.users.UserDTO;
 import com.tup.ps.erpevents.dtos.users.UserLoginDTO;
 import com.tup.ps.erpevents.dtos.users.UserRegisterDTO;
-import com.tup.ps.erpevents.entities.Role;
-import com.tup.ps.erpevents.entities.User;
+import com.tup.ps.erpevents.entities.RoleEntity;
+import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.enums.RoleName;
 import com.tup.ps.erpevents.exceptions.ApiException;
 import com.tup.ps.erpevents.repositories.RoleRepository;
@@ -47,7 +47,7 @@ public class SecurityServiceImpl implements SecurityService {
                 new UsernamePasswordAuthenticationToken(us.getEmail(), us.getPassword())
         );
 
-        User user2 = (User) authentication.getPrincipal();
+        UserEntity user2 = (UserEntity) authentication.getPrincipal();
         return jwtService.createToken(user2.getEmail(), 60);
     }
 
@@ -55,7 +55,7 @@ public class SecurityServiceImpl implements SecurityService {
     public UserDTO searchUser(UserLoginDTO us){
         UserDTO userReturn;
 
-        Optional<User> userEntity = userRepository.findByEmail(us.getEmail());
+        Optional<UserEntity> userEntity = userRepository.findByEmail(us.getEmail());
         if(userEntity != null){
             userReturn = modelMapper.map(userEntity.orElse(null), UserDTO.class);
             return userReturn;
@@ -79,10 +79,10 @@ public class SecurityServiceImpl implements SecurityService {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Ese correo electrónico ya está en uso. Elige otro");
         }
 
-        Role role = roleRepository.findByName(roleName)
+        RoleEntity role = roleRepository.findByName(roleName)
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "No se ha encontrado el rol indicado"));
 
-        User newUser = new User();
+        UserEntity newUser = new UserEntity();
         newUser.setFirstName(registerRequest.getFirstName());
         newUser.setLastName(registerRequest.getLastName());
         newUser.setBirthDate(registerRequest.getBirthDate());
@@ -91,11 +91,36 @@ public class SecurityServiceImpl implements SecurityService {
         newUser.setEmail(registerRequest.getEmail());
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         newUser.setRole(role);
-        newUser.setSoftDelete(0);
+        newUser.setSoftDelete(false);
 
         userRepository.save(newUser);
 
         return modelMapper.map(newUser, UserDTO.class);
+    }
+
+    @Override
+    public UserEntity registerEntity(UserRegisterDTO registerRequest, RoleName roleName) {
+        if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Ese correo electrónico ya está en uso. Elige otro");
+        }
+
+        RoleEntity role = roleRepository.findByName(roleName)
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "No se ha encontrado el rol indicado"));
+
+        UserEntity newUser = new UserEntity();
+        newUser.setFirstName(registerRequest.getFirstName());
+        newUser.setLastName(registerRequest.getLastName());
+        newUser.setBirthDate(registerRequest.getBirthDate());
+        newUser.setDocumentType(registerRequest.getDocumentType());
+        newUser.setDocumentNumber(registerRequest.getDocumentNumber());
+        newUser.setEmail(registerRequest.getEmail());
+        newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        newUser.setRole(role);
+        newUser.setSoftDelete(false);
+
+        userRepository.save(newUser);
+
+        return newUser;
     }
 
     @Override

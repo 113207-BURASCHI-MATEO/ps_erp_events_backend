@@ -3,6 +3,7 @@ package com.tup.ps.erpevents.services;
 import com.tup.ps.erpevents.dtos.users.UserDTO;
 import com.tup.ps.erpevents.dtos.users.UserLoginDTO;
 import com.tup.ps.erpevents.dtos.users.UserRegisterDTO;
+import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.enums.RoleName;
 
 import javax.naming.AuthenticationException;
@@ -54,6 +55,15 @@ public interface SecurityService {
      * @return DTO del usuario creado.
      */
     UserDTO register(UserRegisterDTO registerRequest, RoleName roleName);
+
+    /**
+     * Registra un nuevo usuario con un rol específico.
+     *
+     * @param registerRequest Datos del nuevo usuario.
+     * @param roleName Rol a asignar (USER, ADMIN, etc.).
+     * @return DTO del usuario creado.
+     */
+    UserEntity registerEntity(UserRegisterDTO registerRequest, RoleName roleName);
 
     /**
      * Codifica una contraseña en texto plano.

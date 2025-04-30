@@ -17,6 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig {
+
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
@@ -24,6 +25,7 @@ public class SecurityConfig {
         http
                 //.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
+                .headers(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
@@ -31,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api-docs/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/ping")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/employees/**")).permitAll()
                         //.requestMatchers("/api/**").permitAll()
                         //.requestMatchers("/api-docs/swagger-config").permitAll()
                         //.requestMatchers(HttpMethod.GET,"/accounts/search").authenticated()
