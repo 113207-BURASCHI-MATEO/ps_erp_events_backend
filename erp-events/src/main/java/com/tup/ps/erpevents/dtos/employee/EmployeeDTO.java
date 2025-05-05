@@ -1,4 +1,4 @@
-package com.tup.ps.erpevents.dtos.employees;
+package com.tup.ps.erpevents.dtos.employee;
 
 import com.tup.ps.erpevents.enums.DocumentType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class EmployeeDTO {
 
     @Schema(description = "ID del empleado", example = "1")
-    private Long id;
+    private Long idEmployee;
 
     @Schema(description = "Nombre del empleado", example = "Juan")
     private String firstName;

@@ -1,10 +1,11 @@
 package com.tup.ps.erpevents.services;
 
-import com.tup.ps.erpevents.dtos.users.UserDTO;
-import com.tup.ps.erpevents.dtos.users.UserLoginDTO;
-import com.tup.ps.erpevents.dtos.users.UserRegisterDTO;
+import com.tup.ps.erpevents.dtos.user.UserDTO;
+import com.tup.ps.erpevents.dtos.user.UserLoginDTO;
+import com.tup.ps.erpevents.dtos.user.UserRegisterDTO;
 import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.enums.RoleName;
+import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
 
@@ -12,6 +13,7 @@ import javax.naming.AuthenticationException;
  * Interfaz para los servicios de autenticación y registro de usuarios.
  * Gestiona login, creación de usuarios (usuario y admin) y utilidades de seguridad.
  */
+@Service
 public interface SecurityService {
 
     /**

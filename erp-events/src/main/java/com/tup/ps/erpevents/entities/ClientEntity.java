@@ -1,37 +1,27 @@
 package com.tup.ps.erpevents.entities;
 
-import com.tup.ps.erpevents.enums.DocumentType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Audited
-@AuditTable(value = "employees_audit")
+@AuditTable(value = "clients_audit")
 @Entity
-@Table(name = "employees")
+@Table(name = "clients")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeEntity {
+public class ClientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idEmployee")
-    private Long idEmployee;
-
-    @Column(name = "hireDate", nullable = false)
-    private LocalDate hireDate;
-
-    @Column(name = "position", nullable = false)
-    private String position;
+    @Column(name = "idClient")
+    private Long idClient;
 
     @Column(name = "firstName", nullable = false)
     private String firstName;
@@ -39,21 +29,11 @@ public class EmployeeEntity {
     @Column(name = "lastName", nullable = false)
     private String lastName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "documentType", nullable = false)
-    private DocumentType documentType;
-
-    @Column(name = "documentNumber", nullable = false)
-    private String documentNumber;
-
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "cuit", nullable = false, unique = true)
-    private String cuit;
-
-    @Column(name = "birthDate", nullable = false)
-    private LocalDate birthDate;
+    @Column(name = "phoneNumber", nullable = false, length = 10)
+    private String phoneNumber;
 
     @Column(name = "bankAliasCbu", nullable = false)
     private String aliasCbu;
@@ -67,11 +47,7 @@ public class EmployeeEntity {
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
-    private UserEntity user;
-
-    @ManyToMany(mappedBy = "employees")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EventEntity> events = new ArrayList<>();
 
     @PrePersist
@@ -85,3 +61,4 @@ public class EmployeeEntity {
         this.updateDate = LocalDateTime.now();
     }
 }
+

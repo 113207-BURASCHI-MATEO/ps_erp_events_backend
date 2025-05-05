@@ -14,9 +14,13 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 
+@Audited
+@AuditTable(value = "roles_audit")
 @Entity
 @Table(name = "roles")
 @Data

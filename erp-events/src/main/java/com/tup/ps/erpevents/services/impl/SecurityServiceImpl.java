@@ -1,8 +1,8 @@
 package com.tup.ps.erpevents.services.impl;
 
-import com.tup.ps.erpevents.dtos.users.UserDTO;
-import com.tup.ps.erpevents.dtos.users.UserLoginDTO;
-import com.tup.ps.erpevents.dtos.users.UserRegisterDTO;
+import com.tup.ps.erpevents.dtos.user.UserDTO;
+import com.tup.ps.erpevents.dtos.user.UserLoginDTO;
+import com.tup.ps.erpevents.dtos.user.UserRegisterDTO;
 import com.tup.ps.erpevents.entities.RoleEntity;
 import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.enums.RoleName;

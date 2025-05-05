@@ -1,8 +1,8 @@
 package com.tup.ps.erpevents.controllers;
 
-import com.tup.ps.erpevents.dtos.employees.EmployeeDTO;
-import com.tup.ps.erpevents.dtos.employees.EmployeePostDTO;
-import com.tup.ps.erpevents.dtos.employees.EmployeePutDTO;
+import com.tup.ps.erpevents.dtos.employee.EmployeeDTO;
+import com.tup.ps.erpevents.dtos.employee.EmployeePostDTO;
+import com.tup.ps.erpevents.dtos.employee.EmployeePutDTO;
 import com.tup.ps.erpevents.services.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

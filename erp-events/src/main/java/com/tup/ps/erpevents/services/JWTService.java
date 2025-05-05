@@ -3,12 +3,14 @@ package com.tup.ps.erpevents.services;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.stereotype.Service;
 
 /**
  * Interfaz para la gestión de tokens JWT dentro del sistema.
  * Permite crear, verificar y extraer información de tokens,
  * así como obtener el token desde cookies o cabecera.
  */
+@Service
 public interface JWTService {
 
     /**

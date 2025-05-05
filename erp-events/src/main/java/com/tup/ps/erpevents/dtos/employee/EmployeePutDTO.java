@@ -1,4 +1,4 @@
-package com.tup.ps.erpevents.dtos.employees;
+package com.tup.ps.erpevents.dtos.employee;
 
 import com.tup.ps.erpevents.enums.DocumentType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,7 +17,7 @@ public class EmployeePutDTO {
 
     @NotNull(message = "El ID del empleado es obligatorio")
     @Schema(description = "ID del empleado", example = "1", required = true)
-    private Long id;
+    private Long idEmployee;
 
     @NotBlank(message = "El nombre no puede estar vacío")
     @Schema(description = "Nombre del empleado", example = "Mateo", required = true)

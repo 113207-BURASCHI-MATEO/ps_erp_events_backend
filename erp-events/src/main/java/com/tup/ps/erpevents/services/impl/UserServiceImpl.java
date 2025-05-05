@@ -1,9 +1,8 @@
 package com.tup.ps.erpevents.services.impl;
 
-import com.tup.ps.erpevents.dtos.users.UserDTO;
-import com.tup.ps.erpevents.dtos.users.UserUpdateDTO;
+import com.tup.ps.erpevents.dtos.user.UserDTO;
+import com.tup.ps.erpevents.dtos.user.UserUpdateDTO;
 import com.tup.ps.erpevents.entities.UserEntity;
-import com.tup.ps.erpevents.enums.RoleName;
 import com.tup.ps.erpevents.exceptions.ApiException;
 import com.tup.ps.erpevents.repositories.UserRepository;
 import lombok.AllArgsConstructor;

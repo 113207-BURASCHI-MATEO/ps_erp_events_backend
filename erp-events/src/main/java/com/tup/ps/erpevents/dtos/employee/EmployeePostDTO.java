@@ -1,4 +1,4 @@
-package com.tup.ps.erpevents.dtos.employees;
+package com.tup.ps.erpevents.dtos.employee;
 
 import com.tup.ps.erpevents.enums.DocumentType;
 import io.swagger.v3.oas.annotations.media.Schema;

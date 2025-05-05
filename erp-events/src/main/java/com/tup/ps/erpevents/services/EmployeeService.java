@@ -1,15 +1,16 @@
 package com.tup.ps.erpevents.services;
 
-import com.tup.ps.erpevents.dtos.employees.EmployeeDTO;
-import com.tup.ps.erpevents.dtos.employees.EmployeePostDTO;
-import com.tup.ps.erpevents.dtos.employees.EmployeePutDTO;
+import com.tup.ps.erpevents.dtos.employee.EmployeeDTO;
+import com.tup.ps.erpevents.dtos.employee.EmployeePostDTO;
+import com.tup.ps.erpevents.dtos.employee.EmployeePutDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
-
+@Service
 public interface EmployeeService {
 
     /**

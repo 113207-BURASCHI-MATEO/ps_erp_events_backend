@@ -1,16 +1,13 @@
 package com.tup.ps.erpevents.services.impl;
 
-import com.tup.ps.erpevents.dtos.employees.EmployeeDTO;
-import com.tup.ps.erpevents.dtos.employees.EmployeePostDTO;
-import com.tup.ps.erpevents.dtos.employees.EmployeePutDTO;
-import com.tup.ps.erpevents.dtos.users.UserDTO;
-import com.tup.ps.erpevents.dtos.users.UserRegisterDTO;
+import com.tup.ps.erpevents.dtos.employee.EmployeeDTO;
+import com.tup.ps.erpevents.dtos.employee.EmployeePostDTO;
+import com.tup.ps.erpevents.dtos.employee.EmployeePutDTO;
+import com.tup.ps.erpevents.dtos.user.UserRegisterDTO;
 import com.tup.ps.erpevents.entities.EmployeeEntity;
 import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.enums.RoleName;
 import com.tup.ps.erpevents.repositories.EmployeeRepository;
-import com.tup.ps.erpevents.repositories.RoleRepository;
-import com.tup.ps.erpevents.repositories.UserRepository;
 import com.tup.ps.erpevents.repositories.specs.GenericSpecification;
 import com.tup.ps.erpevents.services.EmployeeService;
 import com.tup.ps.erpevents.services.SecurityService;
@@ -22,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -74,26 +70,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDTO save(EmployeePostDTO dto) {
 
         UserRegisterDTO userRegisterDTO = modelMapper.map(dto, UserRegisterDTO.class);
-        //userRegisterDTO.setEmail(dto.getEmail());
-        //userRegisterDTO.setPassword(dto.getPassword());
-        //userRegisterDTO.setFirstName(dto.getFirstName());
-        //userRegisterDTO.setLastName(dto.getLastName());
-        //userRegisterDTO.setBirthDate(dto.getBirthDate());
-        //userRegisterDTO.setDocumentType(dto.getDocumentType());
-        //userRegisterDTO.setDocumentNumber(dto.getDocumentNumber());
-
         UserEntity savedUser = securityService.registerEntity(userRegisterDTO, RoleName.EMPLOYEE);
 
         EmployeeEntity employee = modelMapper.map(dto, EmployeeEntity.class);
         employee.setUser(savedUser);
-        //employee.setFirstName(dto.getFirstName());
-        //employee.setLastName(dto.getLastName());
-        //employee.setDocumentType(dto.getDocumentType());
-        //employee.setDocumentNumber(dto.getDocumentNumber());
-        //employee.setEmail(dto.getEmail());
-        //employee.setCuit(dto.getCuit());
-        //employee.setBirthDate(dto.getBirthDate());
-        //employee.setBankAliasOrCbu(dto.getAliasOrCbu());
         employee.setSoftDelete(false);
 
         return modelMapper.map(employeeRepository.save(employee), EmployeeDTO.class);
@@ -105,16 +85,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado"));
 
         modelMapper.map(dto, employee);
-        //employee.setFirstName(dto.getFirstName());
-        //employee.setLastName(dto.getLastName());
-        //employee.setDocumentType(dto.getDocumentType());
-        //employee.setDocumentNumber(dto.getDocumentNumber());
-        //employee.setEmail(dto.getEmail());
-        //employee.setCuit(dto.getCuit());
-        //employee.setBirthDate(dto.getBirthDate());
-        //employee.setAliasOrCbu(dto.getAliasOrCbu());
-        //employee.setHireDate(dto.getHireDate());
-        //employee.setPosition(dto.getPosition());
 
         return modelMapper.map(employeeRepository.save(employee), EmployeeDTO.class);
     }

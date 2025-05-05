@@ -1,9 +1,9 @@
 package com.tup.ps.erpevents.controllers;
 
 import com.tup.ps.erpevents.constants.Constants;
-import com.tup.ps.erpevents.dtos.users.UserDTO;
-import com.tup.ps.erpevents.dtos.users.UserLoginDTO;
-import com.tup.ps.erpevents.dtos.users.UserRegisterDTO;
+import com.tup.ps.erpevents.dtos.user.UserDTO;
+import com.tup.ps.erpevents.dtos.user.UserLoginDTO;
+import com.tup.ps.erpevents.dtos.user.UserRegisterDTO;
 import com.tup.ps.erpevents.services.SecurityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
