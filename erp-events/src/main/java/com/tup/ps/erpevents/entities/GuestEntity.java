@@ -12,9 +12,11 @@ import java.util.List;
 
 @Audited
 @AuditTable(value = "guests_audit")
+@EqualsAndHashCode
 @Entity
 @Table(name = "guests")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class GuestEntity {

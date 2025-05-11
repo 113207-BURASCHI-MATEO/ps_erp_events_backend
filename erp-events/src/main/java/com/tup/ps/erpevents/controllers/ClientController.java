@@ -3,6 +3,7 @@ package com.tup.ps.erpevents.controllers;
 import com.tup.ps.erpevents.dtos.client.ClientDTO;
 import com.tup.ps.erpevents.dtos.client.ClientPostDTO;
 import com.tup.ps.erpevents.dtos.client.ClientPutDTO;
+import com.tup.ps.erpevents.enums.DocumentType;
 import com.tup.ps.erpevents.services.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -76,6 +77,7 @@ public class ClientController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
+            @RequestParam(required = false) String documentType,
             @RequestParam(required = false) String searchValue,
             @RequestParam(required = false) LocalDate creationStart,
             @RequestParam(required = false) LocalDate creationEnd,
@@ -83,7 +85,19 @@ public class ClientController {
             @RequestParam(name = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection) {
 
         PageRequest pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortProperty.split(",")));
-        return ResponseEntity.ok(clientService.findByFilters(pageable, isActive, searchValue, creationStart, creationEnd));
+        return ResponseEntity.ok(clientService.findByFilters(pageable, documentType, isActive, searchValue, creationStart, creationEnd));
     }
+
+    @Operation(summary = "Buscar cliente activo por tipo y número de documento")
+    @GetMapping("/exists")
+    public ResponseEntity<ClientDTO> findByDocument(
+            @RequestParam DocumentType documentType,
+            @RequestParam String documentNumber) {
+
+        return clientService.findByDocumentTypeAndDocumentNumber(documentType, documentNumber)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente no encontrado"));
+    }
+
 }
 

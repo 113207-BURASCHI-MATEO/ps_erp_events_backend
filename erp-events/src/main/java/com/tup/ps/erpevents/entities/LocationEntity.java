@@ -1,18 +1,23 @@
 package com.tup.ps.erpevents.entities;
 
+import com.tup.ps.erpevents.enums.Country;
+import com.tup.ps.erpevents.enums.Province;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Audited
 @AuditTable(value = "locations_audit")
+@EqualsAndHashCode
 @Entity
 @Table(name = "locations")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocationEntity {
@@ -21,6 +26,29 @@ public class LocationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idLocation")
     private Long idLocation;
+
+    @Column(name = "fantasyName", nullable = false)
+    private String fantasyName;
+
+    @Column(name = "streetAddress")
+    private String streetAddress;
+
+    @Column(name = "number")
+    private Integer number;
+
+    @Column(name = "city")
+    private String city;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "province")
+    private Province province;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "country")
+    private Country country;
+
+    @Column(name = "postalCode")
+    private Integer postalCode;
 
     @Column(name = "latitude", nullable = false)
     private Double latitude;
@@ -36,6 +64,10 @@ public class LocationEntity {
 
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
+
+    /*@OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<EventEntity> events = new ArrayList<>();*/
+
 
     @PrePersist
     public void onCreate() {

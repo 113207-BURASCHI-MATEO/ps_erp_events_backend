@@ -1,10 +1,10 @@
 package com.tup.ps.erpevents.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tup.ps.erpevents.entities.intermediates.EventsSuppliersEntity;
 import com.tup.ps.erpevents.enums.SupplierType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
@@ -14,9 +14,11 @@ import java.util.List;
 
 @Audited
 @AuditTable(value = "suppliers_audit")
+@EqualsAndHashCode
 @Entity
 @Table(name = "suppliers")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class SupplierEntity {
@@ -57,8 +59,12 @@ public class SupplierEntity {
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
 
-    @ManyToMany(mappedBy = "suppliers")
-    private List<EventEntity> events = new ArrayList<>();
+    /*@ManyToMany(mappedBy = "suppliers")
+    private List<EventEntity> events = new ArrayList<>();*/
+
+    @OneToMany(mappedBy = "supplier", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<EventsSuppliersEntity> supplierEventsw = new ArrayList<>();
 
     @PrePersist
     public void onCreate() {

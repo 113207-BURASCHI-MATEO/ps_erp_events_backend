@@ -1,5 +1,7 @@
 package com.tup.ps.erpevents.dtos.event;
 
+import com.tup.ps.erpevents.dtos.location.LocationPostDTO;
+import com.tup.ps.erpevents.dtos.task.TaskEventPostDTO;
 import com.tup.ps.erpevents.enums.EventStatus;
 import com.tup.ps.erpevents.enums.EventType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -44,9 +46,11 @@ public class EventPostDTO {
     @Schema(description = "ID del cliente organizador del evento", example = "1")
     private Long clientId;
 
-    /*@NotNull
     @Schema(description = "ID de la ubicación del evento", example = "2")
-    private Long locationId;*/
+    private Long locationId;
+
+    @Schema(description = "Ubicación del evento")
+    private LocationPostDTO location;
 
     @Schema(description = "Lista de IDs de empleados asignados al evento", example = "[1, 2]")
     private List<Long> employeeIds;
@@ -54,7 +58,10 @@ public class EventPostDTO {
     @Schema(description = "Lista de IDs de proveedores asignados al evento", example = "[1, 3]")
     private List<Long> supplierIds;
 
-    @Schema(description = "Lista de IDs de invitados al evento", example = "[2, 4, 5]")
-    private List<Long> guestIds;
+    /*@Schema(description = "Lista de IDs de invitados al evento", example = "[2, 4, 5]")
+    private List<Long> guestIds;*/
+
+    @Schema(description = "Lista de tareas asignadas al evento")
+    private List<TaskEventPostDTO> tasks;
 }
 

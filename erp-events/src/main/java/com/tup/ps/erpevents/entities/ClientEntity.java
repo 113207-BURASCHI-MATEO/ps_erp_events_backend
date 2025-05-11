@@ -1,5 +1,7 @@
 package com.tup.ps.erpevents.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tup.ps.erpevents.enums.DocumentType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditTable;
@@ -11,9 +13,11 @@ import java.util.List;
 
 @Audited
 @AuditTable(value = "clients_audit")
+@EqualsAndHashCode
 @Entity
 @Table(name = "clients")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClientEntity {
@@ -38,6 +42,16 @@ public class ClientEntity {
     @Column(name = "bankAliasCbu", nullable = false)
     private String aliasCbu;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "documentType", nullable = false)
+    private DocumentType documentType;
+
+    @Column(name = "documentNumber", nullable = false)
+    private String documentNumber;
+
+    /*@Column(name = "cuit", unique = true)
+    private String cuit;*/
+
     @Column(name = "softDelete")
     private Boolean softDelete = false;
 
@@ -48,6 +62,8 @@ public class ClientEntity {
     private LocalDateTime updateDate;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @ToString.Exclude
     private List<EventEntity> events = new ArrayList<>();
 
     @PrePersist

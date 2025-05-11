@@ -1,6 +1,7 @@
 package com.tup.ps.erpevents.repositories;
 
 import com.tup.ps.erpevents.entities.ClientEntity;
+import com.tup.ps.erpevents.enums.DocumentType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,5 +31,7 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
 
     @EntityGraph(attributePaths = "events")
     Page<ClientEntity> findAll(Specification<ClientEntity> spec, Pageable pageable);
+
+    Optional<ClientEntity> findBySoftDeleteFalseAndDocumentTypeAndDocumentNumber(DocumentType documentType, String documentNumber);
 }
 

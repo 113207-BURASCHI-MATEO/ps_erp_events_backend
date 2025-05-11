@@ -5,6 +5,7 @@ import com.tup.ps.erpevents.dtos.client.ClientPostDTO;
 import com.tup.ps.erpevents.dtos.client.ClientPutDTO;
 import com.tup.ps.erpevents.entities.ClientEntity;
 import com.tup.ps.erpevents.entities.EventEntity;
+import com.tup.ps.erpevents.enums.DocumentType;
 import com.tup.ps.erpevents.exceptions.ApiException;
 import com.tup.ps.erpevents.repositories.ClientRepository;
 import com.tup.ps.erpevents.repositories.specs.GenericSpecification;
@@ -99,6 +100,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Page<ClientDTO> findByFilters(Pageable pageable,
+                                         String documentType,
                                          Boolean isActive,
                                          String searchValue,
                                          LocalDate creationStart,
@@ -108,6 +110,10 @@ public class ClientServiceImpl implements ClientService {
 
         if (isActive != null) {
             filters.put("softDelete", !isActive);
+        }
+
+        if (documentType != null) {
+            filters.put("documentType", documentType);
         }
 
         Specification<ClientEntity> spec = specification.dynamicFilter(filters);
@@ -137,5 +143,12 @@ public class ClientServiceImpl implements ClientService {
                     return dto;
                 });
     }
+
+    @Override
+    public Optional<ClientDTO> findByDocumentTypeAndDocumentNumber(DocumentType documentType, String documentNumber) {
+        return clientRepository.findBySoftDeleteFalseAndDocumentTypeAndDocumentNumber(documentType, documentNumber)
+                .map(entity -> modelMapper.map(entity, ClientDTO.class));
+    }
+
 }
 

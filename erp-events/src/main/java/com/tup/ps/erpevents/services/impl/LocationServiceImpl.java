@@ -10,6 +10,8 @@ import com.tup.ps.erpevents.services.LocationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -24,12 +26,24 @@ import java.util.*;
 public class LocationServiceImpl implements LocationService {
 
     private static final String[] LOCATION_FIELDS = {
-            "address", "latitude", "longitude"
+            "fantasyName",
+            "streetAddress",
+            "number",
+            "city",
+            "province",
+            "country",
+            "postalCode",
+            "latitude",
+            "longitude"
     };
 
-    private final LocationRepository locationRepository;
-    private final ModelMapper modelMapper;
-    private final GenericSpecification<LocationEntity> specification;
+    @Autowired
+    private LocationRepository locationRepository;
+    @Qualifier("strictMapper")
+    @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
+    private GenericSpecification<LocationEntity> specification;
 
     @Override
     public Page<LocationDTO> findAll(Pageable pageable) {
@@ -82,9 +96,11 @@ public class LocationServiceImpl implements LocationService {
 
         Specification<LocationEntity> spec = specification.dynamicFilter(filters);
 
-        if (searchValue != null) {
-            Specification<LocationEntity> searchSpec =
-                    specification.valueDynamicFilter(searchValue, LOCATION_FIELDS);
+        if (searchValue != null && !searchValue.trim().isEmpty()) {
+            Specification<LocationEntity> searchSpec = specification.valueDynamicFilter(
+                    searchValue,
+                    "fantasyName", "streetAddress", "city", "province", "country", "postalCode"
+            );
             spec = Specification.where(spec).and(searchSpec);
         }
 

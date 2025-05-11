@@ -3,6 +3,7 @@ package com.tup.ps.erpevents.services;
 import com.tup.ps.erpevents.dtos.client.ClientDTO;
 import com.tup.ps.erpevents.dtos.client.ClientPostDTO;
 import com.tup.ps.erpevents.dtos.client.ClientPutDTO;
+import com.tup.ps.erpevents.enums.DocumentType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -63,9 +64,13 @@ public interface ClientService {
      * @return página con resultados filtrados
      */
     Page<ClientDTO> findByFilters(Pageable pageable,
+                                  String documentType,
                                   Boolean isActive,
                                   String searchValue,
                                   LocalDate creationStart,
                                   LocalDate creationEnd);
+
+    Optional<ClientDTO> findByDocumentTypeAndDocumentNumber(DocumentType documentType, String documentNumber);
+
 }
 

@@ -48,9 +48,9 @@ public class EventPutDTO {
     @Schema(description = "ID del cliente organizador del evento", example = "1")
     private Long idClient;*/
 
-    /*@NotNull
+    @NotNull
     @Schema(description = "ID de la ubicación del evento", example = "2")
-    private Long locationId;*/
+    private Long locationId;
 
     @Schema(description = "Lista de IDs de empleados asignados al evento", example = "[1, 2]")
     private List<Long> employeeIds;
@@ -58,7 +58,7 @@ public class EventPutDTO {
     @Schema(description = "Lista de IDs de proveedores asignados al evento", example = "[1, 3]")
     private List<Long> supplierIds;
 
-    @Schema(description = "Lista de IDs de invitados al evento", example = "[2, 4, 5]")
-    private List<Long> guestIds;
+    /*@Schema(description = "Lista de IDs de invitados al evento", example = "[2, 4, 5]")
+    private List<Long> guestIds;*/
 }
 

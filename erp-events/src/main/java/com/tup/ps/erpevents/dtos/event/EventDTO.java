@@ -1,5 +1,7 @@
 package com.tup.ps.erpevents.dtos.event;
 
+import com.tup.ps.erpevents.dtos.event.relations.EventsEmployeesDTO;
+import com.tup.ps.erpevents.dtos.event.relations.EventsSuppliersDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestDTO;
 import com.tup.ps.erpevents.enums.EventStatus;
 import com.tup.ps.erpevents.enums.EventType;
@@ -54,14 +56,20 @@ public class EventDTO {
     @Schema(description = "Cliente asociado al evento")
     private ClientDTO client;
 
-    /*@Schema(description = "Ubicación del evento")
-    private LocationDTO location;*/
+    @Schema(description = "Ubicación del evento")
+    private LocationDTO location;
 
-    @Schema(description = "Lista de empleados asignados al evento")
-    private List<Long> employees;
+    @Schema(description = "Lista de ids de empleados asignados al evento")
+    private List<Long> employeesIds;
 
-    @Schema(description = "Lista de proveedores asignados al evento")
-    private List<Long> suppliers;
+    @Schema(description = "Relaciones de empleados con información de pagos y estados")
+    private List<EventsEmployeesDTO> employees;
+
+    @Schema(description = "Lista de ids de proveedores asignados al evento")
+    private List<Long> suppliersIds;
+
+    @Schema(description = "Relaciones de proveedores con información de pagos y estados")
+    private List<EventsSuppliersDTO> suppliers;
 
     @Schema(description = "Lista de invitados al evento")
     private List<Long> guests;

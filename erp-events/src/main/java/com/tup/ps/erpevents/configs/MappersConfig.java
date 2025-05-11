@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tup.ps.erpevents.dtos.client.ClientDTO;
 import com.tup.ps.erpevents.dtos.event.EventDTO;
+import com.tup.ps.erpevents.dtos.event.relations.EventsEmployeesDTO;
 import com.tup.ps.erpevents.entities.*;
+import com.tup.ps.erpevents.entities.intermediates.EventsEmployeesEntity;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -85,7 +87,6 @@ public class MappersConfig {
                     mapper.skip(EventDTO::setGuests);
                     mapper.skip(EventDTO::setTasks);
                 });*/
-
 
 
         return modelMapper;

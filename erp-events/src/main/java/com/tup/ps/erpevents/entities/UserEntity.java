@@ -14,9 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,7 +28,9 @@ import java.util.List;
 
 @Audited
 @AuditTable(value = "users_audit")
-@Data
+@EqualsAndHashCode
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

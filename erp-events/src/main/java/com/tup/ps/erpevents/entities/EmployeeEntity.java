@@ -1,10 +1,10 @@
 package com.tup.ps.erpevents.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tup.ps.erpevents.entities.intermediates.EventsEmployeesEntity;
 import com.tup.ps.erpevents.enums.DocumentType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
@@ -15,9 +15,11 @@ import java.util.List;
 
 @Audited
 @AuditTable(value = "employees_audit")
+@EqualsAndHashCode
 @Entity
 @Table(name = "employees")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeEntity {
@@ -71,8 +73,12 @@ public class EmployeeEntity {
     @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
     private UserEntity user;
 
-    @ManyToMany(mappedBy = "employees")
-    private List<EventEntity> events = new ArrayList<>();
+    /*@ManyToMany(mappedBy = "employees")
+    private List<EventEntity> events = new ArrayList<>();*/
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<EventsEmployeesEntity> employeeEvents = new ArrayList<>();
 
     @PrePersist
     public void onCreate() {

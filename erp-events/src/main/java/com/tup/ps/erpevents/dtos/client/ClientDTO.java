@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.dtos.client;
 
+import com.tup.ps.erpevents.enums.DocumentType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +30,15 @@ public class ClientDTO {
 
     @Schema(description = "Alias bancario o CBU", example = "ana.gomez.mp")
     private String aliasCbu;
+
+    @Schema(description = "Tipo de documento del cliente", example = "DNI")
+    private DocumentType documentType;
+
+    @Schema(description = "Número de documento", example = "40123456")
+    private String documentNumber;
+
+    /*@Schema(description = "CUIT del cliente", example = "20-40123456-7")
+    private String cuit;*/
 
     @Schema(description = "IDs de eventos asociados al cliente", example = "[1, 2, 3]")
     private List<Long> events;
