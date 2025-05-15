@@ -3,6 +3,8 @@ package com.tup.ps.erpevents.services.impl;
 import com.tup.ps.erpevents.dtos.employee.EmployeeDTO;
 import com.tup.ps.erpevents.dtos.employee.EmployeePostDTO;
 import com.tup.ps.erpevents.dtos.employee.EmployeePutDTO;
+import com.tup.ps.erpevents.dtos.notification.KeyValueCustomPair;
+import com.tup.ps.erpevents.dtos.notification.NotificationPostDTO;
 import com.tup.ps.erpevents.dtos.user.UserRegisterDTO;
 import com.tup.ps.erpevents.entities.EmployeeEntity;
 import com.tup.ps.erpevents.entities.UserEntity;
@@ -10,6 +12,7 @@ import com.tup.ps.erpevents.enums.RoleName;
 import com.tup.ps.erpevents.repositories.EmployeeRepository;
 import com.tup.ps.erpevents.repositories.specs.GenericSpecification;
 import com.tup.ps.erpevents.services.EmployeeService;
+import com.tup.ps.erpevents.services.NotificationService;
 import com.tup.ps.erpevents.services.SecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,6 +50,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
+
+    @Autowired
+    private NotificationService notificationService;
 
     /**
      * Especificaciones dinámicas para filtros complejos.
@@ -76,8 +83,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUser(savedUser);
         employee.setSoftDelete(false);
 
+        NotificationPostDTO notificationPostDTO = getNotificationPostDTO(savedUser);
+        notificationService.sendEmailToContacts(notificationPostDTO);
+
         return modelMapper.map(employeeRepository.save(employee), EmployeeDTO.class);
     }
+
 
     @Override
     public EmployeeDTO update(Long id, EmployeePutDTO dto) {
@@ -139,5 +150,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employeeRepository.findAll(spec, pageable)
                 .map(employee -> modelMapper.map(employee, EmployeeDTO.class));
+    }
+
+    private static NotificationPostDTO getNotificationPostDTO(UserEntity savedUser) {
+        NotificationPostDTO notificationPostDTO = new NotificationPostDTO();
+        notificationPostDTO.setIdTemplate(2L); // template
+        notificationPostDTO.setContactIds(List.of(savedUser.getIdUser()));
+        notificationPostDTO.setSubject(savedUser.getEmail());
+
+        KeyValueCustomPair keyValueCustomPair = new KeyValueCustomPair();
+        keyValueCustomPair.setKey("FIRST_NAME");
+        keyValueCustomPair.setValue(savedUser.getFirstName());
+
+        notificationPostDTO.setVariables(List.of(keyValueCustomPair));
+        notificationPostDTO.setNotificationType("notification");
+        return notificationPostDTO;
     }
 }

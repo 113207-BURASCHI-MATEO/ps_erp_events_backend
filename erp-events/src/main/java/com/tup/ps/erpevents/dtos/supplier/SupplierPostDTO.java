@@ -35,7 +35,7 @@ public class SupplierPostDTO {
 
     @NotBlank
     @Schema(description = "Alias bancario o CBU", example = "eventos.xyz.cbu")
-    private String aliasOrCbu;
+    private String aliasCbu;
 
     @NotNull
     @Schema(description = "Tipo de proveedor", example = "CATERING")

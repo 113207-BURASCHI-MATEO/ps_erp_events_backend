@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.dtos.event;
 
+import com.tup.ps.erpevents.dtos.client.ClientPostDTO;
 import com.tup.ps.erpevents.dtos.location.LocationPostDTO;
 import com.tup.ps.erpevents.dtos.task.TaskEventPostDTO;
 import com.tup.ps.erpevents.enums.EventStatus;
@@ -42,9 +43,11 @@ public class EventPostDTO {
     @Schema(description = "Estado del evento", example = "CONFIRMED")
     private EventStatus status;
 
-    @NotNull
     @Schema(description = "ID del cliente organizador del evento", example = "1")
     private Long clientId;
+
+    @Schema(description = "Nuevo cliente del evento")
+    private ClientPostDTO client;
 
     @Schema(description = "ID de la ubicación del evento", example = "2")
     private Long locationId;

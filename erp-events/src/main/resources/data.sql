@@ -62,7 +62,7 @@ INSERT INTO users (first_name, last_name, birth_date, document_type, document_nu
 VALUES ('Martín', 'Luna', '1985-12-01', 'DNI', '27888554', 'martin.l@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Mateo', 'Buraschi', '1986-07-20', 'DNI', '32373000', 'buraschi.mateo@gmail.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 2);
+VALUES ('Mateo', 'Buraschi', '1986-07-20', 'DNI', '32373000', 'mateoburaschi@gmail.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 2);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
 VALUES ('Ana', 'Torres', '1992-04-21', 'DNI', '30233456', 'ana.torres@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
@@ -234,3 +234,11 @@ INSERT INTO event_guests (id_event, id_guest) VALUES (2, 1);
 INSERT INTO event_guests (id_event, id_guest) VALUES (2, 3);
 INSERT INTO event_guests (id_event, id_guest) VALUES (3, 2);
 INSERT INTO event_guests (id_event, id_guest) VALUES (3, 3);
+
+INSERT INTO templates (name, body, active) VALUES ('Welcome Email', '<h1>Welcome to our service!</h1><p>Thank you for joining us.</p>', true);
+INSERT INTO templates (name, body, active) VALUES
+    ('Nuevo Usuario',
+     '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Nuevo Usuario</title><style>body {font-family: ''Arial'', sans-serif;background-color: #F8F9FA;margin: 0;padding: 0;}.container {background-color: #ffffff;margin: 50px auto;padding: 20px 20px 1px;border-radius: 8px;box-shadow: 0 0 10px rgba(19, 80, 91, 0.2);max-width: 600px;}.header {background-color: #13505B;color: #ffffff;padding: 16px;text-align: center;border-top-left-radius: 8px;border-top-right-radius: 8px;}.header h1 {margin: 0;font-size: 24px;}.content {padding: 20px;}.content p {line-height: 1.6;color: #040404;margin-bottom: 16px;}.footer {text-align: center;font-size: 12px;color: #777777;padding: 16px 0;}.button-accent {display: inline-block;padding: 10px 20px;background-color: #FF7F11;color: #ffffff;text-decoration: none;border-radius: 4px;font-weight: bold;}</style></head><body><div class="container"><div class="header"><h1>Nuevo Usuario</h1></div><div class="content"><p>Hola <strong>{{FIRST_NAME}}</strong>,</p><p>Nos complace informarle que su cuenta para operar en ERP Eventos fue creada con exito</p><p>Si tiene alguna consulta o necesita más información, no dude en ponerse en contacto con nosotros.</p><p><a href="http://localhost:4200/login" class="button-accent">Iniciar Sesion</a></p><p>Gracias por confiar en <strong>ERP Eventos</strong>.</p></div><div class="footer"><hr><p>&copy; 2025 ERP Eventos</p></div></div></body></html>',
+     true);
+
+

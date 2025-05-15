@@ -127,4 +127,21 @@ public class UserServiceImpl implements UserDetailsService {
 
         return modelMapper.map(user, UserDTO.class);
     }
+
+    public List<UserDTO> findUsersByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+
+        List<UserEntity> users = userRepository.findAllById(ids);
+
+        if (users.isEmpty()) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "No se encontraron usuarios para los IDs proporcionados");
+        }
+
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserDTO.class))
+                .toList();
+    }
+
 }

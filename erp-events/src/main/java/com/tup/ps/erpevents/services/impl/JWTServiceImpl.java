@@ -14,7 +14,7 @@ import java.util.Date;
 public class JWTServiceImpl implements JWTService {
 
     private static final String SECRET_KEY = "secret";
-    private static final String ISSUER = "Alkywall";
+    private static final String ISSUER = "erp_events";
     private static final String JWT_COOKIE_NAME = "jwt-token";
 
     public String createToken(String userId, int minutesValid) {
