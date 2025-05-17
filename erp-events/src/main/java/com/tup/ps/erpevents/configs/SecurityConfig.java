@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.configs;
 
+import com.tup.ps.erpevents.enums.RoleName;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +24,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                //.cors(Customizer.withDefaults())
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
@@ -33,13 +34,15 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api-docs/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/ping")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/employees/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/suppliers/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/tasks/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/clients/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/guests/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/locations/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/events/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/employees/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/suppliers/**")).hasRole(String.valueOf(RoleName.ADMIN))
+                        .requestMatchers(new AntPathRequestMatcher("/tasks/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/clients/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/guests/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/locations/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/notifications/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/events/**")).hasRole(String.valueOf(RoleName.ADMIN))
+                        .requestMatchers(new AntPathRequestMatcher("/users/**")).hasRole(String.valueOf(RoleName.ADMIN))
                         //.requestMatchers("/api/**").permitAll()
                         //.requestMatchers("/api-docs/swagger-config").permitAll()
                         //.requestMatchers(HttpMethod.GET,"/accounts/search").authenticated()

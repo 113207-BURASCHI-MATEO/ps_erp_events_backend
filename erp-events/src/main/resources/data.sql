@@ -1,7 +1,9 @@
 -- ROLES
-INSERT INTO roles (name, description, creation_date, update_date) VALUES ('USER', 'Rol básico de usuario', NOW(), NOW());
-INSERT INTO roles (name, description, creation_date, update_date) VALUES ('ADMIN', 'Rol con privilegios de administrador', NOW(), NOW());
-INSERT INTO roles (name, description, creation_date, update_date) VALUES ('EMPLOYEE', 'Rol para empleados del sistema', NOW(), NOW());
+INSERT INTO roles (role_code, name, description, creation_date, update_date) VALUES (999,'SUPER_ADMIN', 'Rol con privilegios de administrador del sistema', NOW(), NOW());
+INSERT INTO roles (role_code, name, description, creation_date, update_date) VALUES (100,'ADMIN', 'Rol con privilegios de administrador', NOW(), NOW());
+INSERT INTO roles (role_code, name, description, creation_date, update_date) VALUES (200,'SUPERVISOR', 'Rol básico de usuario', NOW(), NOW());
+INSERT INTO roles (role_code, name, description, creation_date, update_date) VALUES (300,'EMPLOYEE', 'Rol para empleados del sistema', NOW(), NOW());
+
 
 -- CLIENTS
 INSERT INTO clients (first_name, last_name, email, phone_number, bank_alias_cbu, document_type, document_number, soft_delete, creation_date, update_date)
@@ -56,55 +58,55 @@ INSERT INTO users (first_name, last_name, birth_date, document_type, document_nu
 VALUES ('Federico', 'Ramírez', '1990-03-10', 'DNI', '30500123', 'federico.r@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Lucía', 'Fernández', '1987-08-15', 'DNI', '28999554', 'lucia.f@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Lucía', 'Fernández', '1987-08-15', 'DNI', '28999554', 'lucia.f@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Martín', 'Luna', '1985-12-01', 'DNI', '27888554', 'martin.l@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Martín', 'Luna', '1985-12-01', 'DNI', '27888554', 'martin.l@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Mateo', 'Buraschi', '1986-07-20', 'DNI', '32373000', 'mateoburaschi@gmail.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 2);
+VALUES ('Mateo', 'Buraschi', '1986-07-20', 'DNI', '32373000', 'buraschi.mateo@gmail.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 2);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Ana', 'Torres', '1992-04-21', 'DNI', '30233456', 'ana.torres@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Ana', 'Torres', '1992-04-21', 'DNI', '30233456', 'ana.torres@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Bruno', 'Acosta', '1991-11-02', 'DNI', '30344567', 'bruno.acosta@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Bruno', 'Acosta', '1991-11-02', 'DNI', '30344567', 'bruno.acosta@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Camila', 'Silva', '1993-06-17', 'DNI', '30455678', 'camila.silva@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Camila', 'Silva', '1993-06-17', 'DNI', '30455678', 'camila.silva@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Diego', 'Méndez', '1989-12-29', 'DNI', '30566789', 'diego.mendez@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Diego', 'Méndez', '1989-12-29', 'DNI', '30566789', 'diego.mendez@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Elena', 'Rivas', '1990-08-13', 'DNI', '30677890', 'elena.rivas@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Elena', 'Rivas', '1990-08-13', 'DNI', '30677890', 'elena.rivas@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Facundo', 'Herrera', '1988-03-05', 'DNI', '30788901', 'facundo.herrera@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Facundo', 'Herrera', '1988-03-05', 'DNI', '30788901', 'facundo.herrera@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Gisela', 'Morales', '1991-09-07', 'DNI', '30899012', 'gisela.morales@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Gisela', 'Morales', '1991-09-07', 'DNI', '30899012', 'gisela.morales@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Hernán', 'Gómez', '1986-01-26', 'DNI', '30910123', 'hernan.gomez@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Hernán', 'Gómez', '1986-01-26', 'DNI', '30910123', 'hernan.gomez@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Ivana', 'Sosa', '1992-02-10', 'DNI', '31021234', 'ivana.sosa@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Ivana', 'Sosa', '1992-02-10', 'DNI', '31021234', 'ivana.sosa@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Jorge', 'Cabrera', '1994-04-19', 'DNI', '31132345', 'jorge.cabrera@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Jorge', 'Cabrera', '1994-04-19', 'DNI', '31132345', 'jorge.cabrera@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Karina', 'Leiva', '1989-05-25', 'DNI', '31243456', 'karina.leiva@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Karina', 'Leiva', '1989-05-25', 'DNI', '31243456', 'karina.leiva@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Luis', 'Funes', '1987-06-30', 'DNI', '31354567', 'luis.funes@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Luis', 'Funes', '1987-06-30', 'DNI', '31354567', 'luis.funes@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('María', 'Paz', '1995-07-12', 'DNI', '31465678', 'maria.paz@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('María', 'Paz', '1995-07-12', 'DNI', '31465678', 'maria.paz@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
-VALUES ('Nicolás', 'Barrios', '1990-10-04', 'DNI', '31576789', 'nicolas.barrios@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);
+VALUES ('Nicolás', 'Barrios', '1990-10-04', 'DNI', '31576789', 'nicolas.barrios@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 4);
 
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
 VALUES ('Oriana', 'Delgado', '1991-03-22', 'DNI', '31687890', 'oriana.delgado@example.com', '$2a$10$W82PvGcfH0Vh62/5UxS6x.FBTu8vsvRoX.xxL/ZcKmobLSP6n9hAy', false, NOW(), NOW(), 3);

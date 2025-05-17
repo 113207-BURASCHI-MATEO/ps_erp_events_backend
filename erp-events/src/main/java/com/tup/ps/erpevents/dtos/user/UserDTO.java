@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.dtos.user;
 
+import com.tup.ps.erpevents.dtos.role.RoleDTO;
 import com.tup.ps.erpevents.enums.DocumentType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -33,4 +34,7 @@ public class UserDTO {
 
     @Schema(description = "Correo electrónico del usuario")
     private String email;
+
+    @Schema(description = "Rol del usuario")
+    private RoleDTO role;
 }

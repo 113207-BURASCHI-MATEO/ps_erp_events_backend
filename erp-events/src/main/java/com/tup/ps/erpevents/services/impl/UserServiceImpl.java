@@ -5,11 +5,14 @@ import com.tup.ps.erpevents.dtos.user.UserUpdateDTO;
 import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.exceptions.ApiException;
 import com.tup.ps.erpevents.repositories.UserRepository;
+import com.tup.ps.erpevents.services.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,10 +22,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -35,34 +40,18 @@ public class UserServiceImpl implements UserDetailsService {
         return userRepository.findByEmail(email).orElseThrow();
     }
 
-    public List<UserDTO> getUsers(Integer softDelete, Integer page, Integer size){
-        Page<UserEntity> users = userRepository.findAllBySoftDelete(softDelete, PageRequest.of(page, size));
-        var totalPages = users.getTotalPages();
-
-        if (totalPages <= page) {
-            throw new ApiException(HttpStatus.NOT_ACCEPTABLE, "No existe el numero de pagina");
-        }
-
-        String next = "", prev = "";
-        if (users.hasNext()){
-            next = "/users?page="+(page+1);
-        }
-
-        if (users.hasPrevious()){
-            prev = "/users?page="+(page-1);
-        }
-
-        List<UserDTO> usersPage = users.stream()
-                .map(user -> modelMapper.map(user, UserDTO.class))
-                .toList();
-        return usersPage;
+    public Page<UserDTO> getUsers(Pageable pageable){
+        return userRepository.findAllBySoftDelete(false, pageable)
+                .map(user -> modelMapper.map(user, UserDTO.class));
     }
 
-    /**
-     * Realiza una baja logica del usuario que entra por parametro
-     * (1: baja, 0: activo)
-     * @param id
-     */
+    public UserDTO getUserById(Long idUser) {
+        UserEntity userEntity = userRepository.findById(idUser)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+        return modelMapper.map(userEntity, UserDTO.class);
+    }
+
+
     public void softDeleteUser(Long id, String userEmail) {
         /*UserEntity userLogged = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Usuario autenticado no encontrado"));*/
@@ -88,6 +77,10 @@ public class UserServiceImpl implements UserDetailsService {
         boolean isSameUser = Objects.equals(user.getIdUser(), id);
         if (!isSameUser) {
             throw new ApiException(HttpStatus.CONFLICT, "El usuario loggeado no coincide con el id recibido");
+        }
+
+        if (userUpdateDTO.getRole() != null) {
+            user.setRole(user.getRole());
         }
 
         if (userUpdateDTO.getFirstName() != null) {

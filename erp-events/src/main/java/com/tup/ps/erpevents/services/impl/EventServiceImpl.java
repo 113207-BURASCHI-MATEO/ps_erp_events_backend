@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 public class EventServiceImpl implements EventService {
 
     private static final String[] EVENT_FIELDS = {
-            "title", "description"
+            "title", "description", // "status", "eventType"
     };
 
     @Autowired
@@ -105,9 +105,15 @@ public class EventServiceImpl implements EventService {
             event.setEventSuppliers(supplierRelations);
         }
 
-        ClientEntity client = clientRepository.findById(dto.getClientId())
-                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Cliente no encontrado"));
-        event.setClient(client);
+        if (dto.getClient() != null) {
+            ClientEntity clientEntity = modelMapper.map(dto.getClient(), ClientEntity.class);
+            ClientEntity savedClientEntity = clientRepository.save(clientEntity);
+            event.setClient(savedClientEntity);
+        } else {
+            ClientEntity client = clientRepository.findById(dto.getClientId())
+                    .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Cliente no encontrado"));
+            event.setClient(client);
+        }
 
         if (dto.getLocation() != null) {
             LocationEntity newLocation = modelMapper.map(dto.getLocation(), LocationEntity.class);

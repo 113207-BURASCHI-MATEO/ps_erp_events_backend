@@ -30,23 +30,41 @@ public class NotificationEntity {
     @Column(nullable = true)
     private Long idContact;
 
-    @Column(nullable = false)
+    @Column(name = "subject", nullable = false)
     private String subject;
 
-    @Column(name = "id_template")
+    @Column(name = "idTemplate")
     private Long idTemplate;
 
-    @Column(name = "template_name", nullable = true)
+    @Column(name = "templateName", nullable = true)
     private String templateName;
-
-    @Column(name = "date_send", nullable = false)
-    private LocalDateTime dateSend;
-
-    @Column(name = "status_send", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private StatusSend statusSend;
 
     @Lob
     @Column(columnDefinition = "TEXT")
     private String body;
+
+    @Column(name = "dateSend", nullable = false)
+    private LocalDateTime dateSend;
+
+    @Column(name = "statusSend", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StatusSend statusSend;
+
+    @Column(name = "creationDate")
+    private LocalDateTime creationDate;
+
+    @Column(name = "updateDate")
+    private LocalDateTime updateDate;
+
+    @PrePersist
+    public void onCreate() {
+        this.creationDate = LocalDateTime.now();
+        this.updateDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updateDate = LocalDateTime.now();
+    }
+
 }

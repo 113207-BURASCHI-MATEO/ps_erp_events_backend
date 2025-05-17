@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.services.impl;
 
+import com.tup.ps.erpevents.dtos.role.RoleDTO;
 import com.tup.ps.erpevents.dtos.user.UserDTO;
 import com.tup.ps.erpevents.dtos.user.UserLoginDTO;
 import com.tup.ps.erpevents.dtos.user.UserRegisterDTO;
@@ -56,8 +57,9 @@ public class SecurityServiceImpl implements SecurityService {
         UserDTO userReturn;
 
         Optional<UserEntity> userEntity = userRepository.findByEmail(us.getEmail());
-        if(userEntity != null){
+        if(userEntity.isPresent()){
             userReturn = modelMapper.map(userEntity.orElse(null), UserDTO.class);
+            userReturn.setRole(modelMapper.map(userEntity.get().getRole(), RoleDTO.class));
             return userReturn;
         }
         return null;
@@ -65,7 +67,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public UserDTO registerUser(UserRegisterDTO registerRequest){
-        return register(registerRequest, RoleName.USER);
+        return register(registerRequest, RoleName.EMPLOYEE);
     }
 
     @Override

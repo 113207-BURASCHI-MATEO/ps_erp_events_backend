@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.dtos.user;
 
+import com.tup.ps.erpevents.dtos.role.RoleDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
@@ -27,4 +28,7 @@ public class UserUpdateDTO {
 
     @Schema(description = "Contraseña del usuario")
     private String password;
+
+    @Schema(description = "Rol del usuario")
+    private RoleDTO role;
 }

@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByEmail(String email);
-    Page<UserEntity> findAllBySoftDelete(Integer softDelete, Pageable pageable);
+    Page<UserEntity> findAllBySoftDelete(Boolean softDelete, Pageable pageable);
 }

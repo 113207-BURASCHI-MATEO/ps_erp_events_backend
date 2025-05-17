@@ -33,6 +33,9 @@ public class RoleEntity {
     @Column(name = "idRole")
     private Long idRole;
 
+    @Column
+    private Integer roleCode;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RoleName name;

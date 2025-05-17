@@ -1,7 +1,6 @@
 package com.tup.ps.erpevents.services.impl;
 
 import com.tup.ps.erpevents.dtos.notification.KeyValueCustomPair;
-import com.tup.ps.erpevents.dtos.notification.Notification;
 import com.tup.ps.erpevents.dtos.notification.NotificationPostDTO;
 import com.tup.ps.erpevents.dtos.notification.NotificationDTO;
 import com.tup.ps.erpevents.dtos.notification.template.TemplateDTO;
@@ -13,6 +12,7 @@ import com.tup.ps.erpevents.services.NotificationService;
 import com.tup.ps.erpevents.services.TemplateService;
 import com.tup.ps.erpevents.services.utils.VariableUtils;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
@@ -41,15 +41,15 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private JavaMailSender mailSender;
 
-    /*@Qualifier("strictMapper")
+    @Qualifier("strictMapper")
     @Autowired
-    private ModelMapper modelMapper;*/
+    private ModelMapper modelMapper;
 
     @Autowired
     private TemplateService templateService;
 
-   /* @Autowired
-    private NotificationRepository notificationRepository;*/
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     private static final String EMAIL_FROM =
             "noreplyerpeventsnotifications@gmail.com";
@@ -78,9 +78,28 @@ public class NotificationServiceImpl implements NotificationService {
             notificationDTO.setIdContact(user.getIdUser());
 
             sendEmail(notificationDTO.getRecipient(), notificationDTO.getSubject(), processedBody);
-            //createNotification(notificationDTO);
+            saveNotification(notificationDTO);
         }
 
+    }
+
+    @Override
+    public List<NotificationDTO> getNotifications(Long idUser) {
+        userService.getUserById(idUser);
+        List<NotificationEntity> notificationEntities = notificationRepository
+                .findByIdContactAndStatusSend(idUser, StatusSend.SENT);
+        return notificationEntities.stream()
+                .map(notificationEntity ->
+                        modelMapper.map(notificationEntity, NotificationDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void visualizeNotification(Long idNotification) {
+        NotificationEntity entity = notificationRepository.findById(idNotification)
+                .orElseThrow(() -> new EntityNotFoundException("Notificacion no encontrado"));
+        entity.setStatusSend(StatusSend.VISUALIZED);
+        notificationRepository.save(entity);
     }
 
     @SneakyThrows
@@ -139,24 +158,20 @@ public class NotificationServiceImpl implements NotificationService {
         return processedTemplate;
     }
 
-   /* private Notification createNotification(NotificationDTO emailNotification) {
+   private void saveNotification(NotificationDTO notificationDTO) {
         NotificationEntity entity = new NotificationEntity();
-        entity.setRecipient(emailNotification.getRecipient());
-        if (emailNotification.getIdContact() != null) {
-            entity.setIdContact(emailNotification.getIdContact());
+        entity.setRecipient(notificationDTO.getRecipient());
+        if (notificationDTO.getIdContact() != null) {
+            entity.setIdContact(notificationDTO.getIdContact());
         }
-        entity.setSubject(emailNotification.getSubject());
-        entity.setIdTemplate(emailNotification.getIdTemplate());
-        entity.setTemplateName(emailNotification.getTemplateName());
-        entity.setBody(emailNotification.getBody());
+        entity.setSubject(notificationDTO.getSubject());
+        entity.setIdTemplate(notificationDTO.getIdTemplate());
+        entity.setTemplateName(notificationDTO.getTemplateName());
+        entity.setBody(notificationDTO.getBody());
         entity.setDateSend(LocalDateTime.now());
         entity.setStatusSend(StatusSend.SENT);
 
-        NotificationEntity saved = notificationRepository.save(entity);
-        Notification notification = modelMapper.map(saved, Notification.class);
+        notificationRepository.save(entity);
 
-        notification.setEmailNotification(emailNotification);
-
-        return notification;
-    }*/
+    }
 }
