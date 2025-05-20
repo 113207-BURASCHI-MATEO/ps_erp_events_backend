@@ -44,14 +44,14 @@ INSERT INTO locations (
          );
 
 -- GUESTS
-INSERT INTO guests (first_name, last_name, type, email, note, soft_delete, creation_date, update_date)
-VALUES ('Carla', 'González', 'VIP', 'carla.g@example.com', 'Amiga cercana de los novios', false, NOW(), NOW());
+INSERT INTO guests (first_name, last_name, email, soft_delete, creation_date, update_date)
+VALUES ('Carla', 'González', 'carla.g@example.com', false, NOW(), NOW());
 
-INSERT INTO guests (first_name, last_name, type, email, note, soft_delete, creation_date, update_date)
-VALUES ('Luis', 'Martínez', 'GENERAL', 'luis.m@example.com', NULL, false, NOW(), NOW());
+INSERT INTO guests (first_name, last_name, email, soft_delete, creation_date, update_date)
+VALUES ('Luis', 'Martínez', 'luis.m@example.com', false, NOW(), NOW());
 
-INSERT INTO guests (first_name, last_name, type, email, note, soft_delete, creation_date, update_date)
-VALUES ('Sandra', 'López', 'STAFF', 'sandra.l@example.com', 'Encargada de decoración', false, NOW(), NOW());
+INSERT INTO guests (first_name, last_name, email, soft_delete, creation_date, update_date)
+VALUES ('Sandra', 'López', 'sandra.l@example.com', false, NOW(), NOW());
 
 -- USERS
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
@@ -230,12 +230,12 @@ VALUES (3, 3, 'PAID', 1800.0, 0.0, 'TRANSFER', NOW(), NOW());
 
 
 -- RELACIONES EVENTO - GUESTS
-INSERT INTO event_guests (id_event, id_guest) VALUES (1, 1);
-INSERT INTO event_guests (id_event, id_guest) VALUES (1, 2);
-INSERT INTO event_guests (id_event, id_guest) VALUES (2, 1);
-INSERT INTO event_guests (id_event, id_guest) VALUES (2, 3);
-INSERT INTO event_guests (id_event, id_guest) VALUES (3, 2);
-INSERT INTO event_guests (id_event, id_guest) VALUES (3, 3);
+INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (1, 1, 'REGULAR', 'Amiga cercana de los novios',NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (1, 2, 'REGULAR', 'Amiga de los novios',NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (2, 1, 'REGULAR', 'Amiga de los novios',NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (2, 3, 'VIP', 'Amiga cercana de los padres',NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (1, 2, 'FRIEND', 'Familiar',NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (2, 3, 'REGULAR', 'Familiar de la novia',NOW(), NOW());
 
 INSERT INTO templates (name, body, active) VALUES ('Welcome Email', '<h1>Welcome to our service!</h1><p>Thank you for joining us.</p>', true);
 INSERT INTO templates (name, body, active) VALUES

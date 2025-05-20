@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 @Service
 public interface GuestService {
@@ -69,5 +70,9 @@ public interface GuestService {
                                  String searchValue,
                                  LocalDate creationStart,
                                  LocalDate creationEnd);
+
+    List<GuestDTO> saveGuestsToEvent(List<GuestPostDTO> guestDTOList, Long idEvent);
+
+    List<GuestDTO> getGuestFromEvent(Long idEvent);
 }
 

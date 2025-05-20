@@ -1,5 +1,8 @@
 package com.tup.ps.erpevents.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tup.ps.erpevents.entities.intermediates.EventsGuestsEntity;
+import com.tup.ps.erpevents.entities.intermediates.EventsSuppliersEntity;
 import com.tup.ps.erpevents.enums.GuestType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,15 +35,15 @@ public class GuestEntity {
     @Column(name = "lastName", nullable = false)
     private String lastName;
 
-    @Enumerated(EnumType.STRING)
+    /*@Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    private GuestType type;
+    private GuestType type;*/
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "note", columnDefinition = "TEXT")
-    private String note;
+    /*@Column(name = "note", columnDefinition = "TEXT")
+    private String note;*/
 
     @Column(name = "softDelete")
     private Boolean softDelete = false;
@@ -51,8 +54,12 @@ public class GuestEntity {
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
 
-    @ManyToMany(mappedBy = "guests")
-    private List<EventEntity> events = new ArrayList<>();
+    /*@ManyToMany(mappedBy = "guests")
+    private List<EventEntity> events = new ArrayList<>();*/
+
+    @OneToMany(mappedBy = "guest", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<EventsGuestsEntity> guestEvents = new ArrayList<>();
 
     @PrePersist
     public void onCreate() {

@@ -3,6 +3,7 @@ package com.tup.ps.erpevents.controllers;
 import com.tup.ps.erpevents.dtos.event.EventDTO;
 import com.tup.ps.erpevents.dtos.event.EventPostDTO;
 import com.tup.ps.erpevents.dtos.event.EventPutDTO;
+import com.tup.ps.erpevents.dtos.guest.GuestPostDTO;
 import com.tup.ps.erpevents.services.EventService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/events")

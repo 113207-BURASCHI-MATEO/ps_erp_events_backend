@@ -2,6 +2,7 @@ package com.tup.ps.erpevents.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tup.ps.erpevents.entities.intermediates.EventsEmployeesEntity;
+import com.tup.ps.erpevents.entities.intermediates.EventsGuestsEntity;
 import com.tup.ps.erpevents.entities.intermediates.EventsSuppliersEntity;
 import com.tup.ps.erpevents.enums.EventStatus;
 import com.tup.ps.erpevents.enums.EventType;
@@ -82,11 +83,15 @@ public class EventEntity {
     @JsonIgnore
     private List<EventsSuppliersEntity> eventSuppliers = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    /*@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "event_guests",
             joinColumns = @JoinColumn(name = "idEvent"),
             inverseJoinColumns = @JoinColumn(name = "idGuest"))
-    private Set<GuestEntity> guests = new HashSet<>();
+    private List<GuestEntity> guests = new ArrayList<>();*/
+
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<EventsGuestsEntity> eventGuests = new ArrayList<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnore

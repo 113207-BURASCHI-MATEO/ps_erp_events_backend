@@ -33,4 +33,8 @@ public class GuestPostDTO {
 
     @Schema(description = "Nota sobre el invitado", example = "Es el presentador del evento")
     private String note;
+
+    @NotNull
+    @Schema(description = "Id del Evento asociado", example = "1")
+    private Long idEvent;
 }

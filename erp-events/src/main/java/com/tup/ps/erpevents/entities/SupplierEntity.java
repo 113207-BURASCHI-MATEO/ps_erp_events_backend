@@ -64,7 +64,7 @@ public class SupplierEntity {
 
     @OneToMany(mappedBy = "supplier", fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<EventsSuppliersEntity> supplierEventsw = new ArrayList<>();
+    private List<EventsSuppliersEntity> supplierEvents = new ArrayList<>();
 
     @PrePersist
     public void onCreate() {

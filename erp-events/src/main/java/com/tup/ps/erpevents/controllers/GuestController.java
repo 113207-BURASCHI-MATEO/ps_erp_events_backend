@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.controllers;
 
+import com.tup.ps.erpevents.dtos.event.EventDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPostDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPutDTO;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/guests")
@@ -85,6 +87,19 @@ public class GuestController {
 
         PageRequest pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortProperty.split(",")));
         return ResponseEntity.ok(guestService.findByFilters(pageable, guestType, isActive, searchValue, creationStart, creationEnd));
+    }
+
+    @Operation(summary = "Cargar invitados a un evento")
+    @PostMapping(value = "/event/{id}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<List<GuestDTO>> saveGuests(@PathVariable Long id,
+                                        @Valid @RequestBody List<GuestPostDTO> guestPostDTOList) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(guestService.saveGuestsToEvent(guestPostDTOList, id));
+    }
+
+    @Operation(summary = "Obtener invitados de un evento")
+    @GetMapping( "/event/{idEvent}")
+    public ResponseEntity<List<GuestDTO>> getGuests(@PathVariable Long idEvent) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(guestService.getGuestFromEvent(idEvent));
     }
 }
 

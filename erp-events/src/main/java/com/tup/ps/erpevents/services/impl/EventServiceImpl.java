@@ -5,11 +5,14 @@ import com.tup.ps.erpevents.dtos.event.EventDTO;
 import com.tup.ps.erpevents.dtos.event.EventPostDTO;
 import com.tup.ps.erpevents.dtos.event.EventPutDTO;
 import com.tup.ps.erpevents.dtos.event.relations.EventsEmployeesDTO;
+import com.tup.ps.erpevents.dtos.event.relations.EventsGuestsDTO;
 import com.tup.ps.erpevents.dtos.event.relations.EventsSuppliersDTO;
+import com.tup.ps.erpevents.dtos.guest.GuestPostDTO;
 import com.tup.ps.erpevents.dtos.location.LocationDTO;
 import com.tup.ps.erpevents.dtos.task.TaskDTO;
 import com.tup.ps.erpevents.entities.*;
 import com.tup.ps.erpevents.entities.intermediates.EventsEmployeesEntity;
+import com.tup.ps.erpevents.entities.intermediates.EventsGuestsEntity;
 import com.tup.ps.erpevents.entities.intermediates.EventsSuppliersEntity;
 import com.tup.ps.erpevents.enums.AmountStatus;
 import com.tup.ps.erpevents.exceptions.ApiException;
@@ -32,6 +35,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -50,8 +54,6 @@ public class EventServiceImpl implements EventService {
     @Autowired
     private TaskRepository taskRepository;
     @Autowired
-    private GuestRepository guestRepository;
-    @Autowired
     private ClientRepository clientRepository;
     @Autowired
     private LocationRepository locationRepository;
@@ -64,6 +66,10 @@ public class EventServiceImpl implements EventService {
     private EventsEmployeesRepository eventsEmployeesRepository;
     @Autowired
     private EventsSuppliersRepository eventsSuppliersRepository;
+    @Autowired
+    private GuestRepository guestRepository;
+    @Autowired
+    private EventsGuestsRepository eventsGuestsRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -277,6 +283,7 @@ public class EventServiceImpl implements EventService {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+
     private List<Long> extractEmployeeIds(List<EventsEmployeesEntity> eventEmployees) {
         if (eventEmployees == null) {
             return List.of();
@@ -294,6 +301,7 @@ public class EventServiceImpl implements EventService {
                 .map(rel -> rel.getSupplier().getIdSupplier())
                 .toList();
     }
+
 
     private EventDTO mapEventEntityToDTO(EventEntity event) {
         EventDTO dto = new EventDTO();
@@ -313,8 +321,13 @@ public class EventServiceImpl implements EventService {
         dto.setEmployees(mapEventEmployees(event.getEventEmployees()));
         dto.setEmployeesIds(extractEmployeeIds(event.getEventEmployees()));
 
-        dto.setGuests(event.getGuests() != null
+        /*dto.setGuests(event.getGuests() != null
                 ? event.getGuests().stream().map(GuestEntity::getIdGuest).toList()
+                : List.of());*/
+
+        dto.setGuests(event.getEventGuests() != null
+                ? event.getEventGuests().stream()
+                .map(relation -> relation.getGuest().getIdGuest()).toList()
                 : List.of());
 
         dto.setSuppliers(mapEventSuppliers(event.getEventSuppliers()));
@@ -398,6 +411,7 @@ public class EventServiceImpl implements EventService {
                 .toList();
         return eventsSuppliersRepository.saveAll(supplierRelations);
     }
+
 
 
 

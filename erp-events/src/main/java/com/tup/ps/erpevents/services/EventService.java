@@ -3,11 +3,13 @@ package com.tup.ps.erpevents.services;
 import com.tup.ps.erpevents.dtos.event.EventDTO;
 import com.tup.ps.erpevents.dtos.event.EventPostDTO;
 import com.tup.ps.erpevents.dtos.event.EventPutDTO;
+import com.tup.ps.erpevents.dtos.guest.GuestPostDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 @Service
 public interface EventService {
@@ -71,5 +73,6 @@ public interface EventService {
                                  String searchValue,
                                  LocalDate dateStart,
                                  LocalDate dateEnd);
+
 }
 
