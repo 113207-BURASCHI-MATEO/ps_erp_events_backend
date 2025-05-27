@@ -1,10 +1,12 @@
 package com.tup.ps.erpevents.services.impl;
 
+import com.tup.ps.erpevents.dtos.guest.GuestDTO;
 import com.tup.ps.erpevents.dtos.task.TaskDTO;
 import com.tup.ps.erpevents.dtos.task.TaskPostDTO;
 import com.tup.ps.erpevents.dtos.task.TaskPutDTO;
 import com.tup.ps.erpevents.entities.EventEntity;
 import com.tup.ps.erpevents.entities.TaskEntity;
+import com.tup.ps.erpevents.enums.TaskStatus;
 import com.tup.ps.erpevents.repositories.EventRepository;
 import com.tup.ps.erpevents.repositories.TaskRepository;
 import com.tup.ps.erpevents.repositories.specs.GenericSpecification;
@@ -22,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -143,6 +146,64 @@ public class TaskServiceImpl implements TaskService {
                     dto.setIdEvent(task.getEvent().getIdEvent());
                     return dto;
                 });
+    }
+
+    @Override
+    public TaskDTO updateTaskStatus(Long taskId, TaskStatus newStatus) {
+        TaskEntity task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new EntityNotFoundException("Tarea no encontrada"));
+
+        TaskStatus currentStatus = task.getStatus();
+
+        if (!isValidTransition(currentStatus, newStatus)) {
+            throw new IllegalStateException(
+                    String.format("No se puede cambiar el estado de %s a %s", currentStatus, newStatus)
+            );
+        }
+
+        task.setStatus(newStatus);
+        return modelMapper.map(taskRepository.save(task), TaskDTO.class);
+    }
+
+    @Override
+    public List<TaskDTO> saveTasksToEvent(List<TaskPostDTO> taskPostDTOList, Long idEvent) {
+        EventEntity event = eventRepository.findById(idEvent)
+                .orElseThrow(() -> new EntityNotFoundException("Evento no encontrado"));
+
+        List<TaskEntity> taskEntities = taskPostDTOList.stream()
+                .map(post -> {
+                    TaskEntity entity = modelMapper.map(post, TaskEntity.class);
+                    entity.setEvent(event);
+                    return entity;
+                })
+                .toList();
+        List<TaskEntity> savedTaskEntities = taskRepository.saveAll(taskEntities);
+
+        return savedTaskEntities.stream()
+                .map(saved -> modelMapper.map(saved, TaskDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TaskDTO> getTasksFromEvent(Long idEvent) {
+        EventEntity event = eventRepository.findById(idEvent)
+                .orElseThrow(() -> new EntityNotFoundException("Evento no encontrado"));
+
+        return event.getTasks().stream()
+                .map(entity -> {
+                    TaskDTO taskDTO = modelMapper.map(entity, TaskDTO.class);
+                    taskDTO.setIdEvent(event.getIdEvent());
+                    return taskDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private Boolean isValidTransition(TaskStatus from, TaskStatus to) {
+        return switch (from) {
+            case PENDING -> to == TaskStatus.IN_PROGRESS || to == TaskStatus.CANCELLED;
+            case IN_PROGRESS -> to == TaskStatus.COMPLETED || to == TaskStatus.CANCELLED;
+            case COMPLETED, CANCELLED -> false;
+        };
     }
 }
 

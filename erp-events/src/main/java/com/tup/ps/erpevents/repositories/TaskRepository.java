@@ -11,4 +11,6 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
     Page<TaskEntity> findAllBySoftDelete(Boolean softDelete, Pageable pageable);
 
     Page<TaskEntity> findAll(Specification<TaskEntity> spec, Pageable pageable);
+
+
 }

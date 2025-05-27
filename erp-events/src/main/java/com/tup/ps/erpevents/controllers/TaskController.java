@@ -1,8 +1,11 @@
 package com.tup.ps.erpevents.controllers;
 
+import com.tup.ps.erpevents.dtos.guest.GuestDTO;
+import com.tup.ps.erpevents.dtos.guest.GuestPostDTO;
 import com.tup.ps.erpevents.dtos.task.TaskDTO;
 import com.tup.ps.erpevents.dtos.task.TaskPostDTO;
 import com.tup.ps.erpevents.dtos.task.TaskPutDTO;
+import com.tup.ps.erpevents.enums.TaskStatus;
 import com.tup.ps.erpevents.services.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
@@ -85,6 +89,25 @@ public class TaskController {
 
         PageRequest pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortProperty.split(",")));
         return ResponseEntity.ok(taskService.findByFilters(pageable, status, isActive, searchValue, creationStart, creationEnd));
+    }
+
+    @Operation(summary = "Actualizar el estado de tarea")
+    @PatchMapping(value = "/{idTask}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<TaskDTO> updateTaskStatus(@PathVariable Long idTask, @RequestBody TaskStatus taskStatus) {
+        return ResponseEntity.ok(taskService.updateTaskStatus(idTask, taskStatus));
+    }
+
+    @Operation(summary = "Cargar tareas a un evento")
+    @PostMapping(value = "/event/{idEvent}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<List<TaskDTO>> saveTasks(@PathVariable Long idEvent,
+                                                     @Valid @RequestBody List<TaskPostDTO> taskPostDTOS) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.saveTasksToEvent(taskPostDTOS, idEvent));
+    }
+
+    @Operation(summary = "Obtener tareas de un evento")
+    @GetMapping( "/event/{idEvent}")
+    public ResponseEntity<List<TaskDTO>> getTasks(@PathVariable Long idEvent) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.getTasksFromEvent(idEvent));
     }
 }
 

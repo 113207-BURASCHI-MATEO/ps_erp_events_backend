@@ -1,26 +1,24 @@
 package com.tup.ps.erpevents.controllers;
 
 import com.tup.ps.erpevents.constants.Constants;
-import com.tup.ps.erpevents.dtos.user.UserDTO;
-import com.tup.ps.erpevents.dtos.user.UserLoginDTO;
-import com.tup.ps.erpevents.dtos.user.UserRegisterDTO;
+import com.tup.ps.erpevents.dtos.user.*;
+import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.services.SecurityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -73,5 +71,39 @@ public class SecurityController {
     public ResponseEntity<?> registerAdmin(@RequestBody @Valid UserRegisterDTO registerRequest) {
         var newAdmin = securityService.registerAdmin(registerRequest);
         return ResponseEntity.ok(newAdmin);
+    }
+
+    @Operation(summary = "Solicitar recuperación de contraseña")
+    @PostMapping("/recover-password")
+    public ResponseEntity<?> recoverPassword(@RequestParam @Email String email) {
+        try {
+            securityService.sendRecoveryEmail(email);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al enviar correo: " + e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Restablecer contraseña con token de recuperación")
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid PasswordResetDTO dto) {
+        try {
+            securityService.resetPassword(dto);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al restablecer contraseña: " + e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Cambiar contraseña del usuario logueado")
+    @PutMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordChangeDTO dto,
+                                            @AuthenticationPrincipal UserEntity user) {
+        try {
+            securityService.changePassword(user.getEmail(), dto);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
     }
 }

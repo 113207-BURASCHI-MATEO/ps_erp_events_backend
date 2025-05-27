@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * Permite crear, verificar y extraer información de tokens,
  * así como obtener el token desde cookies o cabecera.
  */
-@Service
+
 public interface JWTService {
 
     /**

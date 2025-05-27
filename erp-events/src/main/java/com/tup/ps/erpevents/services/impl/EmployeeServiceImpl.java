@@ -54,9 +54,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private NotificationService notificationService;
 
-    /**
-     * Especificaciones dinámicas para filtros complejos.
-     */
     @Autowired
     private GenericSpecification<EmployeeEntity> specification;
 

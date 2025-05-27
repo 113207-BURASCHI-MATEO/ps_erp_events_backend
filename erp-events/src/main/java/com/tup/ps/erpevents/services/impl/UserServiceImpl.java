@@ -2,8 +2,10 @@ package com.tup.ps.erpevents.services.impl;
 
 import com.tup.ps.erpevents.dtos.user.UserDTO;
 import com.tup.ps.erpevents.dtos.user.UserUpdateDTO;
+import com.tup.ps.erpevents.entities.RoleEntity;
 import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.exceptions.ApiException;
+import com.tup.ps.erpevents.repositories.RoleRepository;
 import com.tup.ps.erpevents.repositories.UserRepository;
 import com.tup.ps.erpevents.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -34,6 +36,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private ModelMapper modelMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -135,6 +139,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return users.stream()
                 .map(user -> modelMapper.map(user, UserDTO.class))
                 .toList();
+    }
+
+    @Override
+    public UserDTO upgradeUser(Long idUser, Integer roleCode) {
+        UserEntity user = userRepository.findById(idUser)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
+        RoleEntity roleEntity = roleRepository.findByRoleCode(roleCode)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Rol no encontrado"));
+
+        user.setRole(roleEntity);
+
+        userRepository.save(user);
+
+        return modelMapper.map(user, UserDTO.class);
     }
 
 }

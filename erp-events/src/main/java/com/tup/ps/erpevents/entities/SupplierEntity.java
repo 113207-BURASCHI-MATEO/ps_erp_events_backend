@@ -66,6 +66,11 @@ public class SupplierEntity {
     @JsonIgnore
     private List<EventsSuppliersEntity> supplierEvents = new ArrayList<>();
 
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ToString.Exclude
+    private List<FileEntity> files = new ArrayList<>();
+
     @PrePersist
     public void onCreate() {
         this.creationDate = LocalDateTime.now();

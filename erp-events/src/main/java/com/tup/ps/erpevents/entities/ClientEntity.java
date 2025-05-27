@@ -66,6 +66,11 @@ public class ClientEntity {
     @ToString.Exclude
     private List<EventEntity> events = new ArrayList<>();
 
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ToString.Exclude
+    private List<FileEntity> files = new ArrayList<>();
+
     @PrePersist
     public void onCreate() {
         this.creationDate = LocalDateTime.now();

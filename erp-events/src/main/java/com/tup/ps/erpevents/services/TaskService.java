@@ -3,11 +3,13 @@ package com.tup.ps.erpevents.services;
 import com.tup.ps.erpevents.dtos.task.TaskDTO;
 import com.tup.ps.erpevents.dtos.task.TaskPostDTO;
 import com.tup.ps.erpevents.dtos.task.TaskPutDTO;
+import com.tup.ps.erpevents.enums.TaskStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 @Service
 public interface TaskService {
@@ -69,5 +71,10 @@ public interface TaskService {
                                 String searchValue,
                                 LocalDate creationStart,
                                 LocalDate creationEnd);
+
+    TaskDTO updateTaskStatus(Long taskId, TaskStatus taskStatus);
+
+    List<TaskDTO> saveTasksToEvent(List<TaskPostDTO> taskPostDTOList, Long eventId);
+    List<TaskDTO> getTasksFromEvent(Long eventId);
 }
 

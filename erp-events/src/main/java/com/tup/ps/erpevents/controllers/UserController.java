@@ -77,4 +77,12 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> findUsersByIds(@RequestBody List<Long> ids) {
         return ResponseEntity.ok(userService.findUsersByIds(ids));
     }
+
+    @Operation(summary = "Actualizacion de un usuario")
+    @PutMapping("/{idUser}/role")
+    public ResponseEntity<UserDTO> upgradeUser(
+            @PathVariable Long idUser,
+            @RequestBody Integer roleCode) {
+        return ResponseEntity.ok(userService.upgradeUser(idUser, roleCode));
+    }
 }

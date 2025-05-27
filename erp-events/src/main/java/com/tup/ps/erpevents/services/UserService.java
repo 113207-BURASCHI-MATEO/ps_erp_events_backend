@@ -17,4 +17,5 @@ public interface UserService extends UserDetailsService {
     UserDTO update(Long id, String userEmail, UserUpdateDTO userUpdateDTO);
     UserDTO userDetails(Long id, String email);
     List<UserDTO> findUsersByIds(List<Long> ids);
+    UserDTO upgradeUser(Long idUser, Integer roleCode);
 }

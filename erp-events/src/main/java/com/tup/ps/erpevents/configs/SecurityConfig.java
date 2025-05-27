@@ -1,6 +1,7 @@
 package com.tup.ps.erpevents.configs;
 
 import com.tup.ps.erpevents.enums.RoleName;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,20 +35,32 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api-docs/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/ping")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/files/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/event-files/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/employees/**")).authenticated()
-                        .requestMatchers(new AntPathRequestMatcher("/suppliers/**")).hasRole(String.valueOf(RoleName.ADMIN))
                         .requestMatchers(new AntPathRequestMatcher("/tasks/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/clients/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/guests/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/locations/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/notifications/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/suppliers/**")).hasRole(String.valueOf(RoleName.ADMIN))
                         .requestMatchers(new AntPathRequestMatcher("/events/**")).hasRole(String.valueOf(RoleName.ADMIN))
                         .requestMatchers(new AntPathRequestMatcher("/users/**")).hasRole(String.valueOf(RoleName.ADMIN))
-                        //.requestMatchers("/api/**").permitAll()
-                        //.requestMatchers("/api-docs/swagger-config").permitAll()
-                        //.requestMatchers(HttpMethod.GET,"/accounts/search").authenticated()
-                        //.requestMatchers("/users").hasRole("ADMIN")
                         .anyRequest().authenticated())
+                .exceptionHandling(ex -> ex
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\": \"Access Denied\"}");
+                            response.getWriter().flush();
+                        })
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\": \"Unauthorized\"}");
+                            response.getWriter().flush();
+                        })
+                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

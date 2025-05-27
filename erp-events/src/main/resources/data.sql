@@ -4,7 +4,6 @@ INSERT INTO roles (role_code, name, description, creation_date, update_date) VAL
 INSERT INTO roles (role_code, name, description, creation_date, update_date) VALUES (200,'SUPERVISOR', 'Rol básico de usuario', NOW(), NOW());
 INSERT INTO roles (role_code, name, description, creation_date, update_date) VALUES (300,'EMPLOYEE', 'Rol para empleados del sistema', NOW(), NOW());
 
-
 -- CLIENTS
 INSERT INTO clients (first_name, last_name, email, phone_number, bank_alias_cbu, document_type, document_number, soft_delete, creation_date, update_date)
 VALUES ('Carlos', 'Gómez', 'carlos.gomez@example.com', '1122334455', 'carlos.gomez.cbu', 'DNI', '40123456', false, NOW(), NOW());
@@ -198,6 +197,42 @@ VALUES ('Confirmar Invitaciones', 'Revisar lista de invitados y enviar mails.', 
 INSERT INTO tasks (title, description, status, soft_delete, creation_date, update_date, id_event)
 VALUES ('Montar Escenario', 'Instalar escenario y sonido.', 'COMPLETED', false, NOW(), NOW(), 3);
 
+-- FILES
+INSERT INTO files (
+    file_type, file_name, file_content_type, file_url, review_note,
+    creation_date, update_date,
+    id_supplier, id_client, id_employee
+)
+VALUES
+('RECEIPT', 'dni_document_front_sample.jpg', 'image/jpg', 'http://localhost:8080/event-files/1', 'Validado por contabilidad', NOW(), NOW(), 1, NULL, NULL),
+('BILLING', 'dni_document_back_sample.jpg', 'image/jpg', 'http://localhost:8080/event-files/2', 'Pendiente de auditoría', NOW(), NOW(), 1, NULL, NULL),
+('PAYMENT', 'purchase_sale_sample.pdf', 'application/pdf', 'http://localhost:8080/event-files/3', 'Confirmado', NOW(), NOW(), 2, NULL, NULL),
+('OTHER', 'propuesta_decorarte.pdf', 'application/pdf', 'https://minio.local/files/propuesta_decorarte.pdf', 'Versión preliminar', NOW(), NOW(), 3, NULL, NULL),
+('RECEIPT', 'recibo_decorarte_enero.pdf', 'application/pdf', 'https://minio.local/files/recibo_decorarte_enero.pdf', 'Escaneado', NOW(), NOW(), 3, NULL, NULL);
+
+INSERT INTO files (
+    file_type, file_name, file_content_type, file_url, review_note,
+    creation_date, update_date,
+    id_supplier, id_client, id_employee
+)
+VALUES
+    ('OTHER', 'contrato_cliente1.pdf', 'application/pdf', 'https://minio.local/files/contrato_cliente1.pdf', 'Contrato firmado', NOW(), NOW(), NULL, 1, NULL),
+    ('RECEIPT', 'pago_cliente1_marzo.pdf', 'application/pdf', 'https://minio.local/files/pago_cliente1_marzo.pdf', 'Pago registrado', NOW(), NOW(), NULL, 1, NULL),
+    ('BILLING', 'factura_cliente2_abril.pdf', 'application/pdf', 'https://minio.local/files/factura_cliente2_abril.pdf', 'Facturación manual', NOW(), NOW(), NULL, 2, NULL),
+    ('OTHER', 'documentacion_cliente2.pdf', 'application/pdf', 'https://minio.local/files/documentacion_cliente2.pdf', 'Documentación adicional', NOW(), NOW(), NULL, 2, NULL);
+
+INSERT INTO files (
+    file_type, file_name, file_content_type, file_url, review_note,
+    creation_date, update_date,
+    id_supplier, id_client, id_employee
+)
+VALUES
+    ('PAYMENT', 'recibo_sueldo_emp1.pdf', 'application/pdf', 'https://minio.local/files/recibo_sueldo_emp1.pdf', 'Abril 2025', NOW(), NOW(), NULL, NULL, 1),
+    ('PAYMENT', 'recibo_sueldo_emp2.pdf', 'application/pdf', 'https://minio.local/files/recibo_sueldo_emp2.pdf', 'Marzo 2025', NOW(), NOW(), NULL, NULL, 2),
+    ('OTHER', 'certificado_emp3.pdf', 'application/pdf', 'https://minio.local/files/certificado_emp3.pdf', 'Curso completado', NOW(), NOW(), NULL, NULL, 3);
+
+
+
 -- RELACIONES EVENTO - SUPPLIERS
 INSERT INTO events_suppliers (id_event, id_supplier, status, amount, balance, payment, creation_date, update_date)
 VALUES (1, 1, 'DUE', 1000.0, 500.0, 'TRANSFER', NOW(), NOW());
@@ -237,10 +272,173 @@ INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update
 INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (1, 2, 'FRIEND', 'Familiar',NOW(), NOW());
 INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (2, 3, 'REGULAR', 'Familiar de la novia',NOW(), NOW());
 
+-- TEMPLATES
 INSERT INTO templates (name, body, active) VALUES ('Welcome Email', '<h1>Welcome to our service!</h1><p>Thank you for joining us.</p>', true);
 INSERT INTO templates (name, body, active) VALUES
     ('Nuevo Usuario',
      '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Nuevo Usuario</title><style>body {font-family: ''Arial'', sans-serif;background-color: #F8F9FA;margin: 0;padding: 0;}.container {background-color: #ffffff;margin: 50px auto;padding: 20px 20px 1px;border-radius: 8px;box-shadow: 0 0 10px rgba(19, 80, 91, 0.2);max-width: 600px;}.header {background-color: #13505B;color: #ffffff;padding: 16px;text-align: center;border-top-left-radius: 8px;border-top-right-radius: 8px;}.header h1 {margin: 0;font-size: 24px;}.content {padding: 20px;}.content p {line-height: 1.6;color: #040404;margin-bottom: 16px;}.footer {text-align: center;font-size: 12px;color: #777777;padding: 16px 0;}.button-accent {display: inline-block;padding: 10px 20px;background-color: #FF7F11;color: #ffffff;text-decoration: none;border-radius: 4px;font-weight: bold;}</style></head><body><div class="container"><div class="header"><h1>Nuevo Usuario</h1></div><div class="content"><p>Hola <strong>{{FIRST_NAME}}</strong>,</p><p>Nos complace informarle que su cuenta para operar en ERP Eventos fue creada con exito</p><p>Si tiene alguna consulta o necesita más información, no dude en ponerse en contacto con nosotros.</p><p><a href="http://localhost:4200/login" class="button-accent">Iniciar Sesion</a></p><p>Gracias por confiar en <strong>ERP Eventos</strong>.</p></div><div class="footer"><hr><p>&copy; 2025 ERP Eventos</p></div></div></body></html>',
      true);
+INSERT INTO templates (name, body, active) VALUES
+    ('recuperacion_contrasena',
+     '<!DOCTYPE html>
+     <html lang="es">
+     <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Recuperar Contraseña</title>
+       <style>
+         body {
+           font-family: "Arial", sans-serif;
+           background-color: #F8F9FA;
+           margin: 0;
+           padding: 0;
+         }
+         .container {
+           background-color: #ffffff;
+           margin: 50px auto;
+           padding: 20px 20px 1px;
+           border-radius: 8px;
+           box-shadow: 0 0 10px rgba(19, 80, 91, 0.2);
+           max-width: 600px;
+         }
+         .header {
+           background-color: #13505B;
+           color: #ffffff;
+           padding: 16px;
+           text-align: center;
+           border-top-left-radius: 8px;
+           border-top-right-radius: 8px;
+         }
+         .header h1 {
+           margin: 0;
+           font-size: 24px;
+         }
+         .content {
+           padding: 20px;
+         }
+         .content p {
+           line-height: 1.6;
+           color: #040404;
+           margin-bottom: 16px;
+         }
+         .footer {
+           text-align: center;
+           font-size: 12px;
+           color: #777777;
+           padding: 16px 0;
+         }
+         .button-accent {
+           display: inline-block;
+           padding: 10px 20px;
+           background-color: #FF7F11;
+           color: #ffffff;
+           text-decoration: none;
+           border-radius: 4px;
+           font-weight: bold;
+         }
+       </style>
+     </head>
+     <body>
+       <div class="container">
+         <div class="header">
+           <h1>Recuperar Contraseña</h1>
+         </div>
+         <div class="content">
+           <p>Hola <strong>{{nombre}}</strong>,</p>
+           <p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
+           <p>Hacé clic en el siguiente enlace para continuar:</p>
+           <p><a href="{{link}}" class="button-accent">Restablecer contraseña</a></p>
+           <p>Este enlace expirará en 15 minutos. Si no solicitaste esta acción, podés ignorar este mensaje.</p>
+         </div>
+         <div class="footer">
+           <hr>
+           <p>&copy; 2025 ERP Eventos</p>
+         </div>
+       </div>
+     </body>
+     </html>',
+     true);
+INSERT INTO templates (name, body, active) VALUES
+    ('archivo_guardado',
+     '<!DOCTYPE html>
+     <html lang="es">
+     <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Archivo Guardado</title>
+       <style>
+         body {
+           font-family: "Arial", sans-serif;
+           background-color: #F8F9FA;
+           margin: 0;
+           padding: 0;
+         }
+         .container {
+           background-color: #ffffff;
+           margin: 50px auto;
+           padding: 20px 20px 1px;
+           border-radius: 8px;
+           box-shadow: 0 0 10px rgba(19, 80, 91, 0.2);
+           max-width: 600px;
+         }
+         .header {
+           background-color: #13505B;
+           color: #ffffff;
+           padding: 16px;
+           text-align: center;
+           border-top-left-radius: 8px;
+           border-top-right-radius: 8px;
+         }
+         .header h1 {
+           margin: 0;
+           font-size: 24px;
+         }
+         .content {
+           padding: 20px;
+         }
+         .content p {
+           line-height: 1.6;
+           color: #040404;
+           margin-bottom: 16px;
+         }
+         .footer {
+           text-align: center;
+           font-size: 12px;
+           color: #777777;
+           padding: 16px 0;
+         }
+         .button-accent {
+           display: inline-block;
+           padding: 10px 20px;
+           background-color: #FF7F11;
+           color: #ffffff;
+           text-decoration: none;
+           border-radius: 4px;
+           font-weight: bold;
+         }
+       </style>
+     </head>
+     <body>
+       <div class="container">
+         <div class="header">
+           <h1>Archivo Guardado</h1>
+         </div>
+         <div class="content">
+           <p>Se ha guardado correctamente un nuevo archivo en el sistema.</p>
+           <p><strong>Nombre:</strong> {{fileName}}</p>
+           <p><strong>Tipo:</strong> {{fileType}}</p>
+           <p><strong>Fecha de carga:</strong> {{date}}</p>
+           <p>Podés acceder al sistema para ver más detalles o descargarlo si fuera necesario.</p>
+         </div>
+         <div class="footer">
+           <hr>
+           <p>&copy; 2025 ERP Eventos</p>
+         </div>
+       </div>
+     </body>
+     </html>',
+     true);
+
+
 
 

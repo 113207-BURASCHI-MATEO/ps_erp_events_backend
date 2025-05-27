@@ -1,9 +1,11 @@
 package com.tup.ps.erpevents.services.impl;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.tup.ps.erpevents.dtos.notification.KeyValueCustomPair;
+import com.tup.ps.erpevents.dtos.notification.NotificationPostDTO;
+import com.tup.ps.erpevents.dtos.notification.template.TemplateDTO;
 import com.tup.ps.erpevents.dtos.role.RoleDTO;
-import com.tup.ps.erpevents.dtos.user.UserDTO;
-import com.tup.ps.erpevents.dtos.user.UserLoginDTO;
-import com.tup.ps.erpevents.dtos.user.UserRegisterDTO;
+import com.tup.ps.erpevents.dtos.user.*;
 import com.tup.ps.erpevents.entities.RoleEntity;
 import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.enums.RoleName;
@@ -11,7 +13,9 @@ import com.tup.ps.erpevents.exceptions.ApiException;
 import com.tup.ps.erpevents.repositories.RoleRepository;
 import com.tup.ps.erpevents.repositories.UserRepository;
 import com.tup.ps.erpevents.services.JWTService;
+import com.tup.ps.erpevents.services.NotificationService;
 import com.tup.ps.erpevents.services.SecurityService;
+import com.tup.ps.erpevents.services.TemplateService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,6 +45,10 @@ public class SecurityServiceImpl implements SecurityService {
     private RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private TemplateService templateService;
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public String login (UserLoginDTO us) throws AuthenticationException {
@@ -128,5 +137,58 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public String encryptPassword(String password) {
         return passwordEncoder.encode(password);
+    }
+
+    @Override
+    public void sendRecoveryEmail(String email) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
+        String token = jwtService.createToken(user.getEmail(), 15);
+        String recoveryLink = "http://localhost:4200/reset-password?token=" + token;
+
+        TemplateDTO template = templateService.getEmailTemplateById(3L); // Recuperar contraseña
+
+        NotificationPostDTO notification = new NotificationPostDTO();
+        notification.setIdTemplate(template.getIdTemplate());
+        notification.setSubject("Recuperación de contraseña");
+        notification.setContactIds(List.of(user.getIdUser()));
+        notification.setVariables(List.of(
+                new KeyValueCustomPair("nombre", user.getFirstName()),
+                new KeyValueCustomPair("link", recoveryLink)
+        ));
+
+        notificationService.sendEmailToContacts(notification);
+    }
+
+
+
+    @Override
+    public void changePassword(String email, PasswordChangeDTO dto) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
+        if (dto.getNewPassword() == null || dto.getNewPassword().isBlank()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "La nueva contraseña no puede estar vacía");
+        }
+
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void resetPassword(PasswordResetDTO dto) {
+        String email;
+        try {
+            email = jwtService.extractUserId(dto.getToken());
+        } catch (JWTVerificationException e) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Token inválido o expirado");
+        }
+
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+        userRepository.save(user);
     }
 }

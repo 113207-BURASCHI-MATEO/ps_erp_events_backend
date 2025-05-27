@@ -1,8 +1,6 @@
 package com.tup.ps.erpevents.services;
 
-import com.tup.ps.erpevents.dtos.user.UserDTO;
-import com.tup.ps.erpevents.dtos.user.UserLoginDTO;
-import com.tup.ps.erpevents.dtos.user.UserRegisterDTO;
+import com.tup.ps.erpevents.dtos.user.*;
 import com.tup.ps.erpevents.entities.UserEntity;
 import com.tup.ps.erpevents.enums.RoleName;
 import org.springframework.stereotype.Service;
@@ -74,4 +72,9 @@ public interface SecurityService {
      * @return Contraseña codificada.
      */
     String encryptPassword(String password);
+
+    void sendRecoveryEmail(String email);
+    void changePassword(String email, PasswordChangeDTO dto);
+    void resetPassword(PasswordResetDTO dto);
+
 }

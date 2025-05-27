@@ -80,6 +80,11 @@ public class EmployeeEntity {
     @JsonIgnore
     private List<EventsEmployeesEntity> employeeEvents = new ArrayList<>();
 
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ToString.Exclude
+    private List<FileEntity> files = new ArrayList<>();
+
     @PrePersist
     public void onCreate() {
         this.creationDate = LocalDateTime.now();
