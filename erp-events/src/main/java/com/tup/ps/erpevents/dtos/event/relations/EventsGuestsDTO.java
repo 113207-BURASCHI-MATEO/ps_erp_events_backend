@@ -3,6 +3,10 @@ package com.tup.ps.erpevents.dtos.event.relations;
 import com.tup.ps.erpevents.enums.AmountStatus;
 import com.tup.ps.erpevents.enums.GuestType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +29,15 @@ public class EventsGuestsDTO {
 
     @Schema(description = "Tipo de invitado", example = "PENDING")
     private GuestType type;
+
+    @Schema(description = "Tipo de Acceso", example = "ENTRY")
+    private AccessType accessType;
+
+    @Schema(description = "Fecha de Acceso", example = "2025-05-10T14:30:00")
+    private LocalDateTime actionDate;
+
+    @Schema(description = "Marcador de demora", example = "true")
+    private Boolean isLate;
 
     @Schema(description = "Fecha de creación", example = "2025-05-10T14:30:00")
     private LocalDateTime creationDate;

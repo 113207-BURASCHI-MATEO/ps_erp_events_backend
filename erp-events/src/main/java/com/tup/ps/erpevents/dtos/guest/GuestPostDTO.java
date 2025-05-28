@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.dtos.guest;
 
+import com.tup.ps.erpevents.enums.DocumentType;
 import com.tup.ps.erpevents.enums.GuestType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
@@ -8,6 +9,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -33,6 +36,18 @@ public class GuestPostDTO {
 
     @Schema(description = "Nota sobre el invitado", example = "Es el presentador del evento")
     private String note;
+
+    @NotNull
+    @Schema(description = "Tipo de documento del invitado", example = "DNI")
+    private DocumentType documentType;
+
+    @NotNull
+    @Schema(description = "Número de documento", example = "40123456")
+    private String documentNumber;
+
+    @NotNull
+    @Schema(description = "Fecha de nacimiento", example = "1980-05-12")
+    private LocalDate birthDate;
 
     @NotNull
     @Schema(description = "Id del Evento asociado", example = "1")

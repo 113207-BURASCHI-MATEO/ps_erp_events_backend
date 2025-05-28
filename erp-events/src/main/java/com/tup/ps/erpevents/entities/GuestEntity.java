@@ -3,12 +3,14 @@ package com.tup.ps.erpevents.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tup.ps.erpevents.entities.intermediates.EventsGuestsEntity;
 import com.tup.ps.erpevents.entities.intermediates.EventsSuppliersEntity;
+import com.tup.ps.erpevents.enums.DocumentType;
 import com.tup.ps.erpevents.enums.GuestType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +37,18 @@ public class GuestEntity {
     @Column(name = "lastName", nullable = false)
     private String lastName;
 
-    /*@Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    private GuestType type;*/
-
     @Column(name = "email")
     private String email;
 
-    /*@Column(name = "note", columnDefinition = "TEXT")
-    private String note;*/
+    @Enumerated(EnumType.STRING)
+    @Column(name = "documentType", nullable = false)
+    private DocumentType documentType;
+
+    @Column(name = "documentNumber", nullable = false)
+    private String documentNumber;
+
+    @Column(name = "birthDate", nullable = false)
+    private LocalDate birthDate;
 
     @Column(name = "softDelete")
     private Boolean softDelete = false;
@@ -53,9 +58,6 @@ public class GuestEntity {
 
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
-
-    /*@ManyToMany(mappedBy = "guests")
-    private List<EventEntity> events = new ArrayList<>();*/
 
     @OneToMany(mappedBy = "guest", fetch = FetchType.EAGER)
     @JsonIgnore

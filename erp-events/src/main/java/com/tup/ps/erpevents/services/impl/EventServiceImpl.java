@@ -15,6 +15,7 @@ import com.tup.ps.erpevents.entities.intermediates.EventsEmployeesEntity;
 import com.tup.ps.erpevents.entities.intermediates.EventsGuestsEntity;
 import com.tup.ps.erpevents.entities.intermediates.EventsSuppliersEntity;
 import com.tup.ps.erpevents.enums.AmountStatus;
+import com.tup.ps.erpevents.enums.EventStatus;
 import com.tup.ps.erpevents.exceptions.ApiException;
 import com.tup.ps.erpevents.repositories.*;
 import com.tup.ps.erpevents.repositories.specs.GenericSpecification;
@@ -70,6 +71,41 @@ public class EventServiceImpl implements EventService {
     private GuestRepository guestRepository;
     @Autowired
     private EventsGuestsRepository eventsGuestsRepository;
+
+    public static final Map<EventStatus, List<EventStatus>> TO_FROM_EVENT_STATUS_TRANSITIONS = Map.ofEntries(
+            Map.entry(EventStatus.CONFIRMED, List.of(
+                    EventStatus.SUSPENDED,
+                    EventStatus.POSTPONED
+            )),
+            Map.entry(EventStatus.IN_PROGRESS, List.of(
+                    EventStatus.CONFIRMED
+            )),
+            Map.entry(EventStatus.FINISHED, List.of(
+                    EventStatus.IN_PROGRESS
+            )),
+            Map.entry(EventStatus.CANCELLED, List.of(
+                    EventStatus.CONFIRMED,
+                    EventStatus.SUSPENDED,
+                    EventStatus.POSTPONED
+            )),
+            Map.entry(EventStatus.SUSPENDED, List.of(
+                    EventStatus.IN_PROGRESS,
+                    EventStatus.CONFIRMED
+            )),
+            Map.entry(EventStatus.POSTPONED, List.of(
+                    EventStatus.CONFIRMED
+            ))
+    );
+
+    private static final Set<EventStatus> VALID_MANUAL_INPUT_STATUSES = Set.of(
+            EventStatus.CONFIRMED,
+            EventStatus.IN_PROGRESS,
+            EventStatus.FINISHED,
+            EventStatus.CANCELLED,
+            EventStatus.SUSPENDED,
+            EventStatus.POSTPONED
+    );
+
 
     @Override
     @Transactional(readOnly = true)
@@ -208,6 +244,23 @@ public class EventServiceImpl implements EventService {
 
         eventRepository.save(event);
     }
+
+    @Override
+    public EventDTO eventStatus(Long id, EventStatus eventStatus) {
+        EventEntity event = eventRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Evento no encontrado"));
+
+        EventStatus currentStatus = event.getStatus();
+        checkIfEventStatusChangeIsValid(currentStatus, eventStatus);
+
+        event.setStatus(eventStatus);
+        event.setUpdateDate(LocalDateTime.now());
+
+        EventEntity updated = eventRepository.save(event);
+
+        return modelMapper.map(updated, EventDTO.class);
+    }
+
 
 
     @Override
@@ -410,6 +463,28 @@ public class EventServiceImpl implements EventService {
                 })
                 .toList();
         return eventsSuppliersRepository.saveAll(supplierRelations);
+    }
+
+    private static boolean isEventStatusInputValid(EventStatus to) {
+        return VALID_MANUAL_INPUT_STATUSES.contains(to);
+    }
+
+    private static void checkIfEventStatusChangeIsValid(EventStatus from, EventStatus to) {
+        if (!isEventStatusInputValid(to)) {
+            String message = "Event status can only be manually changed to: " +
+                    VALID_MANUAL_INPUT_STATUSES.stream()
+                            .map(Enum::name)
+                            .collect(Collectors.joining("|"));
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
+
+        List<EventStatus> allowedFrom = TO_FROM_EVENT_STATUS_TRANSITIONS.get(to);
+        if (allowedFrom == null || !allowedFrom.contains(from)) {
+            String message = "An event can only be transitioned to " + to + " if its current status is: " +
+                    (allowedFrom == null ? "none" :
+                            allowedFrom.stream().map(Enum::name).collect(Collectors.joining("|")));
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
     }
 
 

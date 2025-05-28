@@ -4,6 +4,8 @@ import com.tup.ps.erpevents.dtos.event.EventDTO;
 import com.tup.ps.erpevents.dtos.event.EventPostDTO;
 import com.tup.ps.erpevents.dtos.event.EventPutDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPostDTO;
+import com.tup.ps.erpevents.dtos.user.UserDTO;
+import com.tup.ps.erpevents.enums.EventStatus;
 import com.tup.ps.erpevents.services.EventService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -63,6 +65,14 @@ public class EventController {
     public ResponseEntity<EventDTO> update(@PathVariable Long id,
                                            @Valid @RequestBody EventPutDTO eventPutDTO) {
         return ResponseEntity.ok(eventService.update(id, eventPutDTO));
+    }
+
+    @Operation(summary = "Cambiar el estado al evento")
+    @PutMapping("/{idEvent}/status")
+    public ResponseEntity<EventDTO> eventStatus(
+            @PathVariable Long idEvent,
+            @RequestBody EventStatus eventStatus) {
+        return ResponseEntity.ok(eventService.eventStatus(idEvent, eventStatus));
     }
 
     @Operation(summary = "Eliminar (baja lógica) un evento")

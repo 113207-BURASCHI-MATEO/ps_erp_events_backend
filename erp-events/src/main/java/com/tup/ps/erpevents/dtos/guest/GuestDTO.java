@@ -1,10 +1,16 @@
 package com.tup.ps.erpevents.dtos.guest;
 
+import com.tup.ps.erpevents.enums.DocumentType;
 import com.tup.ps.erpevents.enums.GuestType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -28,5 +34,14 @@ public class GuestDTO {
 
     @Schema(description = "Nota sobre el invitado", example = "Es el presentador del evento")
     private String note;
+
+    @Schema(description = "Tipo de documento del invitado", example = "DNI")
+    private DocumentType documentType;
+
+    @Schema(description = "Número de documento", example = "40123456")
+    private String documentNumber;
+
+    @Schema(description = "Fecha de nacimiento", example = "1980-05-12")
+    private LocalDate birthDate;
 }
 

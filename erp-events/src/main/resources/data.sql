@@ -6,7 +6,7 @@ INSERT INTO roles (role_code, name, description, creation_date, update_date) VAL
 
 -- CLIENTS
 INSERT INTO clients (first_name, last_name, email, phone_number, bank_alias_cbu, document_type, document_number, soft_delete, creation_date, update_date)
-VALUES ('Carlos', 'Gómez', 'carlos.gomez@example.com', '1122334455', 'carlos.gomez.cbu', 'DNI', '40123456', false, NOW(), NOW());
+VALUES ('Carlos', 'Gómez', 'buraschi.mateo@gmail.com', '1122334455', 'carlos.gomez.cbu', 'DNI', '40123456', false, NOW(), NOW());
 
 INSERT INTO clients (first_name, last_name, email, phone_number, bank_alias_cbu, document_type, document_number, soft_delete, creation_date, update_date)
 VALUES ('Lucía', 'Martínez', 'lucia.martinez@example.com', '1166778899', 'lucia.martinez.alias', 'DNI', 'AB123456', false, NOW(), NOW());
@@ -43,14 +43,14 @@ INSERT INTO locations (
          );
 
 -- GUESTS
-INSERT INTO guests (first_name, last_name, email, soft_delete, creation_date, update_date)
-VALUES ('Carla', 'González', 'carla.g@example.com', false, NOW(), NOW());
+INSERT INTO guests (first_name, last_name, email, document_type, document_number, birth_date, soft_delete, creation_date, update_date)
+VALUES ('Carla', 'González', 'carla.g@example.com', 'DNI', '30555123', '1990-05-12', false, NOW(), NOW());
 
-INSERT INTO guests (first_name, last_name, email, soft_delete, creation_date, update_date)
-VALUES ('Luis', 'Martínez', 'luis.m@example.com', false, NOW(), NOW());
+INSERT INTO guests (first_name, last_name, email, document_type, document_number, birth_date, soft_delete, creation_date, update_date)
+VALUES ('Luis', 'Martínez', 'luis.m@example.com', 'DNI', '28900234', '1985-09-22', false, NOW(), NOW());
 
-INSERT INTO guests (first_name, last_name, email, soft_delete, creation_date, update_date)
-VALUES ('Sandra', 'López', 'sandra.l@example.com', false, NOW(), NOW());
+INSERT INTO guests (first_name, last_name, email, document_type, document_number, birth_date, soft_delete, creation_date, update_date)
+VALUES ('Sandra', 'López', 'sandra.l@example.com', 'DNI', '31233456', '1992-03-30', false, NOW(), NOW());
 
 -- USERS
 INSERT INTO users (first_name, last_name, birth_date, document_type, document_number, email, password, soft_delete, creation_date, update_date, id_role)
@@ -113,7 +113,7 @@ VALUES ('Oriana', 'Delgado', '1991-03-22', 'DNI', '31687890', 'oriana.delgado@ex
 
 -- EMPLOYEES
 INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2022-01-15', 'Organizador', 'Federico', 'Ramírez', 'DNI', '30500123', 'federico.r@example.com', '20230500123', '1990-03-10', 'fed.ram.mp', false, NOW(), NOW(), 1);
+VALUES ('2022-01-15', 'Organizador', 'Federico', 'Ramírez', 'DNI', '30500123', 'buraschi.mateo@gmail.com', '20230500123', '1990-03-10', 'fed.ram.mp', false, NOW(), NOW(), 1);
 
 INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
 VALUES ('2021-09-30', 'Coordinador', 'Lucía', 'Fernández', 'DNI', '28999555', 'lucia.f@example.com', '20228999555', '1987-08-15', 'luc.fer.mp', false, NOW(), NOW(), 2);
@@ -169,7 +169,7 @@ VALUES ('2023-03-01', 'Recepción', 'Oriana', 'Delgado', 'DNI', '31687890', 'ori
 
 -- SUPPLIERS
 INSERT INTO suppliers (name, cuit, email, phone_number, bank_alias_cbu, supplier_type, address, soft_delete, creation_date, update_date)
-VALUES ('Delicias SRL', '30711888762', 'contacto@delicias.com', '1134567890', 'delicias.banco', 'CATERING', 'Av. Libertador 1010', false, NOW(), NOW());
+VALUES ('Delicias SRL', '30711888762', 'buraschi.mateo@gmail.com', '1134567890', 'delicias.banco', 'CATERING', 'Av. Libertador 1010', false, NOW(), NOW());
 
 INSERT INTO suppliers (name, cuit, email, phone_number, bank_alias_cbu, supplier_type, address, soft_delete, creation_date, update_date)
 VALUES ('Musical SRL', '30711999123', 'musica@eventos.com', '1145642312', 'musical.eventos', 'SOUND', 'Calle Música 123', false, NOW(), NOW());
@@ -185,7 +185,7 @@ INSERT INTO events (title, description, event_type, start_date, end_date, status
 VALUES ('Boda Primavera', 'Casamiento en jardines del sur.', 'SOCIAL', '2025-10-20 17:00:00', '2025-10-20 03:00:00', 'IN_PROGRESS', false, NOW(), NOW(), 2, 1);
 
 INSERT INTO events (title, description, event_type, start_date, end_date, status, soft_delete, creation_date, update_date, id_client, id_location)
-VALUES ('Cena Fin de Año', 'Cena de fin de año para empleados y directivos.', 'INTERNAL', '2025-12-15 20:00:00', '2025-12-16 02:00:00', 'SCHEDULED', false, NOW(), NOW(), 3, 3);
+VALUES ('Cena Fin de Año', 'Cena de fin de año para empleados y directivos.', 'SPORTS', '2025-12-15 20:00:00', '2025-12-16 02:00:00', 'SUSPENDED', false, NOW(), NOW(), 3, 3);
 
 -- TASKS
 INSERT INTO tasks (title, description, status, soft_delete, creation_date, update_date, id_event)
@@ -265,12 +265,23 @@ VALUES (3, 3, 'PAID', 1800.0, 0.0, 'TRANSFER', NOW(), NOW());
 
 
 -- RELACIONES EVENTO - GUESTS
-INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (1, 1, 'REGULAR', 'Amiga cercana de los novios',NOW(), NOW());
-INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (1, 2, 'REGULAR', 'Amiga de los novios',NOW(), NOW());
-INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (2, 1, 'REGULAR', 'Amiga de los novios',NOW(), NOW());
-INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (2, 3, 'VIP', 'Amiga cercana de los padres',NOW(), NOW());
-INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (1, 2, 'FRIEND', 'Familiar',NOW(), NOW());
-INSERT INTO events_guests (id_event, id_guest, type, note, creation_date, update_date) VALUES (2, 3, 'REGULAR', 'Familiar de la novia',NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
+VALUES (1, 1, 'REGULAR', 'Amiga cercana de los novios', 'ENTRY', NOW(), false, NOW(), NOW());
+
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
+VALUES (1, 2, 'REGULAR', 'Amiga de los novios', 'ENTRY', NOW(), false, NOW(), NOW());
+
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
+VALUES (2, 1, 'REGULAR', 'Amiga de los novios', 'ENTRY', NOW(), false, NOW(), NOW());
+
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
+VALUES (2, 3, 'VIP', 'Amiga cercana de los padres', 'ENTRY', NOW(), true, NOW(), NOW());
+
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
+VALUES (1, 2, 'FRIEND', 'Familiar', 'ENTRY', NOW(), false, NOW(), NOW());
+
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
+VALUES (2, 3, 'REGULAR', 'Familiar de la novia', 'ENTRY', NOW(), true, NOW(), NOW());
 
 -- TEMPLATES
 INSERT INTO templates (name, body, active) VALUES ('Welcome Email', '<h1>Welcome to our service!</h1><p>Thank you for joining us.</p>', true);

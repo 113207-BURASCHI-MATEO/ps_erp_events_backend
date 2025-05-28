@@ -2,8 +2,7 @@ package com.tup.ps.erpevents.entities.intermediates;
 
 import com.tup.ps.erpevents.entities.EventEntity;
 import com.tup.ps.erpevents.entities.GuestEntity;
-import com.tup.ps.erpevents.entities.SupplierEntity;
-import com.tup.ps.erpevents.enums.AmountStatus;
+import com.tup.ps.erpevents.enums.AccessType;
 import com.tup.ps.erpevents.enums.GuestType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,6 +41,16 @@ public class EventsGuestsEntity {
 
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "accessType")
+    private AccessType accessType;
+
+    @Column(name = "actionDate")
+    private LocalDateTime actionDate;
+
+    @Column(name = "isLate")
+    private Boolean isLate;
 
     @Column(name = "creationDate")
     private LocalDateTime creationDate;
