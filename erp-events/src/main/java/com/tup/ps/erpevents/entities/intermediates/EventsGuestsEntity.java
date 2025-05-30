@@ -49,6 +49,12 @@ public class EventsGuestsEntity {
     @Column(name = "actionDate")
     private LocalDateTime actionDate;
 
+    @Column(name = "foodRestriction")
+    private Boolean foodRestriction = false;
+
+    @Column(name = "foodDescription")
+    private String foodDescription;
+
     @Column(name = "sector")
     private String sector;
 

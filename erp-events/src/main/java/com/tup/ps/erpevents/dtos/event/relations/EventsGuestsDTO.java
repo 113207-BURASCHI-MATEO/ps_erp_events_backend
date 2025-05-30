@@ -48,6 +48,12 @@ public class EventsGuestsDTO {
     @Schema(description = "Asiento del evento", example = "true")
     private Integer seat;
 
+    @Schema(description = "Restriccion alimentaria del invitado", example = "2")
+    private Boolean foodRestriction;
+
+    @Schema(description = "Descripcion de la restriccion alimentaria del invitado", example = "2")
+    private String foodDescription;
+
     /*@Schema(description = "Fecha de creación", example = "2025-05-10T14:30:00")
     private LocalDateTime creationDate;
 

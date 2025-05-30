@@ -38,6 +38,10 @@ public class GuestPutDTO {
     @Schema(description = "Correo electrónico", example = "carlos.lopez@email.com")
     private String email;
 
+    @NotBlank
+    @Schema(description = "Telefono", example = "3512645248")
+    private String phoneNumber;
+
     @Schema(description = "Nota sobre el invitado", example = "Es el presentador del evento")
     private String note;
 
@@ -65,5 +69,11 @@ public class GuestPutDTO {
 
     @Schema(description = "Asiento de invitado", example = "2")
     private Integer seat;
+
+    @Schema(description = "Restriccion alimentaria del invitado", example = "2")
+    private Boolean foodRestriction;
+
+    @Schema(description = "Descripcion de la restriccion alimentaria del invitado", example = "2")
+    private String foodDescription;
 }
 

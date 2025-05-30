@@ -63,31 +63,13 @@ public class EventEntity {
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
 
-    /*@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "event_employees",
-            joinColumns = @JoinColumn(name = "idEvent"),
-            inverseJoinColumns = @JoinColumn(name = "idEmployee"))
-    private Set<EmployeeEntity> employees = new HashSet<>();*/
-
     @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<EventsEmployeesEntity> eventEmployees = new ArrayList<>();
 
-    /*@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "event_suppliers",
-            joinColumns = @JoinColumn(name = "idEvent"),
-            inverseJoinColumns = @JoinColumn(name = "idSupplier"))
-    private Set<SupplierEntity> suppliers = new HashSet<>();*/
-
     @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<EventsSuppliersEntity> eventSuppliers = new ArrayList<>();
-
-    /*@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "event_guests",
-            joinColumns = @JoinColumn(name = "idEvent"),
-            inverseJoinColumns = @JoinColumn(name = "idGuest"))
-    private List<GuestEntity> guests = new ArrayList<>();*/
 
     @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     @JsonIgnore
@@ -98,10 +80,10 @@ public class EventEntity {
     @ToString.Exclude
     private List<TaskEntity> tasks = new ArrayList<>();
 
-    //@OneToOne(cascade = CascadeType.ALL)
-    /*@OneToOne
-    @JoinColumn(name = "idLocation", referencedColumnName = "idLocation", nullable = false)
-    private LocationEntity location;*/
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idTimeSchedule")
+    private TimeScheduleEntity timeSchedule;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idLocation", nullable = false)
     private LocationEntity location;

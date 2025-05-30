@@ -33,6 +33,9 @@ public class GuestDTO {
     @Schema(description = "Correo electrónico", example = "carlos.lopez@email.com")
     private String email;
 
+    @Schema(description = "Telefono", example = "3512645248")
+    private String phoneNumber;
+
     @Schema(description = "Nota sobre el invitado", example = "Es el presentador del evento")
     private String note;
 

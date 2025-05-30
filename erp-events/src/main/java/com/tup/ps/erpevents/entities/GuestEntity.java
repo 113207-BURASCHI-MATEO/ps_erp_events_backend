@@ -40,6 +40,9 @@ public class GuestEntity {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "phoneNumber")
+    private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "documentType", nullable = false)
     private DocumentType documentType;

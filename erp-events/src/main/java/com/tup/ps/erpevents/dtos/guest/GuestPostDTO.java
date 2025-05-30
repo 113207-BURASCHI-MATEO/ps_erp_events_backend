@@ -3,6 +3,7 @@ package com.tup.ps.erpevents.dtos.guest;
 import com.tup.ps.erpevents.enums.DocumentType;
 import com.tup.ps.erpevents.enums.GuestType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,6 +31,9 @@ public class GuestPostDTO {
     @Schema(description = "Correo electrónico", example = "carlos.lopez@email.com")
     private String email;
 
+    @NotBlank
+    @Schema(description = "Telefono", example = "3512645248")
+    private String phoneNumber;
 
     @NotNull
     @Schema(description = "Tipo de documento del invitado", example = "DNI")
@@ -55,6 +59,12 @@ public class GuestPostDTO {
 
     @Schema(description = "Asiento de invitado", example = "2")
     private Integer seat;
+
+    @Schema(description = "Restriccion alimentaria del invitado", example = "2")
+    private Boolean foodRestriction;
+
+    @Schema(description = "Descripcion de la restriccion alimentaria del invitado", example = "2")
+    private String foodDescription;
 
     @Schema(description = "Nota sobre el invitado", example = "Es el presentador del evento")
     private String note;
