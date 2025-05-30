@@ -3,12 +3,14 @@ package com.tup.ps.erpevents.services.impl;
 
 import com.tup.ps.erpevents.dtos.event.EventDTO;
 import com.tup.ps.erpevents.dtos.event.relations.EventsGuestsDTO;
+import com.tup.ps.erpevents.dtos.guest.GuestAccessDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPostDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPutDTO;
 import com.tup.ps.erpevents.entities.EventEntity;
 import com.tup.ps.erpevents.entities.GuestEntity;
 import com.tup.ps.erpevents.entities.intermediates.EventsGuestsEntity;
+import com.tup.ps.erpevents.enums.AccessType;
 import com.tup.ps.erpevents.repositories.EventRepository;
 import com.tup.ps.erpevents.repositories.EventsGuestsRepository;
 import com.tup.ps.erpevents.repositories.GuestRepository;
@@ -76,31 +78,60 @@ public class GuestServiceImpl implements GuestService {
     @Override
     @Transactional
     public GuestDTO save(GuestPostDTO dto) {
-        GuestEntity guest = modelMapper.map(dto, GuestEntity.class);
-        guest.setSoftDelete(false);
         EventEntity event = eventRepository.findById(dto.getIdEvent())
-                .orElseThrow(() -> new EntityNotFoundException("Invitado no encontrado"));
-        GuestEntity savedGuest = guestRepository.save(guest);
-        EventsGuestsEntity relation = new EventsGuestsEntity();
+                .orElseThrow(() -> new EntityNotFoundException("Evento no encontrado"));
+
+        Optional<GuestEntity> guestOpt = guestRepository.findByFirstNameAndLastNameAndEmail(
+                dto.getFirstName(), dto.getLastName(), dto.getEmail());
+
+        GuestEntity guest;
+        if (guestOpt.isPresent()) {
+            guest = guestOpt.get();
+        } else {
+            guest = modelMapper.map(dto, GuestEntity.class);
+            guest.setSoftDelete(false);
+            guest = guestRepository.save(guest);
+        }
+
+        Optional<EventsGuestsEntity> relationOpt = eventsGuestsRepository
+                .findByEventAndGuest(event, guest);
+
+        EventsGuestsEntity relation = relationOpt.orElseGet(EventsGuestsEntity::new);
         relation.setEvent(event);
-        relation.setGuest(savedGuest);
+        relation.setGuest(guest);
         relation.setType(dto.getType());
         relation.setNote(dto.getNote());
+        relation.setSector(dto.getSector());
+        relation.setRowTable(dto.getRowTable());
+        relation.setSeat(dto.getSeat());
+
         eventsGuestsRepository.save(relation);
-        return modelMapper.map(savedGuest, GuestDTO.class);
+
+        return modelMapper.map(guest, GuestDTO.class);
     }
 
     @Override
     public GuestDTO update(Long idGuest, GuestPutDTO dto) {
         GuestEntity guest = guestRepository.findById(idGuest)
                 .orElseThrow(() -> new EntityNotFoundException("Invitado no encontrado"));
+
+        EventEntity event = eventRepository.findById(dto.getIdEvent())
+                .orElseThrow(() -> new EntityNotFoundException("Evento no encontrado"));
+
         EventsGuestsEntity relation = guest.getGuestEvents().stream()
-                .filter(rel -> rel.getEvent().getIdEvent().equals(dto.getIdEvent()))
+                .filter(rel -> rel.getEvent().getIdEvent().equals(event.getIdEvent()))
                 .toList().get(0);
+
         relation.setType(dto.getType());
         relation.setNote(dto.getNote());
+        relation.setSector(dto.getSector());
+        relation.setRowTable(dto.getRowTable());
+        relation.setSeat(dto.getSeat());
+
         eventsGuestsRepository.save(relation);
+
         modelMapper.map(dto, guest);
+
         return modelMapper.map(guestRepository.save(guest), GuestDTO.class);
     }
 
@@ -173,6 +204,9 @@ public class GuestServiceImpl implements GuestService {
             relation.setGuest(guestEntity);
             relation.setType(guestDTO.getType());
             relation.setNote(guestDTO.getNote());
+            relation.setSector(guestDTO.getSector());
+            relation.setRowTable(guestDTO.getRowTable());
+            relation.setSeat(guestDTO.getSeat());
             guestRelations.add(relation);
 
             savedGuests.add(guestEntity);
@@ -195,8 +229,33 @@ public class GuestServiceImpl implements GuestService {
                     GuestDTO dto = modelMapper.map(relation.getGuest(), GuestDTO.class);
                     dto.setType(relation.getType());
                     dto.setNote(relation.getNote());
+                    dto.setAcreditation(modelMapper.map(relation, EventsGuestsDTO.class));
                     return dto;
                 }).toList();
+    }
+
+    @Override
+    public GuestDTO registerAccess(GuestAccessDTO dto) {
+        GuestEntity guest = guestRepository.findById(dto.getIdGuest())
+                .orElseThrow(() -> new EntityNotFoundException("Invitado no encontrado"));
+
+        EventEntity event = eventRepository.findById(dto.getIdEvent())
+                .orElseThrow(() -> new EntityNotFoundException("Evento no encontrado"));
+
+        EventsGuestsEntity relation = eventsGuestsRepository
+                .findByEventAndGuest(event, guest)
+                .orElseThrow(() -> new EntityNotFoundException("Relación entre invitado y evento no encontrada"));
+
+        relation.setAccessType(dto.getAccessType());
+        relation.setActionDate(dto.getActionDate());
+
+        EventsGuestsEntity savedRelation = eventsGuestsRepository.save(relation);
+        GuestDTO guestDTO = modelMapper.map(guest, GuestDTO.class);
+        guestDTO.setType(relation.getType());
+        guestDTO.setNote(relation.getNote());
+        guestDTO.setAcreditation(modelMapper.map(savedRelation, EventsGuestsDTO.class));
+
+        return guestDTO;
     }
 
     private List<Long> extractGuestIds(List<EventsGuestsEntity> eventGuests) {

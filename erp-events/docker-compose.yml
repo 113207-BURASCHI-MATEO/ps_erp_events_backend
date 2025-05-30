@@ -34,7 +34,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/events
       SPRING_DATASOURCE_USERNAME: events
       SPRING_DATASOURCE_PASSWORD: events
@@ -57,7 +57,6 @@ services:
   minio:
     image: minio/minio:RELEASE.2024-09-22T00-33-43Z
     environment:
-      #La password tiene que tener 8 o mas caracteres
       MINIO_ROOT_USER: eventadmin
       MINIO_ROOT_PASSWORD: eventadmin
     ports:

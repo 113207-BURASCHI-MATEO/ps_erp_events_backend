@@ -231,7 +231,12 @@ VALUES
     ('PAYMENT', 'recibo_sueldo_emp2.pdf', 'application/pdf', 'https://minio.local/files/recibo_sueldo_emp2.pdf', 'Marzo 2025', NOW(), NOW(), NULL, NULL, 2),
     ('OTHER', 'certificado_emp3.pdf', 'application/pdf', 'https://minio.local/files/certificado_emp3.pdf', 'Curso completado', NOW(), NOW(), NULL, NULL, 3);
 
-
+-- PAGOS
+INSERT INTO payments (payment_date, id_client, amount, detail, status, creation_date, update_date)
+VALUES
+    (NOW(), 1, 15000.00, 'Pago inicial por evento empresarial', 'PAID', NOW(), NOW()),
+    (NOW(), 2, 10000.00, 'Anticipo para evento social', 'PENDING_PAYMENT', NOW(), NOW()),
+    (NOW(), 3, 20000.00, 'Pago completo para evento privado', 'PAID', NOW(), NOW());
 
 -- RELACIONES EVENTO - SUPPLIERS
 INSERT INTO events_suppliers (id_event, id_supplier, status, amount, balance, payment, creation_date, update_date)
@@ -265,23 +270,23 @@ VALUES (3, 3, 'PAID', 1800.0, 0.0, 'TRANSFER', NOW(), NOW());
 
 
 -- RELACIONES EVENTO - GUESTS
-INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
-VALUES (1, 1, 'REGULAR', 'Amiga cercana de los novios', 'ENTRY', NOW(), false, NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, sector, row_table, seat, creation_date, update_date)
+VALUES (1, 1, 'REGULAR', 'Amiga cercana de los novios', NULL, NOW(), false, 'A', '1', 5, NOW(), NOW());
 
-INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
-VALUES (1, 2, 'REGULAR', 'Amiga de los novios', 'ENTRY', NOW(), false, NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, sector, row_table, seat, creation_date, update_date)
+VALUES (1, 2, 'REGULAR', 'Amiga de los novios', NULL, NOW(), false, 'A', '1', 6, NOW(), NOW());
 
-INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
-VALUES (2, 1, 'REGULAR', 'Amiga de los novios', 'ENTRY', NOW(), false, NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, sector, row_table, seat, creation_date, update_date)
+VALUES (2, 1, 'REGULAR', 'Amiga de los novios', NULL, NOW(), false, 'B', '2', 1, NOW(), NOW());
 
-INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
-VALUES (2, 3, 'VIP', 'Amiga cercana de los padres', 'ENTRY', NOW(), true, NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, sector, row_table, seat, creation_date, update_date)
+VALUES (2, 3, 'VIP', 'Amiga cercana de los padres', NULL, NOW(), true, 'VIP', '1', 1, NOW(), NOW());
 
-INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
-VALUES (1, 2, 'FRIEND', 'Familiar', 'ENTRY', NOW(), false, NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, sector, row_table, seat, creation_date, update_date)
+VALUES (3, 2, 'FRIEND', 'Familiar', NULL, NOW(), false, 'B', '3', 2, NOW(), NOW());
 
-INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, creation_date, update_date)
-VALUES (2, 3, 'REGULAR', 'Familiar de la novia', 'ENTRY', NOW(), true, NOW(), NOW());
+INSERT INTO events_guests (id_event, id_guest, type, note, access_type, action_date, is_late, sector, row_table, seat, creation_date, update_date)
+VALUES (3, 3, 'REGULAR', 'Familiar de la novia', NULL, NOW(), true, 'C', '4', 3, NOW(), NOW());
 
 -- TEMPLATES
 INSERT INTO templates (name, body, active) VALUES ('Welcome Email', '<h1>Welcome to our service!</h1><p>Thank you for joining us.</p>', true);
@@ -449,6 +454,89 @@ INSERT INTO templates (name, body, active) VALUES
      </body>
      </html>',
      true);
+INSERT INTO templates (name, body, active) VALUES
+    ('pago_pendiente_cliente',
+     '<!DOCTYPE html>
+     <html lang="es">
+     <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Pago Pendiente</title>
+       <style>
+         body {
+           font-family: "Arial", sans-serif;
+           background-color: #F8F9FA;
+           margin: 0;
+           padding: 0;
+         }
+         .container {
+           background-color: #ffffff;
+           margin: 50px auto;
+           padding: 20px 20px 1px;
+           border-radius: 8px;
+           box-shadow: 0 0 10px rgba(19, 80, 91, 0.2);
+           max-width: 600px;
+         }
+         .header {
+           background-color: #13505B;
+           color: #ffffff;
+           padding: 16px;
+           text-align: center;
+           border-top-left-radius: 8px;
+           border-top-right-radius: 8px;
+         }
+         .header h1 {
+           margin: 0;
+           font-size: 24px;
+         }
+         .content {
+           padding: 20px;
+         }
+         .content p {
+           line-height: 1.6;
+           color: #040404;
+           margin-bottom: 16px;
+         }
+         .footer {
+           text-align: center;
+           font-size: 12px;
+           color: #777777;
+           padding: 16px 0;
+         }
+         .button-accent {
+           display: inline-block;
+           padding: 10px 20px;
+           background-color: #FF7F11;
+           color: #ffffff;
+           text-decoration: none;
+           border-radius: 4px;
+           font-weight: bold;
+         }
+       </style>
+     </head>
+     <body>
+       <div class="container">
+         <div class="header">
+           <h1>Pago Pendiente</h1>
+         </div>
+         <div class="content">
+           <p>Hola <strong>{{FIRST_NAME}} {{LAST_NAME}}</strong>,</p>
+           <p>Se ha generado un nuevo pago pendiente por un importe de <strong>${{AMOUNT}}</strong>.</p>
+           <p>Podés realizar el pago desde el siguiente enlace:</p>
+           <p>
+             <a href="{{PAYMENT_URL}}" class="button-accent">Pagar Ahora</a>
+           </p>
+           <p>Gracias por confiar en <strong>ERP Eventos</strong>.</p>
+         </div>
+         <div class="footer">
+           <hr>
+           <p>&copy; 2025 ERP Eventos</p>
+         </div>
+       </div>
+     </body>
+     </html>',
+     true);
+
 
 
 

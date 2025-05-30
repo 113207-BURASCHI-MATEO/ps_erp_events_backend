@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.services;
 
+import com.tup.ps.erpevents.dtos.guest.GuestAccessDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPostDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPutDTO;
@@ -74,5 +75,7 @@ public interface GuestService {
     List<GuestDTO> saveGuestsToEvent(List<GuestPostDTO> guestDTOList, Long idEvent);
 
     List<GuestDTO> getGuestFromEvent(Long idEvent);
+
+    GuestDTO registerAccess(GuestAccessDTO guestAccessDTO);
 }
 

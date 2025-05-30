@@ -11,6 +11,7 @@ import com.tup.ps.erpevents.repositories.ClientRepository;
 import com.tup.ps.erpevents.repositories.specs.GenericSpecification;
 import com.tup.ps.erpevents.services.ClientService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional
     public Optional<ClientDTO> findById(Long id) {
         return clientRepository.findById(id)
                 .filter(client -> Boolean.FALSE.equals(client.getSoftDelete()))

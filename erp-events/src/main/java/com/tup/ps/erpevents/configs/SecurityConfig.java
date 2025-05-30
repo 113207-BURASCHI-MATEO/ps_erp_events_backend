@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/files/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/event-files/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/payments/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/employees/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/tasks/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/clients/**")).authenticated()

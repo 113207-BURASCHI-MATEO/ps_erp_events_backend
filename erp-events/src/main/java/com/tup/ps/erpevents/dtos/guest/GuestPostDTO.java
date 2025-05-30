@@ -25,17 +25,11 @@ public class GuestPostDTO {
     @Schema(description = "Apellido del invitado", example = "González")
     private String lastName;
 
-    @NotNull
-    @Schema(description = "Tipo de invitado", example = "VIP")
-    private GuestType type;
-
     @Email
     @NotBlank
     @Schema(description = "Correo electrónico", example = "carlos.lopez@email.com")
     private String email;
 
-    @Schema(description = "Nota sobre el invitado", example = "Es el presentador del evento")
-    private String note;
 
     @NotNull
     @Schema(description = "Tipo de documento del invitado", example = "DNI")
@@ -52,4 +46,20 @@ public class GuestPostDTO {
     @NotNull
     @Schema(description = "Id del Evento asociado", example = "1")
     private Long idEvent;
+
+    @Schema(description = "Sector de invitado", example = "Salon azul")
+    private String sector;
+
+    @Schema(description = "Fila o mesa del invitado", example = "A")
+    private String rowTable;
+
+    @Schema(description = "Asiento de invitado", example = "2")
+    private Integer seat;
+
+    @Schema(description = "Nota sobre el invitado", example = "Es el presentador del evento")
+    private String note;
+
+    @NotNull
+    @Schema(description = "Tipo de invitado", example = "VIP")
+    private GuestType type;
 }

@@ -1,4 +1,4 @@
-package com.tup.ps.erpevents.services;
+package com.tup.ps.erpevents.services.impl;
 
 import com.tup.ps.erpevents.dtos.file.FileDTO;
 import com.tup.ps.erpevents.dtos.file.FilePostDTO;
@@ -12,6 +12,9 @@ import com.tup.ps.erpevents.repositories.EmployeeRepository;
 import com.tup.ps.erpevents.repositories.FileRepository;
 import com.tup.ps.erpevents.repositories.SupplierRepository;
 import com.tup.ps.erpevents.repositories.specs.GenericSpecification;
+import com.tup.ps.erpevents.services.FileService;
+import com.tup.ps.erpevents.services.MinioService;
+import com.tup.ps.erpevents.services.NotificationService;
 import io.minio.GetObjectResponse;
 import io.minio.errors.*;
 import jakarta.persistence.EntityNotFoundException;

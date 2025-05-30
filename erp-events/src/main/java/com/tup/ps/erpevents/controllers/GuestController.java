@@ -1,6 +1,7 @@
 package com.tup.ps.erpevents.controllers;
 
 import com.tup.ps.erpevents.dtos.event.EventDTO;
+import com.tup.ps.erpevents.dtos.guest.GuestAccessDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPostDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPutDTO;
@@ -100,6 +101,13 @@ public class GuestController {
     @GetMapping( "/event/{idEvent}")
     public ResponseEntity<List<GuestDTO>> getGuests(@PathVariable Long idEvent) {
         return ResponseEntity.status(HttpStatus.CREATED).body(guestService.getGuestFromEvent(idEvent));
+    }
+
+    @Operation(summary = "Dar acceso a un invitado en un evento")
+    @PostMapping("/access")
+    public ResponseEntity<GuestDTO> registerGuestAccess(@RequestBody @Valid GuestAccessDTO dto) {
+        guestService.registerAccess(dto);
+        return ResponseEntity.ok(guestService.registerAccess(dto));
     }
 }
 

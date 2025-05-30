@@ -1,9 +1,9 @@
 package com.tup.ps.erpevents.dtos.event.relations;
 
+import com.tup.ps.erpevents.enums.AccessType;
 import com.tup.ps.erpevents.enums.AmountStatus;
 import com.tup.ps.erpevents.enums.GuestType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.AccessType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -39,9 +39,18 @@ public class EventsGuestsDTO {
     @Schema(description = "Marcador de demora", example = "true")
     private Boolean isLate;
 
-    @Schema(description = "Fecha de creación", example = "2025-05-10T14:30:00")
+    @Schema(description = "Sector del evento", example = "true")
+    private String sector;
+
+    @Schema(description = "Fila o mesa del evento", example = "true")
+    private String rowTable;
+
+    @Schema(description = "Asiento del evento", example = "true")
+    private Integer seat;
+
+    /*@Schema(description = "Fecha de creación", example = "2025-05-10T14:30:00")
     private LocalDateTime creationDate;
 
     @Schema(description = "Fecha de última actualización", example = "2025-05-15T10:00:00")
-    private LocalDateTime updateDate;
+    private LocalDateTime updateDate;*/
 }

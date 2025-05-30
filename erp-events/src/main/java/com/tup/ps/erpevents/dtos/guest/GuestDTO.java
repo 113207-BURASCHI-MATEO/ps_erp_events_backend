@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.dtos.guest;
 
+import com.tup.ps.erpevents.dtos.event.relations.EventsGuestsDTO;
 import com.tup.ps.erpevents.enums.DocumentType;
 import com.tup.ps.erpevents.enums.GuestType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -43,5 +44,8 @@ public class GuestDTO {
 
     @Schema(description = "Fecha de nacimiento", example = "1980-05-12")
     private LocalDate birthDate;
+
+    @Schema(description = "Relacion con el evento")
+    private EventsGuestsDTO acreditation;
 }
 

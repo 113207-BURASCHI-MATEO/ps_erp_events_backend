@@ -49,6 +49,15 @@ public class EventsGuestsEntity {
     @Column(name = "actionDate")
     private LocalDateTime actionDate;
 
+    @Column(name = "sector")
+    private String sector;
+
+    @Column(name = "rowTable")
+    private String rowTable;
+
+    @Column(name = "seat")
+    private Integer seat;
+
     @Column(name = "isLate")
     private Boolean isLate;
 
