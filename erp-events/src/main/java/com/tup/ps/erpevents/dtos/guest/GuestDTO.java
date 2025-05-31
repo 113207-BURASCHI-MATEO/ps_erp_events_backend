@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -50,5 +51,14 @@ public class GuestDTO {
 
     @Schema(description = "Relacion con el evento")
     private EventsGuestsDTO acreditation;
+
+    @Schema(description = "Fecha de creación del registro", example = "2024-04-30T10:00:00")
+    private LocalDateTime creationDate;
+
+    @Schema(description = "Fecha de última actualización del registro", example = "2024-04-30T12:00:00")
+    private LocalDateTime updateDate;
+
+    @Schema(description = "Indica si el empleado fue eliminado lógicamente", example = "false")
+    private Boolean softDelete;
 }
 

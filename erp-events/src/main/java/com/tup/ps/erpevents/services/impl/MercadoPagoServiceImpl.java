@@ -12,7 +12,6 @@ import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.merchantorder.MerchantOrder;
 import com.mercadopago.resources.merchantorder.MerchantOrderPayment;
 import com.mercadopago.resources.preference.Preference;
-import com.tup.ps.erpevents.dtos.payment.PaymentPostDTO;
 import com.tup.ps.erpevents.entities.PaymentEntity;
 import com.tup.ps.erpevents.services.MercadoPagoService;
 import jakarta.annotation.PostConstruct;
@@ -53,36 +52,6 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
         MercadoPagoConfig.setAccessToken(MP_TOKEN);
     }
 
-    /*public Preference createPreference(PaymentEntity payment) throws MPException, MPApiException {
-        PreferenceItemRequest preferenceItemRequest = PreferenceItemRequest.builder()
-                .id(String.valueOf(payment.getIdPayment()))
-                .title("ERP-Eventos - Pago de Cliente " + payment.getClient().getIdClient())
-                .description(payment.getDetail() != null ? payment.getDetail() : "Pago de servicios")
-                .quantity(1)
-                .unitPrice(BigDecimal.valueOf(payment.getAmount()))
-                .currencyId(CURRENCY)
-                .build();
-
-        PreferenceBackUrlsRequest backUrlsRequest = PreferenceBackUrlsRequest.builder()
-                .success(WEB_URL + "/payments/success")
-                .failure(WEB_URL + "/payments/failure")
-                .pending(WEB_URL + "/payments/pending")
-                .build();
-
-        String notificationUrl = BACK_URL + "/payments/notification/" + payment.getClient().getIdClient();
-
-        PreferenceRequest preferenceRequest = PreferenceRequest.builder()
-                .items(List.of(preferenceItemRequest))
-                .backUrls(backUrlsRequest)
-                .notificationUrl(notificationUrl)
-                .autoReturn("approved")
-                .expires(true)
-                .expirationDateTo(OffsetDateTime.now().plusMinutes(10L))
-                .build();
-
-        return preferenceClient.create(preferenceRequest);
-    }*/
-
     @Override
     public Preference createPreference(PaymentEntity payment) throws MPException, MPApiException {
         MercadoPagoConfig.setAccessToken(MP_TOKEN);
@@ -118,8 +87,8 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                 .expirationDateTo(OffsetDateTime.now().plusMinutes(10L))
                 .build();
 
-        PreferenceClient client = new PreferenceClient();
-        return client.create(preferenceRequest);
+        //PreferenceClient client = new PreferenceClient();
+        return preferenceClient.create(preferenceRequest);
     }
 
     @Override

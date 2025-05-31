@@ -202,6 +202,13 @@
             <version>2.2.0</version>
         </dependency>
 
+        <!-- OPEN IA API -->
+        <dependency>
+            <groupId>com.openai</groupId>
+            <artifactId>openai-java</artifactId>
+            <version>0.31.0</version>
+        </dependency>
+
 
 
     </dependencies>

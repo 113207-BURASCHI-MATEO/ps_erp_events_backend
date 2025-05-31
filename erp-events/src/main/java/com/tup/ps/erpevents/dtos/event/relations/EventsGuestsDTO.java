@@ -54,9 +54,9 @@ public class EventsGuestsDTO {
     @Schema(description = "Descripcion de la restriccion alimentaria del invitado", example = "2")
     private String foodDescription;
 
-    /*@Schema(description = "Fecha de creación", example = "2025-05-10T14:30:00")
+    @Schema(description = "Fecha de creación", example = "2025-05-10T14:30:00")
     private LocalDateTime creationDate;
 
     @Schema(description = "Fecha de última actualización", example = "2025-05-15T10:00:00")
-    private LocalDateTime updateDate;*/
+    private LocalDateTime updateDate;
 }

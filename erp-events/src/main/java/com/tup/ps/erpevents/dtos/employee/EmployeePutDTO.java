@@ -51,7 +51,11 @@ public class EmployeePutDTO {
 
     @NotBlank(message = "El alias o CBU no puede estar vacío")
     @Schema(description = "Alias bancario o CBU del empleado", example = "mateo.buraschi.mp", required = true)
-    private String aliasOrCbu;
+    private String aliasCbu;
+
+    @NotBlank
+    @Schema(description = "Telefono", example = "3512645248")
+    private String phoneNumber;
 
     @NotNull(message = "La fecha de contratación es obligatoria")
     @Schema(description = "Fecha de contratación del empleado", example = "2024-04-01", required = true)

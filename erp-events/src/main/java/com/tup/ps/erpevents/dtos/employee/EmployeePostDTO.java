@@ -36,6 +36,10 @@ public class EmployeePostDTO {
     @Schema(description = "Email del empleado", example = "juan.perez@empresa.com")
     private String email;
 
+    @NotBlank
+    @Schema(description = "Telefono", example = "3512645248")
+    private String phoneNumber;
+
     @NotBlank(message = "El número de CUIT no puede estar vacío")
     @Schema(description = "CUIT del empleado", example = "20-40123456-7")
     private String cuit;
@@ -47,7 +51,7 @@ public class EmployeePostDTO {
 
     @NotBlank(message = "El alias o CBU no puede estar vacío")
     @Schema(description = "Alias bancario o CBU", example = "juan.perez.alky")
-    private String aliasOrCbu;
+    private String aliasCbu;
 
     @NotBlank(message = "La contraseña no puede estar vacía")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")

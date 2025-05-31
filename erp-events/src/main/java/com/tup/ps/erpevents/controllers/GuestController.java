@@ -1,6 +1,5 @@
 package com.tup.ps.erpevents.controllers;
 
-import com.tup.ps.erpevents.dtos.event.EventDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestAccessDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPostDTO;

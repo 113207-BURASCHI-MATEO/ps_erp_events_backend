@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -42,6 +43,15 @@ public class ClientDTO {
 
     @Schema(description = "IDs de eventos asociados al cliente", example = "[1, 2, 3]")
     private List<Long> events;
+
+    @Schema(description = "Fecha de creación del registro", example = "2024-04-30T10:00:00")
+    private LocalDateTime creationDate;
+
+    @Schema(description = "Fecha de última actualización del registro", example = "2024-04-30T12:00:00")
+    private LocalDateTime updateDate;
+
+    @Schema(description = "Indica si el empleado fue eliminado lógicamente", example = "false")
+    private Boolean softDelete;
 
 }
 

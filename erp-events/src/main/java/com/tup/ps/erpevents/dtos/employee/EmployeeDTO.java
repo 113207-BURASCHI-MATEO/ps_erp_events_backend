@@ -40,13 +40,16 @@ public class EmployeeDTO {
     private LocalDate birthDate;
 
     @Schema(description = "Alias bancario o CBU", example = "juan.perez.alky")
-    private String aliasOrCbu;
+    private String aliasCbu;
 
     @Schema(description = "Fecha de contratación", example = "2024-01-01")
     private LocalDate hireDate;
 
     @Schema(description = "Puesto del empleado", example = "Administrativo")
     private String position;
+
+    @Schema(description = "Telefono", example = "3512645248")
+    private String phoneNumber;
 
     @Schema(description = "Fecha de creación del registro", example = "2024-04-30T10:00:00")
     private LocalDateTime creationDate;

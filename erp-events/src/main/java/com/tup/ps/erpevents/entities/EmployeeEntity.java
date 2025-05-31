@@ -51,6 +51,9 @@ public class EmployeeEntity {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "phoneNumber")
+    private String phoneNumber;
+
     @Column(name = "cuit", nullable = false, unique = true)
     private String cuit;
 

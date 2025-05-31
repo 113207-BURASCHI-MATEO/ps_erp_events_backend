@@ -112,59 +112,60 @@ VALUES ('Oriana', 'Delgado', '1991-03-22', 'DNI', '31687890', 'oriana.delgado@ex
 
 
 -- EMPLOYEES
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2022-01-15', 'Organizador', 'Federico', 'Ramírez', 'DNI', '30500123', 'buraschi.mateo@gmail.com', '20230500123', '1990-03-10', 'fed.ram.mp', false, NOW(), NOW(), 1);
+-- EMPLOYEES (actualizados con phone_number)
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2022-01-15', 'Organizador', 'Federico', 'Ramírez', 'DNI', '30500123', 'buraschi.mateo@gmail.com', '20230500123', '1990-03-10', 'fed.ram.mp', '3511111111', false, NOW(), NOW(), 1);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2021-09-30', 'Coordinador', 'Lucía', 'Fernández', 'DNI', '28999555', 'lucia.f@example.com', '20228999555', '1987-08-15', 'luc.fer.mp', false, NOW(), NOW(), 2);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2021-09-30', 'Coordinador', 'Lucía', 'Fernández', 'DNI', '28999555', 'lucia.f@example.com', '20228999555', '1987-08-15', 'luc.fer.mp', '3511111112', false, NOW(), NOW(), 2);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2020-05-12', 'Técnico Sonido', 'Martín', 'Luna', 'DNI', '27888555', 'martin.l@example.com', '20227888555', '1985-12-01', 'mar.lun.mp', false, NOW(), NOW(), 3);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2020-05-12', 'Técnico Sonido', 'Martín', 'Luna', 'DNI', '27888555', 'martin.l@example.com', '20227888555', '1985-12-01', 'mar.lun.mp', '3511111113', false, NOW(), NOW(), 3);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2023-01-05', 'Asistente', 'Ana', 'Torres', 'DNI', '30233456', 'ana.torres@example.com', '20302334567', '1992-04-21', 'ana.tor.mp', false, NOW(), NOW(), 5);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2023-01-05', 'Asistente', 'Ana', 'Torres', 'DNI', '30233456', 'ana.torres@example.com', '20302334567', '1992-04-21', 'ana.tor.mp', '3511111114', false, NOW(), NOW(), 5);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2022-02-11', 'Coordinador', 'Bruno', 'Acosta', 'DNI', '30344567', 'bruno.acosta@example.com', '20303445677', '1991-11-02', 'bru.acos.mp', false, NOW(), NOW(), 6);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2022-02-11', 'Coordinador', 'Bruno', 'Acosta', 'DNI', '30344567', 'bruno.acosta@example.com', '20303445677', '1991-11-02', 'bru.acos.mp', '3511111115', false, NOW(), NOW(), 6);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2022-03-20', 'Organizador', 'Camila', 'Silva', 'DNI', '30455678', 'camila.silva@example.com', '20304556787', '1993-06-17', 'cam.sil.mp', false, NOW(), NOW(), 7);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2022-03-20', 'Organizador', 'Camila', 'Silva', 'DNI', '30455678', 'camila.silva@example.com', '20304556787', '1993-06-17', 'cam.sil.mp', '3511111116', false, NOW(), NOW(), 7);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2021-11-30', 'Técnico', 'Diego', 'Méndez', 'DNI', '30566789', 'diego.mendez@example.com', '20305667897', '1989-12-29', 'die.men.mp', false, NOW(), NOW(), 8);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2021-11-30', 'Técnico', 'Diego', 'Méndez', 'DNI', '30566789', 'diego.mendez@example.com', '20305667897', '1989-12-29', 'die.men.mp', '3511111117', false, NOW(), NOW(), 8);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2020-04-10', 'Supervisora', 'Elena', 'Rivas', 'DNI', '30677890', 'elena.rivas@example.com', '20306778907', '1990-08-13', 'ele.riv.mp', false, NOW(), NOW(), 9);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2020-04-10', 'Supervisora', 'Elena', 'Rivas', 'DNI', '30677890', 'elena.rivas@example.com', '20306778907', '1990-08-13', 'ele.riv.mp', '3511111118', false, NOW(), NOW(), 9);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2019-05-12', 'Asistente', 'Facundo', 'Herrera', 'DNI', '30788901', 'facundo.herrera@example.com', '20307889017', '1988-03-05', 'fac.her.mp', false, NOW(), NOW(), 10);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2019-05-12', 'Asistente', 'Facundo', 'Herrera', 'DNI', '30788901', 'facundo.herrera@example.com', '20307889017', '1988-03-05', 'fac.her.mp', '3511111119', false, NOW(), NOW(), 10);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2023-01-18', 'Coordinadora', 'Gisela', 'Morales', 'DNI', '30899012', 'gisela.morales@example.com', '20308990127', '1991-09-07', 'gis.mor.mp', false, NOW(), NOW(), 11);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2023-01-18', 'Coordinadora', 'Gisela', 'Morales', 'DNI', '30899012', 'gisela.morales@example.com', '20308990127', '1991-09-07', 'gis.mor.mp', '3511111120', false, NOW(), NOW(), 11);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2022-12-01', 'Montaje', 'Hernán', 'Gómez', 'DNI', '30910123', 'hernan.gomez@example.com', '20309101237', '1986-01-26', 'her.gom.mp', false, NOW(), NOW(), 12);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2022-12-01', 'Montaje', 'Hernán', 'Gómez', 'DNI', '30910123', 'hernan.gomez@example.com', '20309101237', '1986-01-26', 'her.gom.mp', '3511111121', false, NOW(), NOW(), 12);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2021-06-15', 'Supervisora', 'Ivana', 'Sosa', 'DNI', '31021234', 'ivana.sosa@example.com', '20310212347', '1992-02-10', 'iva.sos.mp', false, NOW(), NOW(), 13);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2021-06-15', 'Supervisora', 'Ivana', 'Sosa', 'DNI', '31021234', 'ivana.sosa@example.com', '20310212347', '1992-02-10', 'iva.sos.mp', '3511111122', false, NOW(), NOW(), 13);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2021-07-03', 'Organizador', 'Jorge', 'Cabrera', 'DNI', '31132345', 'jorge.cabrera@example.com', '20311323457', '1994-04-19', 'jor.cab.mp', false, NOW(), NOW(), 14);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2021-07-03', 'Organizador', 'Jorge', 'Cabrera', 'DNI', '31132345', 'jorge.cabrera@example.com', '20311323457', '1994-04-19', 'jor.cab.mp', '3511111123', false, NOW(), NOW(), 14);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2020-10-22', 'Recepción', 'Karina', 'Leiva', 'DNI', '31243456', 'karina.leiva@example.com', '20312434567', '1989-05-25', 'kar.lei.mp', false, NOW(), NOW(), 15);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2020-10-22', 'Recepción', 'Karina', 'Leiva', 'DNI', '31243456', 'karina.leiva@example.com', '20312434567', '1989-05-25', 'kar.lei.mp', '3511111124', false, NOW(), NOW(), 15);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2020-11-11', 'Montaje', 'Luis', 'Funes', 'DNI', '31354567', 'luis.funes@example.com', '20313545677', '1987-06-30', 'lui.fun.mp', false, NOW(), NOW(), 16);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2020-11-11', 'Montaje', 'Luis', 'Funes', 'DNI', '31354567', 'luis.funes@example.com', '20313545677', '1987-06-30', 'lui.fun.mp', '3511111125', false, NOW(), NOW(), 16);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2020-01-27', 'Sonido', 'María', 'Paz', 'DNI', '31465678', 'maria.paz@example.com', '20314656787', '1995-07-12', 'mar.paz.mp', false, NOW(), NOW(), 17);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2020-01-27', 'Sonido', 'María', 'Paz', 'DNI', '31465678', 'maria.paz@example.com', '20314656787', '1995-07-12', 'mar.paz.mp', '3511111126', false, NOW(), NOW(), 17);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2019-08-09', 'Asistente', 'Nicolás', 'Barrios', 'DNI', '31576789', 'nicolas.barrios@example.com', '20315767897', '1990-10-04', 'nic.bar.mp', false, NOW(), NOW(), 18);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2019-08-09', 'Asistente', 'Nicolás', 'Barrios', 'DNI', '31576789', 'nicolas.barrios@example.com', '20315767897', '1990-10-04', 'nic.bar.mp', '3511111127', false, NOW(), NOW(), 18);
 
-INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, soft_delete, creation_date, update_date, id_user)
-VALUES ('2023-03-01', 'Recepción', 'Oriana', 'Delgado', 'DNI', '31687890', 'oriana.delgado@example.com', '20316878907', '1991-03-22', 'ori.del.mp', false, NOW(), NOW(), 19);
+INSERT INTO employees (hire_date, position, first_name, last_name, document_type, document_number, email, cuit, birth_date, bank_alias_cbu, phone_number, soft_delete, creation_date, update_date, id_user)
+VALUES ('2023-03-01', 'Recepción', 'Oriana', 'Delgado', 'DNI', '31687890', 'oriana.delgado@example.com', '20316878907', '1991-03-22', 'ori.del.mp', '3511111128', false, NOW(), NOW(), 19);
 
 
 -- SUPPLIERS
