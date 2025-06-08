@@ -29,6 +29,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -50,8 +51,7 @@ public class EventServiceImplTest {
     @Mock private GenericSpecification<EventEntity> specification;
     @Mock private EventsEmployeesRepository eventsEmployeesRepository;
     @Mock private EventsSuppliersRepository eventsSuppliersRepository;
-    @Mock private GuestRepository guestRepository;
-    @Mock private EventsGuestsRepository eventsGuestsRepository;
+    @Mock private AccountRespository accountRespository;
 
     @InjectMocks private EventServiceImpl eventService;
 
@@ -61,9 +61,14 @@ public class EventServiceImplTest {
     private EventDTO eventDTO;
     private LocationEntity locationEntity;
     private ClientEntity clientEntity;
+    private AccountEntity accountEntity;
 
     @BeforeEach
     void setUp() {
+        accountEntity = new AccountEntity();
+        accountEntity.setIdAccount(1L);
+        accountEntity.setBalance(BigDecimal.TEN);
+
         eventPostDTO = new EventPostDTO();
         eventPostDTO.setTitle("Test Event");
         eventPostDTO.setDescription("Descripción");
@@ -88,6 +93,7 @@ public class EventServiceImplTest {
         eventEntity.setTitle("Test Event");
         eventEntity.setEventEmployees(new ArrayList<>());
         eventEntity.setEventSuppliers(new ArrayList<>());
+        eventEntity.setAccount(accountEntity);
 
         eventDTO = new EventDTO();
         eventDTO.setIdEvent(1L);
@@ -212,6 +218,8 @@ public class EventServiceImplTest {
         given(clientRepository.findById(1L)).willReturn(Optional.of(clientEntity));
         given(locationRepository.findById(1L)).willReturn(Optional.of(locationEntity));
         given(eventRepository.save(any(EventEntity.class))).willReturn(eventEntity);
+        given(accountRespository.save(any(AccountEntity.class))).willReturn(accountEntity);
+
 
         EventDTO result = eventService.save(eventPostDTO);
 
@@ -241,6 +249,7 @@ public class EventServiceImplTest {
         given(clientRepository.findById(1L)).willReturn(Optional.of(clientEntity));
         given(locationRepository.findById(1L)).willReturn(Optional.of(locationEntity));
         given(eventRepository.save(any(EventEntity.class))).willReturn(eventEntity);
+        given(accountRespository.save(any(AccountEntity.class))).willReturn(accountEntity);
 
         EventDTO result = eventService.save(eventPostDTO);
 
@@ -256,6 +265,7 @@ public class EventServiceImplTest {
         given(clientRepository.findById(1L)).willReturn(Optional.of(clientEntity));
         given(locationRepository.findById(1L)).willReturn(Optional.of(locationEntity));
         given(eventRepository.save(any(EventEntity.class))).willReturn(eventEntity);
+        given(accountRespository.save(any(AccountEntity.class))).willReturn(accountEntity);
 
         EventDTO result = eventService.save(eventPostDTO);
 
@@ -275,6 +285,7 @@ public class EventServiceImplTest {
         given(locationRepository.findById(1L)).willReturn(Optional.of(locationEntity));
         given(eventRepository.save(any(EventEntity.class))).willReturn(eventEntity);
         given(taskRepository.saveAll(any())).willReturn(List.of(new TaskEntity()));
+        given(accountRespository.save(any(AccountEntity.class))).willReturn(accountEntity);
 
         EventDTO result = eventService.save(eventPostDTO);
 

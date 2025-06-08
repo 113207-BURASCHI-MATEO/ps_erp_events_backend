@@ -56,7 +56,7 @@ public class SupplierControllerTest {
         supplier.setCuit("20304567891");
         supplier.setEmail("proveedor@xyz.com");
         supplier.setPhoneNumber("3511234567");
-        supplier.setAliasOrCbu("eventos.xyz.cbu");
+        supplier.setAliasCbu("eventos.xyz.cbu");
         supplier.setSupplierType(SupplierType.CATERING);
         supplier.setAddress("Av. Siempre Viva 123");
         supplier.setSoftDelete(false);
@@ -76,7 +76,7 @@ public class SupplierControllerTest {
         supplierPut.setCuit("20304567891");
         supplierPut.setEmail("proveedor@xyz.com");
         supplierPut.setPhoneNumber("3511234567");
-        supplierPut.setAliasOrCbu("eventos.xyz.cbu");
+        supplierPut.setAliasCbu("eventos.xyz.cbu");
         supplierPut.setSupplierType(SupplierType.CATERING);
         supplierPut.setAddress("Av. Siempre Viva 123");
     }

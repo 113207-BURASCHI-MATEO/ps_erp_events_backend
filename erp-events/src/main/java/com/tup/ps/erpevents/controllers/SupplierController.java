@@ -33,7 +33,7 @@ public class SupplierController {
     @Operation(summary = "Obtener todos los proveedores")
     @GetMapping("")
     public ResponseEntity<Page<SupplierDTO>> getAll(@RequestParam(defaultValue = "0") int page,
-                                                    @RequestParam(defaultValue = "10") int size,
+                                                    @RequestParam(defaultValue = "100") int size,
                                                     @RequestParam(value = "isActive", required = false, defaultValue = "true") Boolean isActive,
                                                     @RequestParam(name = "sort", defaultValue = "creationDate") String sortProperty,
                                                     @RequestParam(name = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection) {
@@ -74,7 +74,7 @@ public class SupplierController {
     @GetMapping("/filter")
     public ResponseEntity<Page<SupplierDTO>> findByFilters(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "100") int size,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
             @RequestParam(required = false) String supplierType,
             @RequestParam(required = false) String searchValue,

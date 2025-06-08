@@ -94,6 +94,10 @@ public class EventEntity {
     @ToString.Exclude
     private ClientEntity client;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idAccount")
+    private AccountEntity account;
+
     @PrePersist
     public void onCreate() {
         this.creationDate = LocalDateTime.now();

@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.dtos.event;
 
+import com.tup.ps.erpevents.dtos.event.account.AccountDTO;
 import com.tup.ps.erpevents.dtos.event.relations.EventsEmployeesDTO;
 import com.tup.ps.erpevents.dtos.event.relations.EventsSuppliersDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestDTO;
@@ -76,5 +77,8 @@ public class EventDTO {
 
     @Schema(description = "Lista de tareas asignadas al evento")
     private List<TaskDTO> tasks;
+
+    @Schema(description = "Presupuesto del evento")
+    private AccountDTO account;
 }
 

@@ -33,7 +33,7 @@ public class LocationController {
     @Operation(summary = "Obtener todas las ubicaciones")
     @GetMapping("")
     public ResponseEntity<Page<LocationDTO>> getAll(@RequestParam(defaultValue = "0") int page,
-                                                    @RequestParam(defaultValue = "10") int size,
+                                                    @RequestParam(defaultValue = "100") int size,
                                                     @RequestParam(value = "isActive", required = false, defaultValue = "true") Boolean isActive,
                                                     @RequestParam(name = "sort", defaultValue = "creationDate") String sortProperty,
                                                     @RequestParam(name = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection) {
@@ -74,7 +74,7 @@ public class LocationController {
     @GetMapping("/filter")
     public ResponseEntity<Page<LocationDTO>> findByFilters(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "100") int size,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
             @RequestParam(required = false) String searchValue,
             @RequestParam(required = false) LocalDate creationStart,

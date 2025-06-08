@@ -10,6 +10,7 @@ import com.tup.ps.erpevents.dtos.payment.PaymentDTO;
 import com.tup.ps.erpevents.dtos.payment.PaymentPostDTO;
 import com.tup.ps.erpevents.entities.ClientEntity;
 import com.tup.ps.erpevents.entities.EventEntity;
+import com.tup.ps.erpevents.entities.FileEntity;
 import com.tup.ps.erpevents.entities.PaymentEntity;
 import com.tup.ps.erpevents.enums.PaymentStatus;
 import com.tup.ps.erpevents.repositories.ClientRepository;
@@ -34,6 +35,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

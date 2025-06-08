@@ -64,5 +64,9 @@ public class EmployeePutDTO {
     @NotBlank(message = "El puesto no puede estar vacío")
     @Schema(description = "Puesto del empleado", example = "Desarrollador Backend", required = true)
     private String position;
+
+    @NotBlank
+    @Schema(description = "Dirección del proveedor", example = "Av. Siempre Viva 123")
+    private String address;
 }
 

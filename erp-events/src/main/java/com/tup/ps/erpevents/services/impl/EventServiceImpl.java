@@ -4,6 +4,7 @@ import com.tup.ps.erpevents.dtos.client.ClientDTO;
 import com.tup.ps.erpevents.dtos.event.EventDTO;
 import com.tup.ps.erpevents.dtos.event.EventPostDTO;
 import com.tup.ps.erpevents.dtos.event.EventPutDTO;
+import com.tup.ps.erpevents.dtos.event.account.AccountDTO;
 import com.tup.ps.erpevents.dtos.event.relations.EventsEmployeesDTO;
 import com.tup.ps.erpevents.dtos.event.relations.EventsGuestsDTO;
 import com.tup.ps.erpevents.dtos.event.relations.EventsSuppliersDTO;
@@ -67,6 +68,8 @@ public class EventServiceImpl implements EventService {
     private EventsEmployeesRepository eventsEmployeesRepository;
     @Autowired
     private EventsSuppliersRepository eventsSuppliersRepository;
+    @Autowired
+    private AccountRespository accountRespository;
     @Autowired
     private GuestRepository guestRepository;
     @Autowired
@@ -167,6 +170,9 @@ public class EventServiceImpl implements EventService {
             event.setLocation(location);
         }
 
+        AccountEntity savedAccount = accountRespository.save(new AccountEntity());
+        event.setAccount(savedAccount);
+
         EventEntity savedEvent = eventRepository.save(event);
 
         if (dto.getTasks() != null && !dto.getTasks().isEmpty()) {
@@ -178,8 +184,8 @@ public class EventServiceImpl implements EventService {
                 task.setEvent(savedEvent);
                 return task;
             }).toList();
-            taskRepository.saveAll(tasks);
-            savedEvent.setTasks(tasks);
+            List<TaskEntity> tasksSaved = taskRepository.saveAll(tasks);
+            savedEvent.setTasks(tasksSaved);
         }
 
         return mapEventEntityToDTO(savedEvent);
@@ -368,15 +374,12 @@ public class EventServiceImpl implements EventService {
         dto.setSoftDelete(event.getSoftDelete());
         dto.setClient(modelMapper.map(event.getClient(), ClientDTO.class));
         dto.setLocation(modelMapper.map(event.getLocation(), LocationDTO.class));
+        dto.setAccount(modelMapper.map(event.getAccount(), AccountDTO.class));
         dto.setCreationDate(event.getCreationDate());
         dto.setUpdateDate(event.getUpdateDate());
 
         dto.setEmployees(mapEventEmployees(event.getEventEmployees()));
         dto.setEmployeesIds(extractEmployeeIds(event.getEventEmployees()));
-
-        /*dto.setGuests(event.getGuests() != null
-                ? event.getGuests().stream().map(GuestEntity::getIdGuest).toList()
-                : List.of());*/
 
         dto.setGuests(event.getEventGuests() != null
                 ? event.getEventGuests().stream()

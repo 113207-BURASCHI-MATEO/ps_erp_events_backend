@@ -68,6 +68,12 @@ public class FileEntity {
     @ToString.Exclude
     private SupplierEntity supplier;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idPayment")
+    @JsonIgnore
+    @ToString.Exclude
+    private PaymentEntity payment;
+
     @PrePersist
     public void onCreate() {
         this.creationDate = LocalDateTime.now();

@@ -58,9 +58,9 @@ public class MinioBucketStartUp {
         XmlParserException, InternalException {
         if (minioEnabled) {
             createBucketsIfNotExists();
-            uploadInitialFile("/minio-initial-files/dni_document_back_sample.jpg", "supplier-1/dni_document_front_sample.jpg");
-            uploadInitialFile("/minio-initial-files/dni_document_front_sample.jpg", "supplier-1/dni_document_back_sample.jpg");
-            uploadInitialFile("/minio-initial-files/purchase_sale_sample.pdf", "supplier-2/purchase_sale_sample.pdf");
+            uploadInitialFile("/minio-initial-files/dni_document_back_sample.jpg", "payment-1/dni_document_back_sample.jpg");
+            uploadInitialFile("/minio-initial-files/dni_document_front_sample.jpg", "payment-2/dni_document_front_sample.jpg");
+            uploadInitialFile("/minio-initial-files/purchase_sale_sample.pdf", "payment-3/purchase_sale_sample.pdf");
         }
     }
 

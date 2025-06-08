@@ -18,5 +18,10 @@ public interface FileRepository extends JpaRepository<FileEntity,Long> {
     Optional<FileEntity> findByIdFileAndSupplier(@NotNull Long id, SupplierEntity supplier);
     Optional<FileEntity> findByIdFileAndClient(@NotNull Long id, ClientEntity client);
     Optional<FileEntity> findByIdFileAndEmployee(@NotNull Long id, EmployeeEntity employee);
+    Optional<FileEntity> findByIdFileAndPayment(@NotNull Long id, PaymentEntity payment);
     Page<FileEntity> findAll(Specification<FileEntity> spec, Pageable pageable);
+    Page<FileEntity> findAllBySupplier(Pageable pageable, SupplierEntity supplier);
+    Page<FileEntity> findAllByClient(Pageable pageable, ClientEntity client);
+    Page<FileEntity> findAllByEmployee(Pageable pageable, EmployeeEntity employee);
+    Page<FileEntity> findAllByPayment(Pageable pageable, PaymentEntity payment);
 }

@@ -1,5 +1,6 @@
 package com.tup.ps.erpevents.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tup.ps.erpevents.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,6 +8,8 @@ import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Audited
 @AuditTable(value = "payments_audit")
@@ -46,6 +49,11 @@ public class PaymentEntity {
 
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
+
+    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ToString.Exclude
+    private List<FileEntity> files = new ArrayList<>();
 
     @PrePersist
     public void onCreate() {

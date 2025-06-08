@@ -11,12 +11,12 @@ import java.util.Optional;
 
 public interface EventRepository extends JpaRepository<EventEntity, Long> {
 
-    @EntityGraph(attributePaths = {"client", "location"})
+    @EntityGraph(attributePaths = {"client", "location", "account"})
     Page<EventEntity> findAllBySoftDelete(Boolean softDelete, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"client", "location"})
+    @EntityGraph(attributePaths = {"client", "location", "account"})
     Page<EventEntity> findAll(Specification<EventEntity> spec, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"client", "location"})
+    @EntityGraph(attributePaths = {"client", "location", "account"})
     Optional<EventEntity> findByIdEventAndSoftDeleteFalse(Long id);
 }

@@ -21,6 +21,7 @@ import org.springframework.data.domain.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,6 +36,7 @@ public class GuestServiceImplTest {
     @Mock private EventsGuestsRepository eventsGuestsRepository;
     @Mock private ModelMapper modelMapper;
     @Mock private GenericSpecification<GuestEntity> specification;
+    @Mock private NotificationService notificationService;
 
     @InjectMocks private GuestServiceImpl guestService;
 
@@ -68,6 +70,11 @@ public class GuestServiceImplTest {
 
         event = new EventEntity();
         event.setIdEvent(1L);
+        event.setStartDate(LocalDateTime.now().plusDays(2));
+        LocationEntity location = new LocationEntity();
+        location.setIdLocation(1L);
+        location.setFantasyName("Fantasy");
+        event.setLocation(location);
 
         relation = new EventsGuestsEntity();
         relation.setEvent(event);
@@ -98,6 +105,7 @@ public class GuestServiceImplTest {
         given(guestRepository.save(any())).willReturn(guest);
         given(eventsGuestsRepository.save(any())).willReturn(relation);
         given(modelMapper.map(eq(guest), eq(GuestDTO.class))).willReturn(guestDTO);
+        willDoNothing().given(notificationService).sendEmailToGuest(any(), any());
 
         GuestDTO result = guestService.save(guestPostDTO);
 

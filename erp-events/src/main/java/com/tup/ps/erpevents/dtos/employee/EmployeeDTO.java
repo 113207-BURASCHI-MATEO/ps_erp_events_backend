@@ -51,6 +51,9 @@ public class EmployeeDTO {
     @Schema(description = "Telefono", example = "3512645248")
     private String phoneNumber;
 
+    @Schema(description = "Dirección del proveedor", example = "Av. Siempre Viva 123")
+    private String address;
+
     @Schema(description = "Fecha de creación del registro", example = "2024-04-30T10:00:00")
     private LocalDateTime creationDate;
 

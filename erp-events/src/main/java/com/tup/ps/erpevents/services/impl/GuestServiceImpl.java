@@ -7,6 +7,8 @@ import com.tup.ps.erpevents.dtos.guest.GuestAccessDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPostDTO;
 import com.tup.ps.erpevents.dtos.guest.GuestPutDTO;
+import com.tup.ps.erpevents.dtos.notification.KeyValueCustomPair;
+import com.tup.ps.erpevents.dtos.notification.NotificationPostDTO;
 import com.tup.ps.erpevents.entities.EventEntity;
 import com.tup.ps.erpevents.entities.GuestEntity;
 import com.tup.ps.erpevents.entities.intermediates.EventsGuestsEntity;
@@ -17,6 +19,7 @@ import com.tup.ps.erpevents.repositories.GuestRepository;
 import com.tup.ps.erpevents.repositories.specs.GenericSpecification;
 import com.tup.ps.erpevents.services.EventService;
 import com.tup.ps.erpevents.services.GuestService;
+import com.tup.ps.erpevents.services.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -51,14 +54,21 @@ public class GuestServiceImpl implements GuestService {
     private EventsGuestsRepository eventsGuestsRepository;
     @Autowired
     private EventRepository eventRepository;
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public Page<GuestDTO> findAll(Pageable pageable) {
         return guestRepository.findAllBySoftDelete(false, pageable)
                 .map(guest -> {
                     GuestDTO dto = modelMapper.map(guest, GuestDTO.class);
-                    dto.setNote(guest.getGuestEvents().get(0).getNote());
-                    dto.setType(guest.getGuestEvents().get(0).getType());
+
+                    if (guest.getGuestEvents() != null && !guest.getGuestEvents().isEmpty()) {
+                        var firstEvent = guest.getGuestEvents().get(0);
+                        dto.setNote(firstEvent.getNote());
+                        dto.setType(firstEvent.getType());
+                    }
+
                     return dto;
                 });
     }
@@ -69,8 +79,13 @@ public class GuestServiceImpl implements GuestService {
                 .filter(guest -> Boolean.FALSE.equals(guest.getSoftDelete()))
                 .map(guest -> {
                     GuestDTO dto = modelMapper.map(guest, GuestDTO.class);
-                    dto.setNote(guest.getGuestEvents().get(0).getNote());
-                    dto.setType(guest.getGuestEvents().get(0).getType());
+
+                    if (guest.getGuestEvents() != null && !guest.getGuestEvents().isEmpty()) {
+                        var firstEvent = guest.getGuestEvents().get(0);
+                        dto.setNote(firstEvent.getNote());
+                        dto.setType(firstEvent.getType());
+                    }
+
                     return dto;
                 });
     }
@@ -106,6 +121,8 @@ public class GuestServiceImpl implements GuestService {
         relation.setSeat(dto.getSeat());
 
         eventsGuestsRepository.save(relation);
+
+        sendGuestNotification(event, guest);
 
         return modelMapper.map(guest, GuestDTO.class);
     }
@@ -210,6 +227,8 @@ public class GuestServiceImpl implements GuestService {
             guestRelations.add(relation);
 
             savedGuests.add(guestEntity);
+
+            sendGuestNotification(event, guestEntity);
         }
 
         eventsGuestsRepository.saveAll(guestRelations);
@@ -280,6 +299,23 @@ public class GuestServiceImpl implements GuestService {
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
     }
+
+    private void sendGuestNotification(EventEntity event, GuestEntity guest) {
+        NotificationPostDTO notificationPostDTO = new NotificationPostDTO();
+        notificationPostDTO.setIdTemplate(6L); // Guest Template
+        notificationPostDTO.setSubject("Estás invitado a " + event.getTitle());
+
+        notificationPostDTO.setVariables(List.of(
+                new KeyValueCustomPair("NAME", guest.getFirstName()),
+                new KeyValueCustomPair("LAST_NAME", guest.getLastName()),
+                new KeyValueCustomPair("EVENT", event.getTitle()),
+                new KeyValueCustomPair("DATE", event.getStartDate().toString()),
+                new KeyValueCustomPair("PLACE", event.getLocation().getFantasyName())
+        ));
+
+        notificationService.sendEmailToGuest(notificationPostDTO, guest);
+    }
+
 
 
 }
