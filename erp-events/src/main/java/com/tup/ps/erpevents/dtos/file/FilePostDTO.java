@@ -36,4 +36,7 @@ public class FilePostDTO {
 
     @Schema(description = "ID del empleado relacionado")
     private Long employeeId;
+
+    @Schema(description = "ID del pago relacionado")
+    private Long paymentId;
 }

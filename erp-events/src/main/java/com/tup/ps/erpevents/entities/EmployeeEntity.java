@@ -63,6 +63,9 @@ public class EmployeeEntity {
     @Column(name = "bankAliasCbu", nullable = false)
     private String aliasCbu;
 
+    @Column
+    private String address;
+
     @Column(name = "softDelete")
     private Boolean softDelete = false;
 
@@ -75,9 +78,6 @@ public class EmployeeEntity {
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
     private UserEntity user;
-
-    /*@ManyToMany(mappedBy = "employees")
-    private List<EventEntity> events = new ArrayList<>();*/
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
     @JsonIgnore

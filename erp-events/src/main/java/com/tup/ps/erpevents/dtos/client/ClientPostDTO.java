@@ -29,7 +29,6 @@ public class ClientPostDTO {
     private String email;
 
     @NotBlank
-    @Size(min = 10, max = 10)
     @Schema(description = "Número de teléfono", example = "3514567890")
     private String phoneNumber;
 

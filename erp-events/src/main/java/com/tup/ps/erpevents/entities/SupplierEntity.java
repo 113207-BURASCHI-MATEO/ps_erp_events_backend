@@ -37,7 +37,7 @@ public class SupplierEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "phone_number", nullable = false, length = 10)
+    @Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
 
     @Column(name = "bankAliasCbu", nullable = false)

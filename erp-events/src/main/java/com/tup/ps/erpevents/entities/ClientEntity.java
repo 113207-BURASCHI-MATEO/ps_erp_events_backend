@@ -36,7 +36,7 @@ public class ClientEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "phoneNumber", nullable = false, length = 10)
+    @Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
 
     @Column(name = "bankAliasCbu", nullable = false)

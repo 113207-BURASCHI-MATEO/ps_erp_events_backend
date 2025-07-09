@@ -45,7 +45,7 @@ public class FileController {
     @Operation(summary = "Obtener todos los archivos paginados")
     @GetMapping
     public ResponseEntity<Page<FileDTO>> getAll(@RequestParam(defaultValue = "0") int page,
-                                                @RequestParam(defaultValue = "10") int size,
+                                                @RequestParam(defaultValue = "100") int size,
                                                 @RequestParam(value = "sort", defaultValue = "creationDate") String sortProperty,
                                                 @RequestParam(value = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortProperty.split(",")));
@@ -61,6 +61,54 @@ public class FileController {
                                                      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate creationEnd,
                                                      Pageable pageable) {
         return ResponseEntity.ok(fileService.findByFilters(pageable, fileType, softDelete, searchValue, creationStart, creationEnd));
+    }
+
+    @Operation(summary = "Obtener todos los archivos paginados de un proveedor")
+    @GetMapping("/supplier/{supplierId}")
+    public ResponseEntity<Page<FileDTO>> getAllBySupplierId(
+            @PathVariable Long supplierId,
+            @RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "100") int size,
+                                                @RequestParam(value = "sort", defaultValue = "creationDate") String sortProperty,
+                                                @RequestParam(value = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortProperty.split(",")));
+        return ResponseEntity.ok(fileService.findAllBySupplierId(pageable, supplierId));
+    }
+
+    @Operation(summary = "Obtener todos los archivos paginados de un cliente")
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<Page<FileDTO>> getAllByClientId(
+            @PathVariable Long clientId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "100") int size,
+            @RequestParam(value = "sort", defaultValue = "creationDate") String sortProperty,
+            @RequestParam(value = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortProperty.split(",")));
+        return ResponseEntity.ok(fileService.findAllByClientId(pageable, clientId));
+    }
+
+    @Operation(summary = "Obtener todos los archivos paginados de un empleado")
+    @GetMapping("/employee/{employeeId}")
+    public ResponseEntity<Page<FileDTO>> getAllByEmployeeId(
+            @PathVariable Long employeeId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "100") int size,
+            @RequestParam(value = "sort", defaultValue = "creationDate") String sortProperty,
+            @RequestParam(value = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortProperty.split(",")));
+        return ResponseEntity.ok(fileService.findAllByEmployeeId(pageable, employeeId));
+    }
+
+    @Operation(summary = "Obtener todos los archivos paginados de un pago")
+    @GetMapping("/payment/{paymentId}")
+    public ResponseEntity<Page<FileDTO>> getAllByPaymentId(
+            @PathVariable Long paymentId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "100") int size,
+            @RequestParam(value = "sort", defaultValue = "creationDate") String sortProperty,
+            @RequestParam(value = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortProperty.split(",")));
+        return ResponseEntity.ok(fileService.findAllByPaymentId(pageable, paymentId));
     }
 
     @Operation(summary = "Obtener archivo por ID")
@@ -144,6 +192,17 @@ public class FileController {
             ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException,
             InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         GetObjectResponse response = fileService.getByEmployeeId(employeeId, fileId);
+        return getStreamingResponseBodyResponseEntity(response);
+    }
+
+    @Operation(summary = "Obtener archivo y metadata por ID de archivo y pago")
+    @GetMapping("/payment/{paymentId}/file/{fileId}")
+    public ResponseEntity<StreamingResponseBody> getFileByPayment(
+            @PathVariable Long paymentId,
+            @PathVariable Long fileId) throws IOException,
+            ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException,
+            InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        GetObjectResponse response = fileService.getByPaymentId(paymentId, fileId);
         return getStreamingResponseBodyResponseEntity(response);
     }
 

@@ -29,7 +29,7 @@ public class SupplierDTO {
     private String phoneNumber;
 
     @Schema(description = "Alias bancario o CBU", example = "eventos.xyz.cbu")
-    private String aliasOrCbu;
+    private String aliasCbu;
 
     @Schema(description = "Tipo de proveedor", example = "CATERING")
     private SupplierType supplierType;

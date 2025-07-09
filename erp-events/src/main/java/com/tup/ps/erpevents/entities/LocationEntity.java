@@ -50,10 +50,10 @@ public class LocationEntity {
     @Column(name = "postalCode")
     private Integer postalCode;
 
-    @Column(name = "latitude", nullable = false)
+    @Column(name = "latitude")
     private Double latitude;
 
-    @Column(name = "longitude", nullable = false)
+    @Column(name = "longitude")
     private Double longitude;
 
     @Column(name = "softDelete")

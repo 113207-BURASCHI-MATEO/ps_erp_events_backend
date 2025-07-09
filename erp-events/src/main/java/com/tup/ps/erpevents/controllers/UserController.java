@@ -32,7 +32,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<Page<UserDTO>> getUsers(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "100") int size,
             @RequestParam(value = "isActive", required = false, defaultValue = "true") Boolean isActive,
             @RequestParam(name = "sort", defaultValue = "creationDate") String sortProperty,
             @RequestParam(name = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection) {

@@ -35,7 +35,7 @@ public class GuestController {
     @Operation(summary = "Obtener todos los invitados")
     @GetMapping("")
     public ResponseEntity<Page<GuestDTO>> getAll(@RequestParam(defaultValue = "0") int page,
-                                                 @RequestParam(defaultValue = "10") int size,
+                                                 @RequestParam(defaultValue = "500") int size,
                                                  @RequestParam(value = "isActive", required = false, defaultValue = "true") Boolean isActive,
                                                  @RequestParam(name = "sort", defaultValue = "creationDate") String sortProperty,
                                                  @RequestParam(name = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection) {
@@ -76,7 +76,7 @@ public class GuestController {
     @GetMapping("/filter")
     public ResponseEntity<Page<GuestDTO>> findByFilters(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "500") int size,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
             @RequestParam(required = false) String guestType,
             @RequestParam(required = false) String searchValue,

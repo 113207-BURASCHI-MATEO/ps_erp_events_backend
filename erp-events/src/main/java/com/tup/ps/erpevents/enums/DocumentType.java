@@ -4,5 +4,6 @@ public enum DocumentType {
     DNI,
     CUIT,
     CUIL,
-    CDI
+    CDI,
+    PASSPORT
 }

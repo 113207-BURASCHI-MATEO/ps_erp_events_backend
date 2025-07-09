@@ -37,7 +37,7 @@ public class PaymentController {
     @Operation(summary = "Obtener todos los pagos")
     @GetMapping("")
     public ResponseEntity<Page<PaymentDTO>> getAll(@RequestParam(defaultValue = "0") int page,
-                                                   @RequestParam(defaultValue = "10") int size,
+                                                   @RequestParam(defaultValue = "100") int size,
                                                    @RequestParam(value = "isActive", required = false, defaultValue = "true") Boolean isActive,
                                                    @RequestParam(name = "sort", defaultValue = "creationDate") String sortProperty,
                                                    @RequestParam(name = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection) {
@@ -89,7 +89,7 @@ public class PaymentController {
     @GetMapping("/filter")
     public ResponseEntity<Page<PaymentDTO>> filterPayments(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "100") int size,
             @RequestParam(required = false) PaymentStatus status,
             @RequestParam(required = false) String searchValue,
             @RequestParam(required = false) LocalDate paymentDateStart,

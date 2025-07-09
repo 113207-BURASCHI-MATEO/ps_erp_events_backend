@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -43,5 +44,6 @@ public class PaymentDTO {
 
     @Schema(description = "Indica si el empleado fue eliminado lógicamente", example = "false")
     private Boolean softDelete;
+
 }
 

@@ -6,6 +6,7 @@ import com.tup.ps.erpevents.dtos.notification.NotificationDTO;
 import com.tup.ps.erpevents.dtos.notification.template.TemplateDTO;
 import com.tup.ps.erpevents.dtos.user.UserDTO;
 import com.tup.ps.erpevents.entities.ClientEntity;
+import com.tup.ps.erpevents.entities.GuestEntity;
 import com.tup.ps.erpevents.entities.NotificationEntity;
 import com.tup.ps.erpevents.enums.StatusSend;
 import com.tup.ps.erpevents.repositories.NotificationRepository;
@@ -105,6 +106,28 @@ public class NotificationServiceImpl implements NotificationService {
         sendEmail(notificationDTO.getRecipient(), notificationDTO.getSubject(), processedBody);
         saveNotification(notificationDTO);
 
+    }
+
+    @Override
+    public void sendEmailToGuest(NotificationPostDTO notificationPostDTO, GuestEntity guestEntity) {
+
+        TemplateDTO emailTemplate = templateService.getEmailTemplateById(notificationPostDTO.getIdTemplate());
+
+        NotificationDTO notificationDTO = new NotificationDTO();
+        notificationDTO.setTemplateName(emailTemplate.getName());
+        notificationDTO.setIdTemplate(notificationPostDTO.getIdTemplate());
+        notificationDTO.setSubject(notificationPostDTO.getSubject());
+        notificationDTO.setVariables(notificationPostDTO.getVariables());
+
+
+        String processedBody = processTemplate(emailTemplate.getBody(), notificationDTO.getVariables());
+        notificationDTO.setBody(processedBody);
+
+        notificationDTO.setRecipient(guestEntity.getEmail());
+        notificationDTO.setIdContact(guestEntity.getIdGuest());
+
+        sendEmail(notificationDTO.getRecipient(), notificationDTO.getSubject(), processedBody);
+        saveNotification(notificationDTO);
     }
 
     @Override

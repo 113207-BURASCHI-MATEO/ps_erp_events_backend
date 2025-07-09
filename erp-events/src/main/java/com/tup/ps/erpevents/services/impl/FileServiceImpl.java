@@ -7,10 +7,7 @@ import com.tup.ps.erpevents.dtos.notification.KeyValueCustomPair;
 import com.tup.ps.erpevents.dtos.notification.NotificationPostDTO;
 import com.tup.ps.erpevents.entities.*;
 import com.tup.ps.erpevents.enums.BatchFileType;
-import com.tup.ps.erpevents.repositories.ClientRepository;
-import com.tup.ps.erpevents.repositories.EmployeeRepository;
-import com.tup.ps.erpevents.repositories.FileRepository;
-import com.tup.ps.erpevents.repositories.SupplierRepository;
+import com.tup.ps.erpevents.repositories.*;
 import com.tup.ps.erpevents.repositories.specs.GenericSpecification;
 import com.tup.ps.erpevents.services.FileService;
 import com.tup.ps.erpevents.services.MinioService;
@@ -68,11 +65,45 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private NotificationService notificationService;
     @Autowired
+    private PaymentRepository paymentRepository;
+    @Autowired
     private GenericSpecification<FileEntity> specification;
 
     @Override
     public Page<FileDTO> findAll(Pageable pageable) {
         return fileRepository.findAll(pageable)
+                .map(file -> modelMapper.map(file, FileDTO.class));
+    }
+
+    @Override
+    public Page<FileDTO> findAllBySupplierId(Pageable pageable, Long supplierId) {
+        SupplierEntity supplierEntity = supplierRepository.findById(supplierId)
+                .orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado"));
+        return fileRepository.findAllBySupplier(pageable, supplierEntity)
+                .map(file -> modelMapper.map(file, FileDTO.class));
+    }
+
+    @Override
+    public Page<FileDTO> findAllByClientId(Pageable pageable, Long clientId) {
+        ClientEntity clientEntity = clientRepository.findById(clientId)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
+        return fileRepository.findAllByClient(pageable, clientEntity)
+                .map(file -> modelMapper.map(file, FileDTO.class));
+    }
+
+    @Override
+    public Page<FileDTO> findAllByEmployeeId(Pageable pageable, Long employeeId) {
+        EmployeeEntity employeeEntity = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado"));
+        return fileRepository.findAllByEmployee(pageable, employeeEntity)
+                .map(file -> modelMapper.map(file, FileDTO.class));
+    }
+
+    @Override
+    public Page<FileDTO> findAllByPaymentId(Pageable pageable, Long paymentId) {
+        PaymentEntity paymentEntity = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new EntityNotFoundException("Pago no encontrado"));
+        return fileRepository.findAllByPayment(pageable, paymentEntity)
                 .map(file -> modelMapper.map(file, FileDTO.class));
     }
 
@@ -251,6 +282,20 @@ public class FileServiceImpl implements FileService {
         return minioService.getFile(objectPath);
     }
 
+    @Override
+    public GetObjectResponse getByPaymentId(Long paymentId, Long fileId) throws IOException,
+            ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException,
+            InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        PaymentEntity paymentEntity = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new EntityNotFoundException("Pago no encontrado"));
+        FileEntity fileEntity = fileRepository.findByIdFileAndPayment(fileId, paymentEntity)
+                .orElseThrow(() -> new EntityNotFoundException("Archivo no encontrado"));
+
+        String objectPath = getPrefix(fileEntity) + "/" + fileEntity.getFileName();
+
+        return minioService.getFile(objectPath);
+    }
+
     private String generateFileUrl(Long fileId) {
         return appUrl + "/event-files/" + fileId;
     }
@@ -263,6 +308,7 @@ public class FileServiceImpl implements FileService {
         if (fileEntity.getSupplier() != null) return "supplier-" + fileEntity.getSupplier().getIdSupplier();
         if (fileEntity.getClient() != null) return "client-" + fileEntity.getClient().getIdClient();
         if (fileEntity.getEmployee() != null) return "employee-" + fileEntity.getEmployee().getIdEmployee();
+        if (fileEntity.getPayment() != null) return "payment-" + fileEntity.getPayment().getIdPayment();
         return "general";
     }
 

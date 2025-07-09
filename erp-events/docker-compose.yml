@@ -13,7 +13,8 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      #test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
       start_period: 10s
       interval: 10s
       timeout: 5s
@@ -46,6 +47,9 @@ services:
       MINIO_SECRET_KEY: eventadmin
     ports:
       - "8080:8080"
+    command: [
+      "--logging.level.root=INFO"
+    ]
     networks:
       event-network:
     depends_on:

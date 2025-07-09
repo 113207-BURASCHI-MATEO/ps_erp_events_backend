@@ -35,14 +35,13 @@ public class LocationPostDTO {
     @Schema(description = "País", example = "ARGENTINA")
     private Country country;
 
+    @NotNull(message = "El codigo postal es obligatorio")
     @Schema(description = "Código postal", example = "5000")
     private Integer postalCode;
 
-    @NotBlank(message = "La latitud no puede estar vacía")
     @Schema(description = "Latitud", example = "-31.4167")
     private String latitude;
 
-    @NotBlank(message = "La longitud no puede estar vacía")
     @Schema(description = "Longitud", example = "-64.1833")
     private String longitude;
 }

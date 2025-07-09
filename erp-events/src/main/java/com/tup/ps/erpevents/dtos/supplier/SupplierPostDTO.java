@@ -30,7 +30,7 @@ public class SupplierPostDTO {
 
     @NotBlank
     @Size(min = 10, max = 10)
-    @Schema(description = "Número de teléfono (10 dígitos)", example = "3511234567")
+    @Schema(description = "Número de teléfono", example = "3511234567")
     private String phoneNumber;
 
     @NotBlank

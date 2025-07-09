@@ -65,4 +65,8 @@ public class EmployeePostDTO {
     @NotBlank(message = "El cargo no puede estar vacío")
     @Schema(description = "Puesto del empleado", example = "Administrativo")
     private String position;
+
+    @NotBlank
+    @Schema(description = "Dirección del proveedor", example = "Av. Siempre Viva 123")
+    private String address;
 }

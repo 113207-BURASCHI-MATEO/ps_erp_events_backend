@@ -65,6 +65,7 @@ public class EmployeeControllerTest {
         employee.setCuit("20312345678");
         employee.setPosition("Organizador");
         employee.setHireDate(LocalDate.of(2023, 1, 1));
+        employee.setAddress("Direccion");
 
         employeePost = new EmployeePostDTO();
         employeePost.setFirstName("John");
@@ -79,6 +80,7 @@ public class EmployeeControllerTest {
         employeePost.setPosition("Organizador");
         employeePost.setHireDate(LocalDate.of(2023, 1, 1));
         employeePost.setPassword("securepassword");
+        employeePost.setAddress("Direccion");
 
         employeePut = new EmployeePutDTO();
         employeePut.setIdEmployee(1L);
@@ -93,6 +95,7 @@ public class EmployeeControllerTest {
         employeePut.setCuit("20312345678");
         employeePut.setPosition("Organizador");
         employeePut.setHireDate(LocalDate.of(2023, 1, 1));
+        employeePut.setAddress("Direccion");
     }
 
     @Test

@@ -34,12 +34,12 @@ public class SupplierPutDTO {
 
     @NotBlank
     @Size(min = 10, max = 10)
-    @Schema(description = "Número de teléfono (10 dígitos)", example = "3511234567")
+    @Schema(description = "Número de teléfono", example = "3511234567")
     private String phoneNumber;
 
     @NotBlank
     @Schema(description = "Alias bancario o CBU", example = "eventos.xyz.cbu")
-    private String aliasOrCbu;
+    private String aliasCbu;
 
     @NotNull
     @Schema(description = "Tipo de proveedor", example = "CATERING")

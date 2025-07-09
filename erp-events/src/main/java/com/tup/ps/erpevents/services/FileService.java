@@ -14,13 +14,16 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public interface FileService {
 
     Page<FileDTO> findAll(Pageable pageable);
+    Page<FileDTO> findAllBySupplierId(Pageable pageable, Long id);
+    Page<FileDTO> findAllByClientId(Pageable pageable, Long id);
+    Page<FileDTO> findAllByEmployeeId(Pageable pageable, Long id);
+    Page<FileDTO> findAllByPaymentId(Pageable pageable, Long id);
 
     Optional<FileDTO> getById(Long id);
 
@@ -35,6 +38,11 @@ public interface FileService {
             InvalidResponseException, XmlParserException, InternalException;
 
     GetObjectResponse getByEmployeeId(Long employeeId, Long fileId)
+            throws IOException, ServerException, InsufficientDataException,
+            ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException,
+            InvalidResponseException, XmlParserException, InternalException;
+
+    GetObjectResponse getByPaymentId(Long paymentId, Long fileId)
             throws IOException, ServerException, InsufficientDataException,
             ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException,
             InvalidResponseException, XmlParserException, InternalException;

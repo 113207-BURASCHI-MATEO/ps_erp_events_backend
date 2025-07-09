@@ -6,5 +6,6 @@ public enum EventType {
     CULTURAL,
     SPORTS,
     OTHER,
-    ENTERTAINMENT
+    ENTERTAINMENT,
+    EDUCATIONAL
 }

@@ -32,7 +32,7 @@ public class TimeScheduleController {
     @GetMapping
     public ResponseEntity<Page<TimeScheduleDTO>> getAll(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "100") int size,
             @RequestParam(name = "sort", defaultValue = "idTimeSchedule") String sortProperty,
             @RequestParam(name = "sort_direction", defaultValue = "ASC") Sort.Direction sortDirection) {
 
