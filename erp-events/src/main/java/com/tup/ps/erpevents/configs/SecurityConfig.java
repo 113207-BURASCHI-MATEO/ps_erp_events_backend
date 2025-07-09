@@ -45,11 +45,9 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/locations/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/notifications/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/schedules/**")).authenticated()
-                        .requestMatchers(new AntPathRequestMatcher("/events/**")).authenticated()
-                        .requestMatchers(new AntPathRequestMatcher("/accounts/**")).hasRole(String.valueOf(RoleName.ADMIN))
-                        .requestMatchers(new AntPathRequestMatcher("/concepts/**")).hasRole(String.valueOf(RoleName.ADMIN))
                         .requestMatchers(new AntPathRequestMatcher("/ia/**")).hasRole(String.valueOf(RoleName.ADMIN))
                         .requestMatchers(new AntPathRequestMatcher("/suppliers/**")).hasRole(String.valueOf(RoleName.ADMIN))
+                        .requestMatchers(new AntPathRequestMatcher("/events/**")).hasRole(String.valueOf(RoleName.ADMIN))
                         .requestMatchers(new AntPathRequestMatcher("/users/**")).hasRole(String.valueOf(RoleName.ADMIN))
                         .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex
